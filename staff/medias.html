@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Médias — HoriblitiMatch</title>
+
+<link
+    rel="stylesheet"
+    href="../css/style.css"
+>
+
+<style>
+
+    body.staff-page {
+        background:
+            radial-gradient(
+                circle at 15% 5%,
+                rgba(108, 92, 231, 0.09),
+                transparent 30%
+            ),
+            #0b0d12;
+    }
+
+    .media-page {
+        width: min(1250px, calc(100% - 40px));
+        margin: auto;
+        padding: 55px 0 100px;
+    }
+
+    .media-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+
+    .media-header h1 {
+        margin: 8px 0;
+    }
+
+    .media-header p {
+        margin: 0;
+        color: #9299a9;
+    }
+
+    .media-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .upload-button {
+        cursor: pointer;
+    }
+
+    .media-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding: 16px;
+        background: #13161e;
+        border: 1px solid #252a36;
+        border-radius: 15px;
+    }
+
+    .media-search {
+        width: min(400px, 100%);
+        background: #0e1117;
+        color: white;
+        border: 1px solid #2a303d;
+        border-radius: 10px;
+        padding: 12px 14px;
+        outline: none;
+        font: inherit;
+    }
+
+    .media-search:focus {
+        border-color: #6c5ce7;
+    }
+
+    .media-count {
+        color: #858c9c;
+        font-size: 13px;
+    }
+
+    .upload-zone {
+        display: none;
+        margin-bottom: 20px;
+        padding: 30px;
+        border: 1px dashed #3a4050;
+        background: #11141b;
+        border-radius: 16px;
+        text-align: center;
+    }
+
+    .upload-zone.visible {
+        display: block;
+    }
+
+    .upload-zone strong {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .upload-zone p {
+        color: #81899a;
+        margin: 0 0 20px;
+        font-size: 14px;
+    }
+
+    .upload-input {
+        display: none;
+    }
+
+    .media-grid {
+        display: grid;
+        grid-template-columns:
+            repeat(
+                auto-fill,
+                minmax(210px, 1fr)
+            );
+        gap: 18px;
+    }
+
+    .media-card {
+        overflow: hidden;
+        background: #13161e;
+        border: 1px solid #272c38;
+        border-radius: 16px;
+        transition: 0.2s ease;
+    }
+
+    .media-card:hover {
+        transform: translateY(-2px);
+        border-color: #3a4050;
+    }
+
+    .media-preview {
+        position: relative;
+        aspect-ratio: 16 / 10;
+        background: #0c0f14;
+        overflow: hidden;
+    }
+
+    .media-preview img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+    }
+
+    .media-placeholder {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        color: #646c7d;
+        font-size: 13px;
+    }
+
+    .media-info {
+        padding: 15px;
+    }
+
+    .media-name {
+        color: #e9ebf0;
+        font-weight: 600;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .media-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 7px;
+        color: #747c8d;
+        font-size: 11px;
+    }
+
+    .media-card-actions {
+        display: flex;
+        gap: 7px;
+        padding: 0 15px 15px;
+    }
+
+    .media-card-actions button {
+        flex: 1;
+        border: 1px solid #303643;
+        background: #191d26;
+        color: #cfd4df;
+        border-radius: 8px;
+        padding: 8px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    .media-card-actions button:hover {
+        background: #222733;
+        color: white;
+    }
+
+    .media-card-actions .delete-media:hover {
+        color: #ff8c8c;
+        border-color: rgba(255, 80, 80, 0.3);
+    }
+
+    .media-empty {
+        grid-column: 1 / -1;
+        padding: 70px 20px;
+        text-align: center;
+        background: #13161e;
+        border: 1px solid #252a36;
+        border-radius: 16px;
+        color: #7d8595;
+    }
+
+    .upload-progress {
+        display: none;
+        margin-top: 18px;
+    }
+
+    .upload-progress.visible {
+        display: block;
+    }
+
+    .progress-track {
+        height: 7px;
+        background: #252a35;
+        border-radius: 999px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        width: 0%;
+        height: 100%;
+        background: #6c5ce7;
+        transition: width 0.2s ease;
+    }
+
+    .progress-text {
+        margin-top: 8px;
+        color: #858c9c;
+        font-size: 12px;
+    }
+
+    .media-notice {
+        margin-bottom: 20px;
+        padding: 14px 16px;
+        background: rgba(76, 141, 255, 0.07);
+        border: 1px solid rgba(76, 141, 255, 0.18);
+        color: #9fc5ff;
+        border-radius: 12px;
+        font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+
+        .media-page {
+            width: min(100% - 24px, 1250px);
+            padding-top: 35px;
+        }
+
+        .media-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .media-toolbar {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .media-search {
+            width: 100%;
+        }
+
+    }
+
+</style>
+```
+
+</head>
+
+<body class="staff-page">
+
+<header class="panel-header">
+
+```
+<a href="../index.html" class="logo">
+
+    <span class="logo-icon">
+        H
+    </span>
+
+    <span class="logo-text">
+        Horibliti<span>Match</span>
+    </span>
+
+</a>
+
+
+<div class="panel-actions">
+
+    <a href="index.html">
+        ← Panel
+    </a>
+
+    <button id="logout">
+        Déconnexion
+    </button>
+
+</div>
+```
+
+</header>
+
+<main class="media-page">
+
+```
+<header class="media-header">
+
+    <div>
+
+        <span class="eyebrow">
+            BIBLIOTHÈQUE
+        </span>
+
+        <h1>
+            Médias
+        </h1>
+
+        <p>
+            Gérez les images utilisées sur HoriblitiMatch.
+        </p>
+
+    </div>
+
+
+    <div class="media-actions">
+
+        <label
+            for="mediaInput"
+            class="button button-primary upload-button"
+        >
+            + Ajouter une image
+        </label>
+
+        <input
+            id="mediaInput"
+            class="upload-input"
+            type="file"
+            accept="image/*"
+            multiple
+        >
+
+    </div>
+
+</header>
+
+
+<div class="media-notice">
+
+    Les fichiers seront stockés dans le bucket
+    <strong>medias</strong> de Supabase Storage.
+
+</div>
+
+
+<section
+    id="uploadZone"
+    class="upload-zone"
+>
+
+    <strong>
+        Importer des images
+    </strong>
+
+    <p>
+        PNG, JPG, JPEG, WEBP ou GIF.
+    </p>
+
+
+    <label
+        for="mediaInput"
+        class="button"
+    >
+        Choisir les fichiers
+    </label>
+
+
+    <div
+        id="uploadProgress"
+        class="upload-progress"
+    >
+
+        <div class="progress-track">
+
+            <div
+                id="progressBar"
+                class="progress-bar"
+            ></div>
+
+        </div>
+
+        <div
+            id="progressText"
+            class="progress-text"
+        >
+            Préparation...
+        </div>
+
+    </div>
+
+</section>
+
+
+<div class="media-toolbar">
+
+    <input
+        id="mediaSearch"
+        class="media-search"
+        type="search"
+        placeholder="Rechercher une image..."
+    >
+
+
+    <span
+        id="mediaCount"
+        class="media-count"
+    >
+        Chargement...
+    </span>
+
+</div>
+
+
+<section
+    id="mediaGrid"
+    class="media-grid"
+></section>
+```
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+
+<script src="../js/script.js"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    const {
+        data: {
+            session
+        }
+    } = await supabaseClient.auth.getSession();
+
+
+    if (!session) {
+
+        window.location.href =
+            "../pages/connexion.html";
+
+        return;
+
+    }
+
+
+    const {
+        data: staff,
+        error: staffError
+    } = await supabaseClient
+        .from("staff")
+        .select("id, role")
+        .eq("id", session.user.id)
+        .maybeSingle();
+
+
+    if (staffError || !staff) {
+
+        await supabaseClient.auth.signOut();
+
+        window.location.href =
+            "../pages/connexion.html";
+
+        return;
+
+    }
+
+
+    /* =========================
+       ELEMENTS
+    ========================= */
+
+    const input =
+        document.getElementById(
+            "mediaInput"
+        );
+
+
+    const grid =
+        document.getElementById(
+            "mediaGrid"
+        );
+
+
+    const search =
+        document.getElementById(
+            "mediaSearch"
+        );
+
+
+    const count =
+        document.getElementById(
+            "mediaCount"
+        );
+
+
+    const zone =
+        document.getElementById(
+            "uploadZone"
+        );
+
+
+    const progress =
+        document.getElementById(
+            "uploadProgress"
+        );
+
+
+    const progressBar =
+        document.getElementById(
+            "progressBar"
+        );
+
+
+    const progressText =
+        document.getElementById(
+            "progressText"
+        );
+
+
+    let files = [];
+
+
+    const BUCKET =
+        "medias";
+
+
+    /* =========================
+       HELPERS
+    ========================= */
+
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(/[&<>"']/g, character => {
+
+                const entities = {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#039;"
+                };
+
+                return entities[character];
+
+            });
+
+    }
+
+
+    function formatSize(bytes) {
+
+        if (!bytes) {
+            return "0 octet";
+        }
+
+
+        const units = [
+            "octets",
+            "Ko",
+            "Mo",
+            "Go"
+        ];
+
+
+        let index = 0;
+        let size = bytes;
+
+
+        while (
+            size >= 1024 &&
+            index < units.length - 1
+        ) {
+
+            size /= 1024;
+            index++;
+
+        }
+
+
+        return `${size.toFixed(
+            index === 0 ? 0 : 1
+        )} ${units[index]}`;
+
+    }
+
+
+    function formatDate(date) {
+
+        if (!date) {
+            return "—";
+        }
+
+
+        return new Date(
+            date
+        ).toLocaleDateString(
+            "fr-FR"
+        );
+
+    }
+
+
+    /* =========================
+       URL PUBLIQUE
+    ========================= */
+
+    function getPublicUrl(path) {
+
+        const {
+            data
+        } = supabaseClient.storage
+            .from(BUCKET)
+            .getPublicUrl(path);
+
+
+        return data.publicUrl;
+
+    }
+
+
+    /* =========================
+       CHARGER MEDIAS
+    ========================= */
+
+    async function loadMedia() {
+
+        grid.innerHTML = `
+            <div class="media-empty">
+                Chargement de la bibliothèque...
+            </div>
+        `;
+
+
+        const {
+            data,
+            error
+        } = await supabaseClient.storage
+            .from(BUCKET)
+            .list("", {
+                limit: 200,
+                sortBy: {
+                    column: "created_at",
+                    order: "desc"
+                }
+            });
+
+
+        if (error) {
+
+            console.error(error);
+
+            grid.innerHTML = `
+                <div class="media-empty">
+                    Impossible de charger les médias.
+                    <br><br>
+                    Vérifiez que le bucket
+                    <strong>${BUCKET}</strong>
+                    existe dans Supabase Storage.
+                </div>
+            `;
+
+            count.textContent =
+                "Erreur";
+
+            return;
+
+        }
+
+
+        files =
+            (data || [])
+                .filter(file =>
+                    file.name !== ".emptyFolderPlaceholder"
+                );
+
+
+        renderMedia();
+
+    }
+
+
+    /* =========================
+       AFFICHER MEDIAS
+    ========================= */
+
+    function renderMedia() {
+
+        const query =
+            search.value
+                .trim()
+                .toLowerCase();
+
+
+        const filtered =
+            files.filter(file =>
+                file.name
+                    .toLowerCase()
+                    .includes(query)
+            );
+
+
+        count.textContent =
+            `${filtered.length} fichier${filtered.length > 1 ? "s" : ""}`;
+
+
+        if (!filtered.length) {
+
+            grid.innerHTML = `
+                <div class="media-empty">
+                    ${
+                        files.length
+                            ? "Aucun média correspondant à votre recherche."
+                            : "Aucune image dans la bibliothèque."
+                    }
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        grid.innerHTML =
+            filtered.map(file => {
+
+                const url =
+                    getPublicUrl(
+                        file.name
+                    );
+
+
+                const size =
+                    formatSize(
+                        file.metadata?.size
+                    );
+
+
+                const date =
+                    formatDate(
+                        file.created_at
+                    );
+
+
+                return `
+
+                    <article
+                        class="media-card"
+                    >
+
+                        <div
+                            class="media-preview"
+                        >
+
+                            <img
+                                src="${escapeHTML(url)}"
+                                alt="${escapeHTML(file.name)}"
+                                loading="lazy"
+                            >
+
+                        </div>
+
+
+                        <div class="media-info">
+
+                            <div
+                                class="media-name"
+                                title="${escapeHTML(file.name)}"
+                            >
+                                ${escapeHTML(file.name)}
+                            </div>
+
+
+                            <div class="media-meta">
+
+                                <span>
+                                    ${size}
+                                </span>
+
+                                <span>
+                                    ${date}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="media-card-actions"
+                        >
+
+                            <button
+                                class="copy-media"
+                                data-url="${escapeHTML(url)}"
+                            >
+                                Copier l'URL
+                            </button>
+
+                            <button
+                                class="delete-media"
+                                data-name="${escapeHTML(file.name)}"
+                            >
+                                Supprimer
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                `;
+
+            }).join("");
+
+    }
+
+
+    search.addEventListener(
+        "input",
+        renderMedia
+    );
+
+
+    /* =========================
+       UPLOAD
+    ========================= */
+
+    input.addEventListener(
+        "change",
+        async () => {
+
+            const selected =
+                Array.from(
+                    input.files || []
+                );
+
+
+            if (!selected.length) {
+                return;
+            }
+
+
+            zone.classList.add(
+                "visible"
+            );
+
+
+            progress.classList.add(
+                "visible"
+            );
+
+
+            progressBar.style.width =
+                "0%";
+
+
+            for (
+                let index = 0;
+                index < selected.length;
+                index++
+            ) {
+
+                const file =
+                    selected[index];
+
+
+                if (
+                    !file.type.startsWith(
+                        "image/"
+                    )
+                ) {
+
+                    continue;
+
+                }
+
+
+                const extension =
+                    file.name
+                        .split(".")
+                        .pop()
+                        .toLowerCase();
+
+
+                const safeName =
+                    file.name
+                        .replace(
+                            /[^a-zA-Z0-9._-]/g,
+                            "-"
+                        );
+
+
+                const path =
+                    `${Date.now()}-${Math.random().toString(36).slice(2)}-${safeName}`;
+
+
+                progressText.textContent =
+                    `Upload de ${index + 1} / ${selected.length} : ${file.name}`;
+
+
+                const {
+                    error
+                } = await supabaseClient.storage
+                    .from(BUCKET)
+                    .upload(
+                        path,
+                        file,
+                        {
+                            cacheControl: "3600",
+                            upsert: false,
+                            contentType:
+                                file.type
+                        }
+                    );
+
+
+                if (error) {
+
+                    console.error(error);
+
+                    alert(
+                        `Impossible d'importer ${file.name}.\n\n${error.message}`
+                    );
+
+                    continue;
+
+                }
+
+
+                const percentage =
+                    Math.round(
+                        (
+                            (index + 1) /
+                            selected.length
+                        ) * 100
+                    );
+
+
+                progressBar.style.width =
+                    `${percentage}%`;
+
+            }
+
+
+            progressText.textContent =
+                "Import terminé.";
+
+
+            input.value = "";
+
+
+            await loadMedia();
+
+
+            setTimeout(() => {
+
+                zone.classList.remove(
+                    "visible"
+                );
+
+                progress.classList.remove(
+                    "visible"
+                );
+
+            }, 1200);
+
+        }
+    );
+
+
+    /* =========================
+       ACTIONS
+    ========================= */
+
+    document.addEventListener(
+        "click",
+        async event => {
+
+
+            const copyButton =
+                event.target.closest(
+                    ".copy-media"
+                );
+
+
+            if (copyButton) {
+
+                try {
+
+                    await navigator.clipboard.writeText(
+                        copyButton.dataset.url
+                    );
+
+
+                    const oldText =
+                        copyButton.textContent;
+
+
+                    copyButton.textContent =
+                        "Copié !";
+
+
+                    setTimeout(() => {
+
+                        copyButton.textContent =
+                            oldText;
+
+                    }, 1500);
+
+                } catch {
+
+                    alert(
+                        copyButton.dataset.url
+                    );
+
+                }
+
+                return;
+
+            }
+
+
+            const deleteButton =
+                event.target.closest(
+                    ".delete-media"
+                );
+
+
+            if (!deleteButton) {
+                return;
+            }
+
+
+            const fileName =
+                deleteButton.dataset.name;
+
+
+            const confirmed =
+                confirm(
+                    `Supprimer "${fileName}" ?`
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            const {
+                error
+            } = await supabaseClient.storage
+                .from(BUCKET)
+                .remove([
+                    fileName
+                ]);
+
+
+            if (error) {
+
+                console.error(error);
+
+                alert(
+                    "Impossible de supprimer ce fichier."
+                );
+
+                return;
+
+            }
+
+
+            await loadMedia();
+
+        }
+    );
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    document
+        .getElementById("logout")
+        .addEventListener(
+            "click",
+            async () => {
+
+                await supabaseClient.auth.signOut();
+
+                window.location.href =
+                    "../pages/connexion.html";
+
+            }
+        );
+
+
+    await loadMedia();
+
+});
+
+</script>
+
+</body>
+
+</html>
