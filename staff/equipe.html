@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Équipe — HoriblitiMatch</title>
+
+<link
+    rel="stylesheet"
+    href="../css/style.css"
+>
+
+<style>
+
+    body.staff-page {
+        background:
+            radial-gradient(
+                circle at 15% 10%,
+                rgba(108, 92, 231, 0.08),
+                transparent 30%
+            ),
+            #0b0d12;
+    }
+
+    .team-page {
+        width: min(1200px, calc(100% - 40px));
+        margin: auto;
+        padding: 55px 0 100px;
+    }
+
+    .team-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+
+    .team-header h1 {
+        margin: 8px 0;
+    }
+
+    .team-header p {
+        margin: 0;
+        color: #969dad;
+    }
+
+    .team-card {
+        background: #12151d;
+        border: 1px solid #252a36;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2);
+    }
+
+    .team-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 18px;
+        border-bottom: 1px solid #252a36;
+        background: #151821;
+    }
+
+    .team-search {
+        width: min(350px, 100%);
+        background: #0d1016;
+        border: 1px solid #292f3b;
+        color: white;
+        border-radius: 10px;
+        padding: 11px 13px;
+        outline: none;
+    }
+
+    .team-search:focus {
+        border-color: #6c5ce7;
+    }
+
+    .team-count {
+        color: #858c9c;
+        font-size: 14px;
+    }
+
+    .team-list {
+        display: grid;
+    }
+
+    .team-member {
+        display: grid;
+        grid-template-columns: auto 1fr auto auto;
+        align-items: center;
+        gap: 18px;
+        padding: 20px;
+        border-bottom: 1px solid #222732;
+        transition: background 0.2s ease;
+    }
+
+    .team-member:last-child {
+        border-bottom: 0;
+    }
+
+    .team-member:hover {
+        background: #171a23;
+    }
+
+    .member-avatar {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        background:
+            linear-gradient(
+                135deg,
+                #6c5ce7,
+                #4c8dff
+            );
+        color: white;
+        font-weight: 800;
+        font-size: 18px;
+    }
+
+    .member-info strong {
+        display: block;
+        color: #ffffff;
+        margin-bottom: 5px;
+    }
+
+    .member-email {
+        color: #858c9c;
+        font-size: 13px;
+        word-break: break-all;
+    }
+
+    .member-date {
+        color: #737b8d;
+        font-size: 12px;
+    }
+
+    .role-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 11px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        border: 1px solid transparent;
+    }
+
+    .role-admin {
+        color: #c7bdff;
+        background: rgba(108, 92, 231, 0.12);
+        border-color: rgba(108, 92, 231, 0.25);
+    }
+
+    .role-staff {
+        color: #91c5ff;
+        background: rgba(76, 141, 255, 0.1);
+        border-color: rgba(76, 141, 255, 0.2);
+    }
+
+    .member-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .member-actions button {
+        border: 1px solid #303643;
+        background: #191d26;
+        color: #cfd4df;
+        padding: 8px 11px;
+        border-radius: 9px;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .member-actions button:hover {
+        background: #222733;
+        color: white;
+    }
+
+    .member-actions .danger:hover {
+        color: #ff8b8b;
+        border-color: rgba(255, 80, 80, 0.3);
+    }
+
+    .empty-team {
+        padding: 60px 25px;
+        text-align: center;
+        color: #7f8798;
+    }
+
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.72);
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+    }
+
+    .modal-overlay.visible {
+        display: flex;
+    }
+
+    .team-modal {
+        width: min(500px, 100%);
+        background: #151821;
+        border: 1px solid #303643;
+        border-radius: 18px;
+        padding: 26px;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+    }
+
+    .team-modal h2 {
+        margin: 0 0 8px;
+    }
+
+    .team-modal > p {
+        color: #858c9c;
+        margin: 0 0 22px;
+    }
+
+    .modal-fields {
+        display: grid;
+        gap: 16px;
+    }
+
+    .modal-field {
+        display: grid;
+        gap: 7px;
+    }
+
+    .modal-field label {
+        font-size: 13px;
+        color: #d9dde6;
+        font-weight: 600;
+    }
+
+    .modal-field input,
+    .modal-field select {
+        width: 100%;
+        box-sizing: border-box;
+        background: #0d1016;
+        border: 1px solid #2b303c;
+        border-radius: 10px;
+        padding: 12px;
+        color: white;
+        outline: none;
+        font: inherit;
+    }
+
+    .modal-field input:focus,
+    .modal-field select:focus {
+        border-color: #6c5ce7;
+    }
+
+    .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 24px;
+    }
+
+    .secondary-button {
+        border: 1px solid #303643;
+        background: #1a1e27;
+        color: #d4d8e0;
+        padding: 11px 15px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .secondary-button:hover {
+        background: #222733;
+    }
+
+    .access-warning {
+        margin-bottom: 20px;
+        padding: 15px;
+        border-radius: 12px;
+        background: rgba(255, 170, 60, 0.08);
+        border: 1px solid rgba(255, 170, 60, 0.2);
+        color: #e8b978;
+    }
+
+    @media (max-width: 850px) {
+
+        .team-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .team-member {
+            grid-template-columns: auto 1fr;
+        }
+
+        .member-date {
+            display: none;
+        }
+
+        .member-actions {
+            grid-column: 2;
+        }
+
+    }
+
+    @media (max-width: 550px) {
+
+        .team-page {
+            width: min(100% - 24px, 1200px);
+            padding-top: 35px;
+        }
+
+        .team-toolbar {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .team-search {
+            width: 100%;
+        }
+
+    }
+
+</style>
+```
+
+</head>
+
+<body class="staff-page">
+
+<header class="panel-header">
+
+```
+<a href="../index.html" class="logo">
+
+    <span class="logo-icon">
+        H
+    </span>
+
+    <span class="logo-text">
+        Horibliti<span>Match</span>
+    </span>
+
+</a>
+
+
+<div class="panel-actions">
+
+    <a href="index.html">
+        ← Panel
+    </a>
+
+    <button id="logout">
+        Déconnexion
+    </button>
+
+</div>
+```
+
+</header>
+
+<main class="team-page">
+
+```
+<header class="team-header">
+
+    <div>
+
+        <span class="eyebrow">
+            ADMINISTRATION
+        </span>
+
+        <h1>
+            Équipe staff
+        </h1>
+
+        <p>
+            Gérez les personnes ayant accès au panneau
+            d'administration.
+        </p>
+
+    </div>
+
+
+    <button
+        id="addStaffButton"
+        class="button button-primary"
+        type="button"
+    >
+        + Ajouter un staff
+    </button>
+
+</header>
+
+
+<div
+    id="accessWarning"
+    class="access-warning"
+    style="display:none;"
+>
+    Votre compte possède le rôle <strong>staff</strong>.
+    Vous pouvez consulter l'équipe mais seul un administrateur
+    peut la modifier.
+</div>
+
+
+<section class="team-card">
+
+
+    <div class="team-toolbar">
+
+        <input
+            id="searchStaff"
+            class="team-search"
+            type="search"
+            placeholder="Rechercher un membre..."
+        >
+
+
+        <span
+            id="teamCount"
+            class="team-count"
+        >
+            Chargement...
+        </span>
+
+    </div>
+
+
+    <div
+        id="teamList"
+        class="team-list"
+    ></div>
+
+</section>
+```
+
+</main>
+
+<!-- =========================
+     MODALE
+========================= -->
+
+<div
+    id="staffModal"
+    class="modal-overlay"
+>
+
+```
+<div class="team-modal">
+
+    <h2>
+        Ajouter un membre
+    </h2>
+
+    <p>
+        Le compte doit déjà exister dans Supabase Auth.
+    </p>
+
+
+    <form id="staffForm">
+
+        <div class="modal-fields">
+
+
+            <div class="modal-field">
+
+                <label for="staffId">
+                    ID utilisateur Supabase
+                </label>
+
+                <input
+                    id="staffId"
+                    type="text"
+                    placeholder="UUID de l'utilisateur"
+                    required
+                >
+
+            </div>
+
+
+            <div class="modal-field">
+
+                <label for="staffEmail">
+                    Email
+                </label>
+
+                <input
+                    id="staffEmail"
+                    type="email"
+                    placeholder="email@exemple.fr"
+                    required
+                >
+
+            </div>
+
+
+            <div class="modal-field">
+
+                <label for="staffName">
+                    Nom affiché
+                </label>
+
+                <input
+                    id="staffName"
+                    type="text"
+                    placeholder="Nom du membre"
+                >
+
+            </div>
+
+
+            <div class="modal-field">
+
+                <label for="staffRole">
+                    Rôle
+                </label>
+
+                <select id="staffRole">
+
+                    <option value="staff">
+                        Staff
+                    </option>
+
+                    <option value="admin">
+                        Administrateur
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                id="closeModal"
+                class="secondary-button"
+            >
+                Annuler
+            </button>
+
+            <button
+                type="submit"
+                class="button button-primary"
+            >
+                Ajouter
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+```
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+
+<script src="../js/script.js"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    const {
+        data: {
+            session
+        }
+    } = await supabaseClient.auth.getSession();
+
+
+    if (!session) {
+
+        window.location.href =
+            "../pages/connexion.html";
+
+        return;
+
+    }
+
+
+    const {
+        data: currentStaff,
+        error: currentError
+    } = await supabaseClient
+        .from("staff")
+        .select("id, role")
+        .eq("id", session.user.id)
+        .maybeSingle();
+
+
+    if (currentError || !currentStaff) {
+
+        await supabaseClient.auth.signOut();
+
+        window.location.href =
+            "../pages/connexion.html";
+
+        return;
+
+    }
+
+
+    const isAdmin =
+        currentStaff.role === "admin";
+
+
+    const warning =
+        document.getElementById(
+            "accessWarning"
+        );
+
+
+    const addButton =
+        document.getElementById(
+            "addStaffButton"
+        );
+
+
+    if (!isAdmin) {
+
+        warning.style.display =
+            "block";
+
+        addButton.style.display =
+            "none";
+
+    }
+
+
+    /* =========================
+       ELEMENTS
+    ========================= */
+
+    const teamList =
+        document.getElementById(
+            "teamList"
+        );
+
+
+    const teamCount =
+        document.getElementById(
+            "teamCount"
+        );
+
+
+    const searchInput =
+        document.getElementById(
+            "searchStaff"
+        );
+
+
+    const modal =
+        document.getElementById(
+            "staffModal"
+        );
+
+
+    let members = [];
+
+
+    /* =========================
+       ESCAPE
+    ========================= */
+
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(/[&<>"']/g, character => {
+
+                const entities = {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#039;"
+                };
+
+                return entities[character];
+
+            });
+
+    }
+
+
+    /* =========================
+       CHARGER EQUIPE
+    ========================= */
+
+    async function loadTeam() {
+
+        teamList.innerHTML = `
+            <div class="empty-team">
+                Chargement de l'équipe...
+            </div>
+        `;
+
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from("staff")
+            .select("*")
+            .order("created_at", {
+                ascending: true
+            });
+
+
+        if (error) {
+
+            console.error(error);
+
+            teamList.innerHTML = `
+                <div class="empty-team">
+                    Impossible de charger l'équipe.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        members = data || [];
+
+        renderTeam();
+
+    }
+
+
+    /* =========================
+       AFFICHAGE
+    ========================= */
+
+    function renderTeam() {
+
+        const search =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+
+        const filtered =
+            members.filter(member => {
+
+                return (
+
+                    String(
+                        member.nom || ""
+                    )
+                    .toLowerCase()
+                    .includes(search)
+
+                    ||
+
+                    String(
+                        member.email || ""
+                    )
+                    .toLowerCase()
+                    .includes(search)
+
+                    ||
+
+                    String(
+                        member.role || ""
+                    )
+                    .toLowerCase()
+                    .includes(search)
+
+                );
+
+            });
+
+
+        teamCount.textContent =
+            `${filtered.length} membre${filtered.length > 1 ? "s" : ""}`;
+
+
+        if (!filtered.length) {
+
+            teamList.innerHTML = `
+                <div class="empty-team">
+                    Aucun membre trouvé.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        teamList.innerHTML =
+            filtered.map(member => {
+
+                const name =
+                    member.nom ||
+                    member.email ||
+                    "Membre";
+
+
+                const initial =
+                    name
+                        .trim()
+                        .charAt(0)
+                        .toUpperCase();
+
+
+                const role =
+                    member.role === "admin"
+                        ? "Administrateur"
+                        : "Staff";
+
+
+                const roleClass =
+                    member.role === "admin"
+                        ? "role-admin"
+                        : "role-staff";
+
+
+                const date =
+                    member.created_at
+                        ? new Date(
+                            member.created_at
+                        ).toLocaleDateString(
+                            "fr-FR"
+                        )
+                        : "—";
+
+
+                const isCurrentUser =
+                    member.id ===
+                    session.user.id;
+
+
+                return `
+
+                    <article
+                        class="team-member"
+                    >
+
+                        <div class="member-avatar">
+                            ${escapeHTML(initial)}
+                        </div>
+
+
+                        <div class="member-info">
+
+                            <strong>
+                                ${escapeHTML(name)}
+                                ${isCurrentUser
+                                    ? " · Vous"
+                                    : ""}
+                            </strong>
+
+                            <span class="member-email">
+                                ${escapeHTML(
+                                    member.email
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <span
+                                class="role-badge ${roleClass}"
+                            >
+                                ${role}
+                            </span>
+
+                        </div>
+
+
+                        <div class="member-date">
+                            ${date}
+                        </div>
+
+
+                        ${
+                            isAdmin
+                                ? `
+                                <div class="member-actions">
+
+                                    <button
+                                        class="edit-role"
+                                        data-id="${member.id}"
+                                    >
+                                        Modifier
+                                    </button>
+
+                                    ${
+                                        !isCurrentUser
+                                            ? `
+                                                <button
+                                                    class="danger remove-staff"
+                                                    data-id="${member.id}"
+                                                >
+                                                    Retirer
+                                                </button>
+                                            `
+                                            : ""
+                                    }
+
+                                </div>
+                                `
+                                : ""
+                        }
+
+                    </article>
+
+                `;
+
+            }).join("");
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        renderTeam
+    );
+
+
+    /* =========================
+       MODALE
+    ========================= */
+
+    function openModal() {
+
+        if (!isAdmin) {
+            return;
+        }
+
+        modal.classList.add(
+            "visible"
+        );
+
+    }
+
+
+    function closeModal() {
+
+        modal.classList.remove(
+            "visible"
+        );
+
+        document
+            .getElementById(
+                "staffForm"
+            )
+            .reset();
+
+    }
+
+
+    addButton.addEventListener(
+        "click",
+        openModal
+    );
+
+
+    document
+        .getElementById("closeModal")
+        .addEventListener(
+            "click",
+            closeModal
+        );
+
+
+    modal.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                modal
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       AJOUT STAFF
+    ========================= */
+
+    document
+        .getElementById("staffForm")
+        .addEventListener(
+            "submit",
+            async event => {
+
+                event.preventDefault();
+
+
+                if (!isAdmin) {
+                    return;
+                }
+
+
+                const id =
+                    document
+                        .getElementById(
+                            "staffId"
+                        )
+                        .value
+                        .trim();
+
+
+                const email =
+                    document
+                        .getElementById(
+                            "staffEmail"
+                        )
+                        .value
+                        .trim();
+
+
+                const nom =
+                    document
+                        .getElementById(
+                            "staffName"
+                        )
+                        .value
+                        .trim();
+
+
+                const role =
+                    document
+                        .getElementById(
+                            "staffRole"
+                        )
+                        .value;
+
+
+                const {
+                    error
+                } = await supabaseClient
+                    .from("staff")
+                    .insert({
+                        id,
+                        email,
+                        nom,
+                        role
+                    });
+
+
+                if (error) {
+
+                    console.error(error);
+
+                    alert(
+                        "Impossible d'ajouter ce membre.\n\n" +
+                        error.message
+                    );
+
+                    return;
+
+                }
+
+
+                closeModal();
+
+                await loadTeam();
+
+            }
+        );
+
+
+    /* =========================
+       MODIFICATION ROLE
+    ========================= */
+
+    document.addEventListener(
+        "click",
+        async event => {
+
+            const button =
+                event.target.closest(
+                    ".edit-role"
+                );
+
+
+            if (!button || !isAdmin) {
+                return;
+            }
+
+
+            const member =
+                members.find(
+                    item =>
+                        item.id ===
+                        button.dataset.id
+                );
+
+
+            if (!member) {
+                return;
+            }
+
+
+            const newRole =
+                member.role === "admin"
+                    ? "staff"
+                    : "admin";
+
+
+            const confirmed =
+                confirm(
+                    `Changer le rôle de ${member.nom || member.email} en "${newRole}" ?`
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            const {
+                error
+            } = await supabaseClient
+                .from("staff")
+                .update({
+                    role: newRole
+                })
+                .eq(
+                    "id",
+                    member.id
+                );
+
+
+            if (error) {
+
+                console.error(error);
+
+                alert(
+                    "Impossible de modifier le rôle."
+                );
+
+                return;
+
+            }
+
+
+            await loadTeam();
+
+        }
+    );
+
+
+    /* =========================
+       RETIRER STAFF
+    ========================= */
+
+    document.addEventListener(
+        "click",
+        async event => {
+
+            const button =
+                event.target.closest(
+                    ".remove-staff"
+                );
+
+
+            if (!button || !isAdmin) {
+                return;
+            }
+
+
+            const member =
+                members.find(
+                    item =>
+                        item.id ===
+                        button.dataset.id
+                );
+
+
+            if (!member) {
+                return;
+            }
+
+
+            const confirmed =
+                confirm(
+                    `Retirer ${member.nom || member.email} de l'équipe staff ?\n\nSon compte Supabase Auth ne sera PAS supprimé.`
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            const {
+                error
+            } = await supabaseClient
+                .from("staff")
+                .delete()
+                .eq(
+                    "id",
+                    member.id
+                );
+
+
+            if (error) {
+
+                console.error(error);
+
+                alert(
+                    "Impossible de retirer ce membre."
+                );
+
+                return;
+
+            }
+
+
+            await loadTeam();
+
+        }
+    );
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    document
+        .getElementById("logout")
+        .addEventListener(
+            "click",
+            async () => {
+
+                await supabaseClient.auth.signOut();
+
+                window.location.href =
+                    "../pages/connexion.html";
+
+            }
+        );
+
+
+    await loadTeam();
+
+});
+
+</script>
+
+</body>
+
+</html>
