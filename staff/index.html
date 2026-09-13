@@ -1,335 +1,354 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 
 <head>
 
-    <meta charset="UTF-8">
+```
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <title>Panel staff — HoriblitiMatch</title>
+<title>Panel staff — HoriblitiMatch</title>
 
-    <link
-        rel="stylesheet"
-        href="../css/style.css"
-    >
+<link
+    rel="stylesheet"
+    href="../css/style.css"
+>
+```
 
 </head>
 
-
 <body class="staff-page">
-
 
 <header class="panel-header">
 
+```
+<a
+    href="../index.html"
+    class="logo"
+>
+
+    <span class="logo-icon">
+        H
+    </span>
+
+    <span class="logo-text">
+        Horibliti<span>Match</span>
+    </span>
+
+</a>
+
+
+<div class="panel-actions">
+
     <a
         href="../index.html"
-        class="logo"
+        target="_blank"
     >
-
-        <span class="logo-icon">
-            H
-        </span>
-
-        <span class="logo-text">
-            Horibliti<span>Match</span>
-        </span>
-
+        Voir le site ↗
     </a>
 
+    <button
+        id="logout"
+        type="button"
+    >
+        Déconnexion
+    </button>
 
-    <div class="panel-actions">
-
-        <a
-            href="../index.html"
-            target="_blank"
-        >
-            Voir le site ↗
-        </a>
-
-        <button id="logout">
-            Déconnexion
-        </button>
-
-    </div>
+</div>
+```
 
 </header>
 
-
 <main class="panel">
 
+```
+<aside class="panel-sidebar">
 
-    <aside class="panel-sidebar">
-
-        <div class="eyebrow">
-            PANEL STAFF
-        </div>
+    <div class="eyebrow">
+        PANEL STAFF
+    </div>
 
 
-        <button
-            class="panel-nav active"
-            data-section="dashboard"
+    <button
+        class="panel-nav active"
+        data-section="dashboard"
+        type="button"
+    >
+        Tableau de bord
+    </button>
+
+
+    <button
+        class="panel-nav"
+        data-section="annonces"
+        type="button"
+    >
+        Annonces
+    </button>
+
+
+    <button
+        class="panel-nav"
+        data-section="partenaires"
+        type="button"
+    >
+        Partenaires
+    </button>
+
+
+    <button
+        class="panel-nav"
+        data-section="realisations"
+        type="button"
+    >
+        Réalisations
+    </button>
+
+
+    <a
+        href="gestion.html"
+        class="panel-management-link"
+    >
+        Gestion avancée →
+    </a>
+
+</aside>
+
+
+<section class="panel-content">
+
+
+    <!-- =========================
+         DASHBOARD
+    ========================== -->
+
+    <div
+        class="admin-section active"
+        id="dashboard"
+    >
+
+        <span class="eyebrow">
+            TABLEAU DE BORD
+        </span>
+
+        <h1>
+            Bienvenue dans le panel.
+        </h1>
+
+        <p class="panel-muted">
+            Gérez le contenu public
+            d'HoriblitiMatch.
+        </p>
+
+        <p
+            id="staffEmail"
+            class="staff-email"
         >
-            Tableau de bord
-        </button>
+            Connexion...
+        </p>
 
 
-        <button
-            class="panel-nav"
-            data-section="annonces"
-        >
-            Annonces
-        </button>
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <span>
+                    Annonces
+                </span>
+
+                <strong id="statAnnouncements">
+                    0
+                </strong>
+
+            </div>
 
 
-        <button
-            class="panel-nav"
-            data-section="partenaires"
-        >
-            Partenaires
-        </button>
+            <div class="stat-card">
+
+                <span>
+                    Partenaires
+                </span>
+
+                <strong id="statPartners">
+                    0
+                </strong>
+
+            </div>
 
 
-        <button
-            class="panel-nav"
-            data-section="realisations"
-        >
-            Réalisations
-        </button>
+            <div class="stat-card">
 
+                <span>
+                    Réalisations
+                </span>
 
-        <a
-            href="gestion.html"
-            class="panel-management-link"
-        >
-            Gestion avancée →
-        </a>
-
-    </aside>
-
-
-    <section class="panel-content">
-
-
-        <!-- DASHBOARD -->
-
-        <div
-            class="admin-section active"
-            id="dashboard"
-        >
-
-            <span class="eyebrow">
-                TABLEAU DE BORD
-            </span>
-
-            <h1>
-                Bienvenue dans le panel.
-            </h1>
-
-            <p class="panel-muted">
-                Gérez le contenu public
-                d'HoriblitiMatch.
-            </p>
-
-            <p
-                id="staffEmail"
-                class="staff-email"
-            >
-                Connexion...
-            </p>
-
-
-            <div class="stats-grid">
-
-                <div class="stat-card">
-
-                    <span>
-                        Annonces
-                    </span>
-
-                    <strong id="statAnnouncements">
-                        0
-                    </strong>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <span>
-                        Partenaires
-                    </span>
-
-                    <strong id="statPartners">
-                        0
-                    </strong>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <span>
-                        Réalisations
-                    </span>
-
-                    <strong id="statProjects">
-                        0
-                    </strong>
-
-                </div>
+                <strong id="statProjects">
+                    0
+                </strong>
 
             </div>
 
         </div>
 
+    </div>
 
-        <!-- ANNONCES -->
 
-        <div
-            class="admin-section"
-            id="annonces"
+    <!-- =========================
+         ANNONCES
+    ========================== -->
+
+    <div
+        class="admin-section"
+        id="annonces"
+    >
+
+        <span class="eyebrow">
+            CONTENU
+        </span>
+
+        <h2>
+            Annonces
+        </h2>
+
+        <p class="panel-muted">
+            Les annonces sont enregistrées
+            directement dans Supabase.
+        </p>
+
+
+        <form
+            id="announcementForm"
+            class="admin-form"
         >
 
-            <span class="eyebrow">
-                CONTENU
-            </span>
+            <label>
 
-            <h2>
-                Annonces
-            </h2>
+                Titre
 
-            <p class="panel-muted">
-                Les annonces sont directement
-                enregistrées dans Supabase.
-            </p>
-
-
-            <form
-                id="announcementForm"
-                class="admin-form"
-            >
-
-                <label>
-
-                    Titre
-
-                    <input
-                        id="announcementTitle"
-                        type="text"
-                        placeholder="Titre de l'annonce"
-                        required
-                    >
-
-                </label>
-
-
-                <label>
-
-                    Contenu
-
-                    <textarea
-                        id="announcementContent"
-                        placeholder="Contenu de l'annonce"
-                        required
-                    ></textarea>
-
-                </label>
-
-
-                <button
-                    class="button button-primary"
-                    type="submit"
+                <input
+                    id="announcementTitle"
+                    type="text"
+                    placeholder="Titre de l'annonce"
+                    required
                 >
-                    Publier
-                </button>
 
-            </form>
+            </label>
 
 
-            <div
-                id="announcementMessage"
-                class="form-message"
-            ></div>
+            <label>
+
+                Contenu
+
+                <textarea
+                    id="announcementContent"
+                    placeholder="Contenu de l'annonce"
+                    required
+                ></textarea>
+
+            </label>
 
 
-            <div
-                id="adminAnnouncementList"
-                class="admin-list"
-            ></div>
+            <button
+                class="button button-primary"
+                type="submit"
+            >
+                Publier
+            </button>
 
-        </div>
+        </form>
 
-
-        <!-- PARTENAIRES -->
 
         <div
-            class="admin-section"
-            id="partenaires"
-        >
+            id="announcementMessage"
+            class="form-message"
+        ></div>
 
-            <span class="eyebrow">
-                COLLABORATIONS
-            </span>
-
-            <h2>
-                Partenaires
-            </h2>
-
-            <p class="panel-muted">
-                La gestion des partenaires est disponible
-                depuis la gestion avancée.
-            </p>
-
-
-            <a
-                href="gestion.html"
-                class="button button-secondary"
-            >
-                Gérer les partenaires
-            </a>
-
-        </div>
-
-
-        <!-- REALISATIONS -->
 
         <div
-            class="admin-section"
-            id="realisations"
+            id="adminAnnouncementList"
+            class="admin-list"
+        ></div>
+
+    </div>
+
+
+    <!-- =========================
+         PARTENAIRES
+    ========================== -->
+
+    <div
+        class="admin-section"
+        id="partenaires"
+    >
+
+        <span class="eyebrow">
+            COLLABORATIONS
+        </span>
+
+        <h2>
+            Partenaires
+        </h2>
+
+        <p class="panel-muted">
+            La gestion des partenaires est disponible
+            depuis la gestion avancée.
+        </p>
+
+
+        <a
+            href="gestion.html"
+            class="button button-secondary"
         >
+            Gérer les partenaires
+        </a>
 
-            <span class="eyebrow">
-                PROJETS
-            </span>
-
-            <h2>
-                Réalisations
-            </h2>
-
-            <p class="panel-muted">
-                La gestion des réalisations est disponible
-                depuis la gestion avancée.
-            </p>
+    </div>
 
 
-            <a
-                href="gestion.html"
-                class="button button-secondary"
-            >
-                Gérer les réalisations
-            </a>
+    <!-- =========================
+         REALISATIONS
+    ========================== -->
 
-        </div>
+    <div
+        class="admin-section"
+        id="realisations"
+    >
+
+        <span class="eyebrow">
+            PROJETS
+        </span>
+
+        <h2>
+            Réalisations
+        </h2>
+
+        <p class="panel-muted">
+            La gestion des réalisations est disponible
+            depuis la gestion avancée.
+        </p>
 
 
-    </section>
+        <a
+            href="gestion.html"
+            class="button button-secondary"
+        >
+            Gérer les réalisations
+        </a>
+
+    </div>
+
+
+</section>
+```
 
 </main>
 
+<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -337,24 +356,64 @@
 
 <script src="../js/script.js"></script>
 
-
 <script>
 
 document.addEventListener("DOMContentLoaded", async () => {
 
 
     /* =========================
+       VERIFICATION SUPABASE
+    ========================== */
+
+    if (
+        typeof supabaseClient === "undefined" ||
+        !supabaseClient
+    ) {
+
+        document.querySelector(".panel-content").innerHTML = `
+            <div class="admin-section active">
+                <span class="eyebrow">ERREUR</span>
+                <h1>Supabase n'est pas chargé.</h1>
+                <p class="panel-muted">
+                    Vérifiez votre fichier js/supabase.js.
+                </p>
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    /* =========================
        SESSION
-    ========================= */
+    ========================== */
 
     const {
-        data: {
-            session
-        }
+        data,
+        error
     } = await supabaseClient.auth.getSession();
 
 
-    if (!session) {
+    if (error) {
+
+        console.error(
+            "Erreur Supabase :",
+            error
+        );
+
+        window.location.href =
+            "../pages/connexion.html";
+
+        return;
+
+    }
+
+
+    if (
+        !data ||
+        !data.session
+    ) {
 
         window.location.href =
             "../pages/connexion.html";
@@ -365,45 +424,32 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     /* =========================
-       STAFF
-    ========================= */
+       UTILISATEUR CONNECTÉ
+    ========================== */
 
-    const {
-        data: staff,
-        error: staffError
-    } = await supabaseClient
-        .from("staff")
-        .select("*")
-        .eq("id", session.user.id)
-        .maybeSingle();
+    const session =
+        data.session;
 
 
-    if (
-        staffError ||
-        !staff
-    ) {
-
-        await supabaseClient.auth.signOut();
-
-        window.location.href =
-            "../pages/connexion.html";
-
-        return;
-
-    }
+    const staffEmail =
+        document.getElementById("staffEmail");
 
 
-    document.getElementById("staffEmail")
-        .textContent =
-            "Connecté : " + session.user.email;
+    staffEmail.textContent =
+        "Connecté : " +
+        (
+            session.user.email ||
+            "Compte staff"
+        );
 
 
     /* =========================
        NAVIGATION
-    ========================= */
+    ========================== */
 
     const buttons =
         document.querySelectorAll(".panel-nav");
+
 
     const sections =
         document.querySelectorAll(".admin-section");
@@ -411,43 +457,68 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     buttons.forEach(button => {
 
-        button.addEventListener("click", () => {
+        button.addEventListener(
+            "click",
+            () => {
 
-            buttons.forEach(item =>
-                item.classList.remove("active")
-            );
+                buttons.forEach(item => {
 
-            sections.forEach(section =>
-                section.classList.remove("active")
-            );
+                    item.classList.remove(
+                        "active"
+                    );
 
-            button.classList.add("active");
+                });
 
-            const target =
-                document.getElementById(
-                    button.dataset.section
+
+                sections.forEach(section => {
+
+                    section.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+                button.classList.add(
+                    "active"
                 );
 
-            if (target) {
-                target.classList.add("active");
-            }
 
-        });
+                const target =
+                    document.getElementById(
+                        button.dataset.section
+                    );
+
+
+                if (target) {
+
+                    target.classList.add(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
 
     });
 
 
     /* =========================
-       ELEMENTS
-    ========================= */
+       ELEMENTS ANNONCES
+    ========================== */
 
     const form =
-        document.getElementById("announcementForm");
+        document.getElementById(
+            "announcementForm"
+        );
+
 
     const list =
         document.getElementById(
             "adminAnnouncementList"
         );
+
 
     const message =
         document.getElementById(
@@ -456,8 +527,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     /* =========================
-       ANNONCES
-    ========================= */
+       CHARGER LES ANNONCES
+    ========================== */
 
     async function loadAnnouncements() {
 
@@ -467,70 +538,89 @@ document.addEventListener("DOMContentLoaded", async () => {
         } = await supabaseClient
             .from("annonces")
             .select("*")
-            .order("created_at", {
-                ascending: false
-            });
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
 
 
         if (error) {
 
-            console.error(error);
+            console.error(
+                "Erreur annonces :",
+                error
+            );
+
 
             list.innerHTML = `
                 <div class="empty-box">
-                    Erreur de chargement.
+                    Impossible de charger les annonces.
                 </div>
             `;
 
             return;
+
         }
 
 
-        if (!data.length) {
+        if (
+            !data ||
+            data.length === 0
+        ) {
 
             list.innerHTML = `
                 <div class="empty-box">
-                    Aucune annonce.
+                    Aucune annonce pour le moment.
                 </div>
             `;
 
             return;
+
         }
 
 
-        list.innerHTML = data.map(item => `
+        list.innerHTML =
+            data.map(item => `
 
-            <div class="admin-item">
+                <div class="admin-item">
 
-                <div>
+                    <div>
 
-                    <strong>
-                        ${escapeHTML(item.titre)}
-                    </strong>
+                        <strong>
+                            ${escapeHTML(item.titre)}
+                        </strong>
 
-                    <p>
-                        ${escapeHTML(item.contenu)}
-                    </p>
+                        <p>
+                            ${escapeHTML(item.contenu)}
+                        </p>
 
-                    <small>
-                        ${new Date(
-                            item.created_at
-                        ).toLocaleDateString("fr-FR")}
-                    </small>
+                        <small>
+                            ${item.created_at
+                                ? new Date(
+                                    item.created_at
+                                ).toLocaleDateString(
+                                    "fr-FR"
+                                )
+                                : ""
+                            }
+                        </small>
+
+                    </div>
+
+
+                    <button
+                        class="delete-button"
+                        data-id="${item.id}"
+                        type="button"
+                    >
+                        Supprimer
+                    </button>
 
                 </div>
 
-
-                <button
-                    class="delete-button"
-                    data-id="${item.id}"
-                >
-                    Supprimer
-                </button>
-
-            </div>
-
-        `).join("");
+            `).join("");
 
 
         document
@@ -546,37 +636,46 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 "Supprimer cette annonce ?"
                             );
 
+
                         if (!confirmed) {
+
                             return;
+
                         }
 
 
                         const {
                             error
-                        } = await supabaseClient
-                            .from("annonces")
-                            .delete()
-                            .eq(
-                                "id",
-                                button.dataset.id
-                            );
+                        } =
+                            await supabaseClient
+                                .from("annonces")
+                                .delete()
+                                .eq(
+                                    "id",
+                                    button.dataset.id
+                                );
 
 
                         if (error) {
+
+                            console.error(
+                                "Erreur suppression :",
+                                error
+                            );
+
 
                             alert(
                                 "Impossible de supprimer l'annonce."
                             );
 
-                            console.error(error);
-
                             return;
+
                         }
 
 
-                        loadAnnouncements();
+                        await loadAnnouncements();
 
-                        updateStats();
+                        await updateStats();
 
                     }
                 );
@@ -587,8 +686,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     /* =========================
-       AJOUT
-    ========================= */
+       AJOUTER UNE ANNONCE
+    ========================== */
 
     form.addEventListener(
         "submit",
@@ -616,7 +715,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
             const button =
-                form.querySelector("button");
+                form.querySelector(
+                    "button"
+                );
 
 
             button.disabled = true;
@@ -625,36 +726,58 @@ document.addEventListener("DOMContentLoaded", async () => {
                 "Publication...";
 
 
+            message.textContent = "";
+
+            message.className =
+                "form-message";
+
+
             const {
                 error
             } = await supabaseClient
                 .from("annonces")
                 .insert({
-                    titre,
-                    categorie: "Information",
-                    contenu
+
+                    titre: titre,
+
+                    categorie:
+                        "Information",
+
+                    contenu: contenu
+
                 });
 
 
             if (error) {
 
-                console.error(error);
+                console.error(
+                    "Erreur publication :",
+                    error
+                );
+
 
                 message.textContent =
-                    "Erreur lors de la publication.";
+                    "Erreur : " +
+                    error.message;
 
-                message.className =
-                    "form-message error";
+
+                message.classList.add(
+                    "error"
+                );
 
             } else {
 
                 form.reset();
 
-                message.textContent =
-                    "Annonce publiée.";
 
-                message.className =
-                    "form-message success";
+                message.textContent =
+                    "Annonce publiée avec succès.";
+
+
+                message.classList.add(
+                    "success"
+                );
+
 
                 await loadAnnouncements();
 
@@ -673,36 +796,73 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     /* =========================
-       STATS
-    ========================= */
+       STATISTIQUES
+    ========================== */
 
     async function updateStats() {
 
         const tables = [
-            ["annonces", "statAnnouncements"],
-            ["partenaires", "statPartners"],
-            ["realisations", "statProjects"]
+
+            [
+                "annonces",
+                "statAnnouncements"
+            ],
+
+            [
+                "partenaires",
+                "statPartners"
+            ],
+
+            [
+                "realisations",
+                "statProjects"
+            ]
+
         ];
 
 
-        for (const [table, elementId] of tables) {
+        for (
+            const [table, elementId]
+            of tables
+        ) {
 
             const {
                 count,
                 error
             } = await supabaseClient
                 .from(table)
-                .select("*", {
-                    count: "exact",
-                    head: true
-                });
+                .select(
+                    "*",
+                    {
+                        count: "exact",
+                        head: true
+                    }
+                );
 
 
             if (!error) {
 
-                document.getElementById(
-                    elementId
-                ).textContent = count || 0;
+                const element =
+                    document.getElementById(
+                        elementId
+                    );
+
+
+                if (element) {
+
+                    element.textContent =
+                        count || 0;
+
+                }
+
+            } else {
+
+                console.error(
+                    "Erreur table " +
+                    table +
+                    " :",
+                    error
+                );
 
             }
 
@@ -713,7 +873,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     /* =========================
        DECONNEXION
-    ========================= */
+    ========================== */
 
     document
         .getElementById("logout")
@@ -730,6 +890,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
 
 
+    /* =========================
+       CHARGEMENT INITIAL
+    ========================== */
+
     await loadAnnouncements();
 
     await updateStats();
@@ -737,26 +901,44 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 
+/* =========================
+   SECURITE HTML
+========================== */
+
 function escapeHTML(value) {
 
-    return String(value ?? "")
-        .replace(/[&<>"']/g, character => {
+    return String(
+        value ?? ""
+    ).replace(
+        /[&<>"']/g,
+        character => {
 
             const entities = {
+
                 "&": "&amp;",
+
                 "<": "&lt;",
+
                 ">": "&gt;",
+
                 '"': "&quot;",
+
                 "'": "&#039;"
+
             };
 
-            return entities[character];
 
-        });
+            return entities[
+                character
+            ];
+
+        }
+    );
 
 }
 
 </script>
 
 </body>
+
 </html>
