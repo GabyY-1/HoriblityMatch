@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Annonces — HoriblitiMatch</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <a
+        href="../index.html"
+        class="logo"
+    >
+
+        <span class="logo-icon">
+            H
+        </span>
+
+        <span class="logo-text">
+            Horibliti<span>Match</span>
+        </span>
+
+    </a>
+
+
+    <nav class="desktop-nav">
+
+        <a href="../index.html">
+            Accueil
+        </a>
+
+        <a href="studio.html">
+            Studio
+        </a>
+
+        <a href="realisations.html">
+            Réalisations
+        </a>
+
+        <a href="partenaires.html">
+            Partenaires
+        </a>
+
+        <a href="annonces.html">
+            Annonces
+        </a>
+
+        <a
+            href="connexion.html"
+            class="nav-login"
+        >
+            Se connecter
+        </a>
+
+    </nav>
+
+
+    <button
+        class="hamburger"
+        id="hamburger"
+    >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </button>
+
+</header>
+
+
+<div
+    class="mobile-menu"
+    id="mobileMenu"
+>
+
+    <a href="../index.html">
+        Accueil
+    </a>
+
+    <a href="studio.html">
+        Studio
+    </a>
+
+    <a href="realisations.html">
+        Réalisations
+    </a>
+
+    <a href="partenaires.html">
+        Partenaires
+    </a>
+
+    <a href="annonces.html">
+        Annonces
+    </a>
+
+    <a
+        href="connexion.html"
+        class="mobile-login"
+    >
+        Espace staff
+    </a>
+
+</div>
+
+
+<main>
+
+<section class="section">
+
+    <div class="section-heading reveal">
+
+        <div class="eyebrow">
+            ANNONCES
+        </div>
+
+        <h2>
+            Les actualités de
+            <span>HoriblitiMatch.</span>
+        </h2>
+
+        <p>
+            Retrouvez ici les annonces et nouvelles
+            publiées par le studio.
+        </p>
+
+    </div>
+
+
+    <div
+        class="announcement-list"
+        id="announcementList"
+    >
+
+        <article class="announcement-card reveal">
+
+            <div class="announcement-date">
+                BIENTÔT
+            </div>
+
+            <div>
+
+                <small>
+                    HORIBLITIMATCH
+                </small>
+
+                <h3>
+                    Les premières annonces arrivent bientôt.
+                </h3>
+
+                <p>
+                    Le studio prépare actuellement ses
+                    premiers projets et collaborations.
+                </p>
+
+            </div>
+
+            <span>
+                →
+            </span>
+
+        </article>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+    <div class="footer-brand">
+
+        <a
+            href="../index.html"
+            class="logo"
+        >
+
+            <span class="logo-icon">
+                H
+            </span>
+
+            <span class="logo-text">
+                Horibliti<span>Match</span>
+            </span>
+
+        </a>
+
+        <p>
+            Studio de création de sites web.
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script src="../js/script.js"></script>
+
+<script>
+
+const container =
+    document.getElementById(
+        "announcementList"
+    );
+
+
+const announcements =
+    JSON.parse(
+        localStorage.getItem(
+            "horiblitimatch_announcements"
+        ) || "[]"
+    );
+
+
+if (
+    announcements.length &&
+    container
+) {
+
+    container.innerHTML =
+        announcements
+            .map(item => {
+
+                return `
+
+                    <article class="announcement-card reveal visible">
+
+                        <div class="announcement-date">
+                            ${item.date || "ANNONCE"}
+                        </div>
+
+                        <div>
+
+                            <small>
+                                HORIBLITIMATCH
+                            </small>
+
+                            <h3>
+                                ${escapeHTML(item.title)}
+                            </h3>
+
+                            <p>
+                                ${escapeHTML(item.content)}
+                            </p>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </article>
+
+                `;
+
+            })
+            .join("");
+
+}
+
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(
+            /[&<>"']/g,
+            char => {
+
+                const entities = {
+
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#039;"
+
+                };
+
+                return entities[
+                    char
+                ];
+
+            }
+        );
+
+}
+
+</script>
+
+</body>
+</html>
