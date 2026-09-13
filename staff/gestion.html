@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gestion — HoriblitiMatch</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="staff-page">
+
+    <header class="header">
+
+        <a href="../index.html" class="logo">
+            Horibliti<span>Match</span>
+        </a>
+
+        <button class="menu-toggle" aria-label="Ouvrir le menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="nav">
+            <a href="../index.html">Site</a>
+            <a href="index.html">Panel staff</a>
+            <a href="gestion.html" class="active">Gestion</a>
+            <a href="../pages/connexion.html" class="staff-link">Déconnexion</a>
+        </nav>
+
+    </header>
+
+
+    <main class="staff-main">
+
+        <!-- INTRODUCTION -->
+
+        <section class="staff-header">
+
+            <div>
+                <p class="eyebrow">HORIBLITIMATCH • STAFF</p>
+
+                <h1>
+                    Gestion du site
+                </h1>
+
+                <p>
+                    Gérez les annonces et les partenaires
+                    directement depuis cet espace.
+                </p>
+            </div>
+
+            <a href="index.html" class="btn secondary">
+                ← Retour au panel
+            </a>
+
+        </section>
+
+
+        <!-- STATISTIQUES -->
+
+        <section class="staff-stats">
+
+            <div class="staff-stat">
+                <span class="stat-label">Annonces</span>
+                <strong id="announcementCount">0</strong>
+            </div>
+
+            <div class="staff-stat">
+                <span class="stat-label">Partenaires</span>
+                <strong id="partnerCount">0</strong>
+            </div>
+
+            <div class="staff-stat">
+                <span class="stat-label">Statut</span>
+                <strong class="online-status">EN LIGNE</strong>
+            </div>
+
+        </section>
+
+
+        <!-- GESTION DES ANNONCES -->
+
+        <section class="management-section">
+
+            <div class="section-heading">
+                <p class="eyebrow">PUBLICATION</p>
+                <h2>Créer une annonce</h2>
+            </div>
+
+
+            <form id="announcementForm" class="management-form">
+
+                <div class="form-group">
+
+                    <label for="announcementTitle">
+                        Titre
+                    </label>
+
+                    <input
+                        type="text"
+                        id="announcementTitle"
+                        placeholder="Ex : Nouveau projet en préparation"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="announcementCategory">
+                        Catégorie
+                    </label>
+
+                    <select id="announcementCategory">
+
+                        <option value="Actualité">
+                            Actualité
+                        </option>
+
+                        <option value="Projet">
+                            Projet
+                        </option>
+
+                        <option value="Partenariat">
+                            Partenariat
+                        </option>
+
+                        <option value="Information">
+                            Information
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="announcementContent">
+                        Contenu
+                    </label>
+
+                    <textarea
+                        id="announcementContent"
+                        rows="7"
+                        placeholder="Écrivez le contenu de votre annonce..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="btn primary"
+                    >
+                        Publier l'annonce
+                    </button>
+
+                    <button
+                        type="reset"
+                        class="btn secondary"
+                    >
+                        Réinitialiser
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- LISTE DES ANNONCES -->
+
+        <section class="management-section">
+
+            <div class="section-heading">
+
+                <p class="eyebrow">
+                    CONTENU
+                </p>
+
+                <h2>
+                    Annonces publiées
+                </h2>
+
+            </div>
+
+
+            <div
+                id="announcementList"
+                class="management-list"
+            >
+
+                <!-- Les annonces seront ajoutées ici -->
+
+            </div>
+
+        </section>
+
+
+        <!-- GESTION DES PARTENAIRES -->
+
+        <section class="management-section">
+
+            <div class="section-heading">
+
+                <p class="eyebrow">
+                    COLLABORATIONS
+                </p>
+
+                <h2>
+                    Ajouter un partenaire
+                </h2>
+
+            </div>
+
+
+            <form id="partnerForm" class="management-form">
+
+                <div class="form-group">
+
+                    <label for="partnerName">
+                        Nom du partenaire
+                    </label>
+
+                    <input
+                        type="text"
+                        id="partnerName"
+                        placeholder="Ex : Studio XYZ"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="partnerDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="partnerDescription"
+                        rows="5"
+                        placeholder="Présentez brièvement le partenaire..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="partnerLink">
+                        Lien
+                    </label>
+
+                    <input
+                        type="url"
+                        id="partnerLink"
+                        placeholder="https://..."
+                    >
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="btn primary"
+                    >
+                        Ajouter le partenaire
+                    </button>
+
+                    <button
+                        type="reset"
+                        class="btn secondary"
+                    >
+                        Réinitialiser
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- LISTE DES PARTENAIRES -->
+
+        <section class="management-section">
+
+            <div class="section-heading">
+
+                <p class="eyebrow">
+                    PARTENAIRES
+                </p>
+
+                <h2>
+                    Partenaires actuels
+                </h2>
+
+            </div>
+
+
+            <div
+                id="partnerList"
+                class="management-list"
+            >
+
+                <!-- Les partenaires seront ajoutés ici -->
+
+            </div>
+
+        </section>
+
+
+        <!-- ZONE DANGEREUSE -->
+
+        <section class="danger-zone">
+
+            <div>
+
+                <p class="eyebrow">
+                    ZONE SENSIBLE
+                </p>
+
+                <h2>
+                    Réinitialisation
+                </h2>
+
+                <p>
+                    Supprime toutes les données enregistrées
+                    localement sur ce navigateur.
+                </p>
+
+            </div>
+
+            <button
+                id="clearData"
+                class="btn danger"
+            >
+                Tout supprimer
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+
+        <div class="footer-main">
+
+            <div>
+
+                <a href="../index.html" class="logo">
+                    Horibliti<span>Match</span>
+                </a>
+
+                <p>
+                    Administration du site HoriblitiMatch.
+                </p>
+
+            </div>
+
+            <div class="footer-links">
+
+                <a href="../index.html">
+                    Site
+                </a>
+
+                <a href="index.html">
+                    Panel
+                </a>
+
+                <a href="../pages/annonces.html">
+                    Annonces
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 HoriblitiMatch — Staff
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <script src="../js/script.js"></script>
+
+    <script>
+
+        /*
+         * ==========================================
+         * GESTION DES DONNÉES
+         * ==========================================
+         *
+         * Pour la V1, les données sont sauvegardées
+         * dans localStorage.
+         *
+         * Plus tard, on pourra remplacer ça par
+         * une vraie base de données.
+         */
+
+        let announcements =
+            JSON.parse(
+                localStorage.getItem("horibliti_announcements")
+            ) || [];
+
+        let partners =
+            JSON.parse(
+                localStorage.getItem("horibliti_partners")
+            ) || [];
+
+
+        /*
+         * ==========================================
+         * ELEMENTS
+         * ==========================================
+         */
+
+        const announcementForm =
+            document.getElementById("announcementForm");
+
+        const partnerForm =
+            document.getElementById("partnerForm");
+
+        const announcementList =
+            document.getElementById("announcementList");
+
+        const partnerList =
+            document.getElementById("partnerList");
+
+        const announcementCount =
+            document.getElementById("announcementCount");
+
+        const partnerCount =
+            document.getElementById("partnerCount");
+
+
+        /*
+         * ==========================================
+         * AFFICHER LES STATISTIQUES
+         * ==========================================
+         */
+
+        function updateStats() {
+
+            announcementCount.textContent =
+                announcements.length;
+
+            partnerCount.textContent =
+                partners.length;
+
+        }
+
+
+        /*
+         * ==========================================
+         * AFFICHER LES ANNONCES
+         * ==========================================
+         */
+
+        function renderAnnouncements() {
+
+            announcementList.innerHTML = "";
+
+            if (announcements.length === 0) {
+
+                announcementList.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Aucune annonce</h3>
+                        <p>
+                            Les annonces que vous publierez
+                            apparaîtront ici.
+                        </p>
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            announcements.forEach((announcement, index) => {
+
+                const article =
+                    document.createElement("article");
+
+                article.className =
+                    "management-item";
+
+
+                article.innerHTML = `
+
+                    <div class="management-item-content">
+
+                        <div class="item-meta">
+                            ${escapeHTML(announcement.category)}
+                        </div>
+
+                        <h3>
+                            ${escapeHTML(announcement.title)}
+                        </h3>
+
+                        <p>
+                            ${escapeHTML(announcement.content)}
+                        </p>
+
+                        <small>
+                            ${escapeHTML(announcement.date)}
+                        </small>
+
+                    </div>
+
+                    <button
+                        class="delete-button"
+                        onclick="deleteAnnouncement(${index})"
+                    >
+                        Supprimer
+                    </button>
+
+                `;
+
+
+                announcementList.appendChild(article);
+
+            });
+
+        }
+
+
+        /*
+         * ==========================================
+         * AJOUTER UNE ANNONCE
+         * ==========================================
+         */
+
+        announcementForm.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                const title =
+                    document.getElementById(
+                        "announcementTitle"
+                    ).value.trim();
+
+
+                const category =
+                    document.getElementById(
+                        "announcementCategory"
+                    ).value;
+
+
+                const content =
+                    document.getElementById(
+                        "announcementContent"
+                    ).value.trim();
+
+
+                if (!title || !content) {
+                    return;
+                }
+
+
+                const announcement = {
+
+                    id: Date.now(),
+
+                    title: title,
+
+                    category: category,
+
+                    content: content,
+
+                    date:
+                        new Date().toLocaleDateString(
+                            "fr-FR"
+                        )
+
+                };
+
+
+                announcements.unshift(
+                    announcement
+                );
+
+
+                localStorage.setItem(
+                    "horibliti_announcements",
+                    JSON.stringify(announcements)
+                );
+
+
+                announcementForm.reset();
+
+                renderAnnouncements();
+
+                updateStats();
+
+            }
+        );
+
+
+        /*
+         * ==========================================
+         * SUPPRIMER UNE ANNONCE
+         * ==========================================
+         */
+
+        function deleteAnnouncement(index) {
+
+            const confirmed =
+                confirm(
+                    "Voulez-vous vraiment supprimer cette annonce ?"
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            announcements.splice(index, 1);
+
+
+            localStorage.setItem(
+                "horibliti_announcements",
+                JSON.stringify(announcements)
+            );
+
+
+            renderAnnouncements();
+
+            updateStats();
+
+        }
+
+
+        /*
+         * ==========================================
+         * AFFICHER LES PARTENAIRES
+         * ==========================================
+         */
+
+        function renderPartners() {
+
+            partnerList.innerHTML = "";
+
+
+            if (partners.length === 0) {
+
+                partnerList.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Aucun partenaire</h3>
+                        <p>
+                            Les partenaires ajoutés
+                            apparaîtront ici.
+                        </p>
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            partners.forEach((partner, index) => {
+
+                const article =
+                    document.createElement("article");
+
+                article.className =
+                    "management-item";
+
+
+                let linkHTML = "";
+
+
+                if (partner.link) {
+
+                    linkHTML = `
+                        <a
+                            href="${escapeAttribute(partner.link)}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-link"
+                        >
+                            Visiter le site →
+                        </a>
+                    `;
+
+                }
+
+
+                article.innerHTML = `
+
+                    <div class="management-item-content">
+
+                        <div class="item-meta">
+                            PARTENAIRE
+                        </div>
+
+                        <h3>
+                            ${escapeHTML(partner.name)}
+                        </h3>
+
+                        <p>
+                            ${escapeHTML(partner.description)}
+                        </p>
+
+                        ${linkHTML}
+
+                    </div>
+
+                    <button
+                        class="delete-button"
+                        onclick="deletePartner(${index})"
+                    >
+                        Supprimer
+                    </button>
+
+                `;
+
+
+                partnerList.appendChild(article);
+
+            });
+
+        }
+
+
+        /*
+         * ==========================================
+         * AJOUTER UN PARTENAIRE
+         * ==========================================
+         */
+
+        partnerForm.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                const name =
+                    document.getElementById(
+                        "partnerName"
+                    ).value.trim();
+
+
+                const description =
+                    document.getElementById(
+                        "partnerDescription"
+                    ).value.trim();
+
+
+                const link =
+                    document.getElementById(
+                        "partnerLink"
+                    ).value.trim();
+
+
+                if (!name || !description) {
+                    return;
+                }
+
+
+                const partner = {
+
+                    id: Date.now(),
+
+                    name: name,
+
+                    description: description,
+
+                    link: link
+
+                };
+
+
+                partners.unshift(partner);
+
+
+                localStorage.setItem(
+                    "horibliti_partners",
+                    JSON.stringify(partners)
+                );
+
+
+                partnerForm.reset();
+
+                renderPartners();
+
+                updateStats();
+
+            }
+        );
+
+
+        /*
+         * ==========================================
+         * SUPPRIMER UN PARTENAIRE
+         * ==========================================
+         */
+
+        function deletePartner(index) {
+
+            const confirmed =
+                confirm(
+                    "Voulez-vous vraiment supprimer ce partenaire ?"
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            partners.splice(index, 1);
+
+
+            localStorage.setItem(
+                "horibliti_partners",
+                JSON.stringify(partners)
+            );
+
+
+            renderPartners();
+
+            updateStats();
+
+        }
+
+
+        /*
+         * ==========================================
+         * SUPPRIMER TOUTES LES DONNÉES
+         * ==========================================
+         */
+
+        document
+            .getElementById("clearData")
+            .addEventListener(
+                "click",
+                function() {
+
+                    const confirmed =
+                        confirm(
+                            "Cette action supprimera toutes les annonces et tous les partenaires. Continuer ?"
+                        );
+
+
+                    if (!confirmed) {
+                        return;
+                    }
+
+
+                    localStorage.removeItem(
+                        "horibliti_announcements"
+                    );
+
+                    localStorage.removeItem(
+                        "horibliti_partners"
+                    );
+
+
+                    announcements = [];
+
+                    partners = [];
+
+
+                    renderAnnouncements();
+
+                    renderPartners();
+
+                    updateStats();
+
+                }
+            );
+
+
+        /*
+         * ==========================================
+         * PROTECTION DU HTML
+         * ==========================================
+         */
+
+        function escapeHTML(value) {
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        function escapeAttribute(value) {
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/"/g, "&quot;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+
+        }
+
+
+        /*
+         * ==========================================
+         * INITIALISATION
+         * ==========================================
+         */
+
+        renderAnnouncements();
+
+        renderPartners();
+
+        updateStats();
+
+    </script>
+
+</body>
+</html>
