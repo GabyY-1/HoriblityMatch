@@ -14,24 +14,28 @@
 
         :root {
             --bg: #0b0e14;
-            --sidebar: #0e121a;
-            --surface: #121722;
-            --surface-2: #171d29;
-            --border: #252d3c;
-            --text: #f2f4f8;
-            --muted: #8992a4;
-            --accent: #7c5cff;
-            --accent-2: #5f8cff;
-            --danger: #ef5b6b;
-            --success: #47d18c;
-            --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+            --sidebar: #0f131b;
+            --surface: #131923;
+            --surface-2: #181f2b;
+            --input: #0c1118;
+            --border: #273040;
+            --text: #f3f5f8;
+            --muted: #8993a5;
+            --accent: #795cff;
+            --accent2: #5d8dff;
+            --danger: #ef6674;
+            --success: #43d18b;
+        }
+
+        html {
+            min-height: 100%;
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
             background: var(--bg);
             color: var(--text);
-            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         button,
@@ -46,53 +50,50 @@
         }
 
         a {
-            color: inherit;
             text-decoration: none;
+            color: inherit;
         }
 
         .app {
             min-height: 100vh;
-            display: flex;
         }
 
         /* SIDEBAR */
 
         .sidebar {
+            position: fixed;
+            z-index: 100;
+            top: 0;
+            left: 0;
+            bottom: 0;
             width: 250px;
-            min-height: 100vh;
+            padding: 24px 16px;
             background: var(--sidebar);
             border-right: 1px solid var(--border);
-            padding: 24px 16px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            z-index: 50;
         }
 
         .brand {
-            padding: 6px 10px 28px;
+            padding: 5px 10px 28px;
         }
 
-        .brand strong {
-            display: block;
-            font-size: 21px;
-            letter-spacing: -0.5px;
+        .brand-title {
+            font-size: 20px;
+            font-weight: 700;
         }
 
-        .brand span {
-            display: block;
+        .brand-subtitle {
+            margin-top: 5px;
             color: var(--muted);
             font-size: 12px;
-            margin-top: 5px;
         }
 
         .nav-title {
-            color: #626b7c;
+            margin: 17px 10px 9px;
+            color: #606a7c;
             font-size: 10px;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin: 18px 10px 9px;
         }
 
         .nav {
@@ -102,80 +103,93 @@
         }
 
         .nav a {
-            padding: 12px 12px;
+            display: block;
+            padding: 12px;
+            border: 1px solid transparent;
             border-radius: 9px;
-            color: #9da5b5;
+            color: #9ba5b7;
             font-size: 14px;
-            transition: 0.2s ease;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
         }
 
         .nav a:hover {
-            background: #151b27;
-            color: white;
+            background: #161c27;
+            color: #fff;
         }
 
         .nav a.active {
-            background: rgba(124, 92, 255, 0.14);
-            color: white;
-            border: 1px solid rgba(124, 92, 255, 0.2);
+            background: rgba(121, 92, 255, 0.13);
+            border-color: rgba(121, 92, 255, 0.2);
+            color: #fff;
         }
 
         .sidebar-bottom {
             position: absolute;
-            left: 16px;
             right: 16px;
             bottom: 18px;
+            left: 16px;
+        }
+
+        .site-link,
+        .logout-btn {
+            width: 100%;
+            display: block;
+            padding: 11px 12px;
+            border-radius: 9px;
+            font-size: 13px;
+            text-align: left;
         }
 
         .site-link {
-            display: block;
-            padding: 11px 12px;
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            color: #aeb6c6;
-            font-size: 13px;
             margin-bottom: 8px;
+            border: 1px solid var(--border);
+            color: #aeb7c7;
+        }
+
+        .site-link:hover {
+            background: #161c27;
+            color: #fff;
         }
 
         .logout-btn {
-            width: 100%;
-            padding: 11px 12px;
-            border: 1px solid rgba(239, 91, 107, 0.2);
-            background: rgba(239, 91, 107, 0.07);
-            color: #f28b96;
-            border-radius: 9px;
+            border: 1px solid rgba(239, 102, 116, 0.2);
+            background: rgba(239, 102, 116, 0.07);
+            color: #ef8c97;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 102, 116, 0.12);
         }
 
         /* MAIN */
 
         .main {
-            width: calc(100% - 250px);
-            margin-left: 250px;
             min-height: 100vh;
+            margin-left: 250px;
         }
 
         .topbar {
-            height: 74px;
-            border-bottom: 1px solid var(--border);
+            position: sticky;
+            z-index: 50;
+            top: 0;
+            min-height: 74px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 30px;
-            background: rgba(11, 14, 20, 0.88);
-            position: sticky;
-            top: 0;
-            z-index: 30;
+            background: rgba(11, 14, 20, 0.92);
+            border-bottom: 1px solid var(--border);
             backdrop-filter: blur(12px);
         }
 
-        .topbar-left h1 {
+        .topbar h1 {
             font-size: 20px;
         }
 
-        .topbar-left p {
+        .topbar p {
+            margin-top: 4px;
             color: var(--muted);
             font-size: 12px;
-            margin-top: 4px;
         }
 
         .user-box {
@@ -185,14 +199,15 @@
         }
 
         .avatar {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
+            width: 35px;
+            height: 35px;
             display: grid;
             place-items: center;
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
             font-size: 13px;
-            font-weight: bold;
+            font-weight: 700;
         }
 
         .user-info strong {
@@ -202,15 +217,29 @@
 
         .user-info span {
             display: block;
+            margin-top: 2px;
             color: var(--muted);
             font-size: 11px;
-            margin-top: 2px;
         }
 
+        .mobile-menu {
+            display: none;
+            width: 38px;
+            height: 38px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            color: #fff;
+            font-size: 18px;
+        }
+
+        /* CONTENT */
+
         .content {
-            padding: 30px;
+            width: 100%;
             max-width: 1500px;
-            margin: auto;
+            margin: 0 auto;
+            padding: 30px;
         }
 
         /* TABS */
@@ -218,141 +247,141 @@
         .tabs {
             display: flex;
             gap: 8px;
-            margin-bottom: 24px;
             flex-wrap: wrap;
+            margin-bottom: 22px;
         }
 
         .tab {
+            padding: 11px 16px;
             border: 1px solid var(--border);
-            background: var(--surface);
-            color: #9da5b5;
-            padding: 11px 17px;
             border-radius: 9px;
-            transition: 0.2s ease;
+            background: var(--surface);
+            color: #9ca6b7;
+            transition: 0.2s;
         }
 
         .tab:hover {
-            color: white;
             background: var(--surface-2);
+            color: #fff;
         }
 
         .tab.active {
-            background: rgba(124, 92, 255, 0.14);
-            border-color: rgba(124, 92, 255, 0.35);
-            color: white;
+            border-color: rgba(121, 92, 255, 0.35);
+            background: rgba(121, 92, 255, 0.14);
+            color: #fff;
         }
 
         .tab-count {
             display: inline-flex;
             min-width: 20px;
             height: 20px;
-            padding: 0 5px;
             align-items: center;
             justify-content: center;
-            margin-left: 6px;
+            margin-left: 5px;
+            padding: 0 5px;
             border-radius: 20px;
-            background: #20283a;
+            background: #222a3a;
             font-size: 10px;
         }
 
-        /* TOOLBAR */
+        /* PANEL */
 
         .panel {
-            background: var(--surface);
+            overflow: hidden;
             border: 1px solid var(--border);
             border-radius: 14px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
+            background: var(--surface);
+            box-shadow: 0 18px 55px rgba(0, 0, 0, 0.25);
         }
 
         .toolbar {
-            padding: 18px;
-            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 15px;
-            flex-wrap: wrap;
+            gap: 14px;
+            padding: 18px;
+            border-bottom: 1px solid var(--border);
         }
 
         .search {
             position: relative;
             flex: 1;
-            min-width: 220px;
-        }
-
-        .search input {
-            width: 100%;
-            background: #0d1119;
-            border: 1px solid var(--border);
-            color: white;
-            padding: 12px 14px 12px 38px;
-            border-radius: 9px;
-            outline: none;
-        }
-
-        .search input:focus {
-            border-color: rgba(124, 92, 255, 0.55);
         }
 
         .search-icon {
             position: absolute;
-            left: 14px;
             top: 50%;
+            left: 13px;
             transform: translateY(-50%);
-            color: #697285;
+            color: #657083;
             pointer-events: none;
         }
 
+        .search input {
+            width: 100%;
+            padding: 12px 14px 12px 38px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            outline: none;
+            background: var(--input);
+            color: #fff;
+        }
+
+        .search input:focus {
+            border-color: rgba(121, 92, 255, 0.55);
+        }
+
         .primary-btn {
+            padding: 11px 17px;
             border: 0;
             border-radius: 9px;
-            padding: 12px 17px;
-            color: white;
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
-            font-weight: 600;
-            transition: 0.2s ease;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            font-weight: 700;
+            transition: 0.2s;
         }
 
         .primary-btn:hover {
-            transform: translateY(-1px);
             filter: brightness(1.08);
+            transform: translateY(-1px);
+        }
+
+        .primary-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+            transform: none;
         }
 
         /* TABLE */
 
-        .table-wrap {
+        .table-container {
+            width: 100%;
             overflow-x: auto;
         }
 
         table {
             width: 100%;
-            border-collapse: collapse;
             min-width: 760px;
+            border-collapse: collapse;
         }
 
         th,
         td {
             padding: 15px 18px;
-            text-align: left;
             border-bottom: 1px solid #202735;
+            text-align: left;
         }
 
         th {
-            color: #70798a;
+            color: #707a8c;
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-weight: 600;
         }
 
         td {
+            color: #dce1e9;
             font-size: 13px;
-            color: #dfe3ea;
-        }
-
-        tbody tr {
-            transition: 0.15s ease;
         }
 
         tbody tr:hover {
@@ -364,37 +393,37 @@
         }
 
         .title-cell {
-            max-width: 360px;
+            max-width: 370px;
         }
 
         .title-cell strong {
             display: block;
-            color: white;
+            margin-bottom: 5px;
+            color: #fff;
             font-size: 14px;
-            margin-bottom: 4px;
         }
 
         .title-cell span {
             display: block;
+            overflow: hidden;
             color: var(--muted);
             font-size: 12px;
-            white-space: nowrap;
-            overflow: hidden;
+            line-height: 1.4;
             text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .badge {
             display: inline-flex;
-            align-items: center;
             padding: 5px 9px;
             border-radius: 20px;
-            background: #1d2534;
-            color: #abb4c6;
+            background: #202838;
+            color: #b5bed0;
             font-size: 11px;
         }
 
         .date {
-            color: #788193;
+            color: #778193;
             font-size: 12px;
         }
 
@@ -404,29 +433,30 @@
         }
 
         .action-btn {
-            border: 1px solid var(--border);
-            background: #151b26;
-            color: #b7bfce;
-            border-radius: 7px;
             padding: 7px 10px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            background: #171e2a;
+            color: #b7c0cf;
             font-size: 11px;
         }
 
         .action-btn:hover {
-            color: white;
-            background: #1b2230;
+            background: #202838;
+            color: #fff;
         }
 
         .action-btn.delete {
-            color: #e77d88;
-            border-color: rgba(239, 91, 107, 0.15);
+            border-color: rgba(239, 102, 116, 0.18);
+            color: #ea818c;
         }
 
         .action-btn.delete:hover {
-            background: rgba(239, 91, 107, 0.1);
+            background: rgba(239, 102, 116, 0.1);
         }
 
-        .empty {
+        .empty,
+        .loading {
             padding: 65px 20px;
             text-align: center;
             color: var(--muted);
@@ -434,31 +464,25 @@
 
         .empty strong {
             display: block;
-            color: #dce1ea;
             margin-bottom: 7px;
-        }
-
-        .loading {
-            padding: 50px;
-            text-align: center;
-            color: var(--muted);
+            color: #e0e4eb;
         }
 
         /* MODAL */
 
         .modal-overlay {
             position: fixed;
+            z-index: 200;
             inset: 0;
-            background: rgba(0, 0, 0, 0.72);
             display: none;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            z-index: 100;
+            background: rgba(0, 0, 0, 0.74);
             backdrop-filter: blur(5px);
         }
 
-        .modal-overlay.show {
+        .modal-overlay.open {
             display: flex;
         }
 
@@ -466,32 +490,37 @@
             width: min(600px, 100%);
             max-height: 90vh;
             overflow-y: auto;
-            background: #111722;
             border: 1px solid var(--border);
             border-radius: 15px;
-            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
+            background: #111722;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
         }
 
-        .modal-head {
+        .modal-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 20px;
+            padding: 19px 20px;
             border-bottom: 1px solid var(--border);
         }
 
-        .modal-head h2 {
+        .modal-header h2 {
             font-size: 18px;
         }
 
-        .close {
+        .close-btn {
             width: 32px;
             height: 32px;
-            border-radius: 8px;
             border: 1px solid var(--border);
-            background: #161c27;
-            color: #aab2c1;
-            font-size: 17px;
+            border-radius: 8px;
+            background: #171e2a;
+            color: #aeb7c6;
+            font-size: 18px;
+        }
+
+        .close-btn:hover {
+            background: #202838;
+            color: #fff;
         }
 
         .modal-body {
@@ -508,113 +537,103 @@
 
         .field label {
             display: block;
-            color: #aeb6c6;
-            font-size: 12px;
             margin-bottom: 7px;
+            color: #adb6c6;
+            font-size: 12px;
         }
 
         .field input,
         .field textarea,
         .field select {
             width: 100%;
-            background: #0c1017;
+            padding: 11px 12px;
             border: 1px solid var(--border);
             border-radius: 8px;
-            color: white;
             outline: none;
-            padding: 11px 12px;
+            background: var(--input);
+            color: #fff;
         }
 
         .field input:focus,
         .field textarea:focus,
         .field select:focus {
-            border-color: rgba(124, 92, 255, 0.55);
+            border-color: rgba(121, 92, 255, 0.55);
         }
 
         .field textarea {
             min-height: 145px;
             resize: vertical;
-            line-height: 1.55;
+            line-height: 1.5;
         }
 
         .field small {
             display: block;
-            color: #626c7d;
             margin-top: 6px;
+            color: #626d7e;
             font-size: 10px;
         }
 
         .modal-footer {
-            padding: 16px 20px;
-            border-top: 1px solid var(--border);
             display: flex;
             justify-content: flex-end;
-            gap: 9px;
+            gap: 8px;
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
         }
 
         .secondary-btn {
-            border: 1px solid var(--border);
-            background: #171d28;
-            color: #aeb6c5;
-            border-radius: 8px;
             padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #171e29;
+            color: #adb6c5;
         }
 
         .secondary-btn:hover {
-            color: white;
+            color: #fff;
         }
 
         /* TOAST */
 
         .toast {
             position: fixed;
+            z-index: 300;
             right: 22px;
             bottom: 22px;
-            max-width: 360px;
+            max-width: 380px;
             padding: 13px 16px;
-            border-radius: 10px;
             border: 1px solid var(--border);
-            background: #151b25;
-            color: white;
-            box-shadow: var(--shadow);
-            transform: translateY(25px);
+            border-radius: 10px;
+            background: #171e29;
+            color: #fff;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
             opacity: 0;
+            transform: translateY(20px);
             pointer-events: none;
-            transition: 0.25s ease;
-            z-index: 200;
+            transition: 0.25s;
             font-size: 13px;
         }
 
-        .toast.show {
-            transform: translateY(0);
+        .toast.visible {
             opacity: 1;
+            transform: translateY(0);
         }
 
         .toast.success {
-            border-color: rgba(71, 209, 140, 0.25);
+            border-color: rgba(67, 209, 139, 0.3);
         }
 
         .toast.error {
-            border-color: rgba(239, 91, 107, 0.3);
-            color: #ff9aa5;
+            border-color: rgba(239, 102, 116, 0.35);
+            color: #ff9da7;
         }
 
         /* MOBILE */
 
-        .mobile-menu {
-            display: none;
-            width: 38px;
-            height: 38px;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: white;
-            border-radius: 8px;
-        }
-
         @media (max-width: 900px) {
             .sidebar {
                 transform: translateX(-100%);
-                transition: 0.25s ease;
+                transition: transform 0.25s ease;
             }
 
             .sidebar.open {
@@ -622,7 +641,6 @@
             }
 
             .main {
-                width: 100%;
                 margin-left: 0;
             }
 
@@ -644,20 +662,21 @@
         }
 
         @media (max-width: 600px) {
-            .topbar-left h1 {
+            .topbar h1 {
                 font-size: 17px;
             }
 
-            .topbar-left p {
+            .topbar p {
                 display: none;
             }
 
             .toolbar {
+                flex-direction: column;
                 align-items: stretch;
             }
 
             .search {
-                min-width: 100%;
+                width: 100%;
             }
 
             .primary-btn {
@@ -673,6 +692,21 @@
                 width: 100%;
                 text-align: left;
             }
+
+            .modal-footer {
+                flex-direction: column-reverse;
+            }
+
+            .modal-footer button {
+                width: 100%;
+            }
+
+            .toast {
+                right: 12px;
+                bottom: 12px;
+                left: 12px;
+                max-width: none;
+            }
         }
     </style>
 </head>
@@ -684,8 +718,8 @@
     <aside class="sidebar" id="sidebar">
 
         <div class="brand">
-            <strong>HoriblitiMatch</strong>
-            <span>Administration</span>
+            <div class="brand-title">HoriblitiMatch</div>
+            <div class="brand-subtitle">Administration</div>
         </div>
 
         <div class="nav-title">Principal</div>
@@ -704,11 +738,11 @@
         </nav>
 
         <div class="sidebar-bottom">
-            <a href="../index.html" target="_blank" class="site-link">
+            <a class="site-link" href="../index.html" target="_blank">
                 ↗ Voir le site
             </a>
 
-            <button class="logout-btn" id="logoutBtn">
+            <button type="button" class="logout-btn" id="logoutButton">
                 Se déconnecter
             </button>
         </div>
@@ -719,20 +753,29 @@
 
         <header class="topbar">
 
-            <div class="topbar-left">
+            <div>
                 <h1>Gestion du contenu</h1>
                 <p>Gérez les annonces, réalisations et partenaires.</p>
             </div>
 
             <div class="user-box">
-                <div class="avatar" id="avatar">H</div>
+
+                <div class="avatar" id="userAvatar">H</div>
 
                 <div class="user-info">
                     <strong id="userName">Staff</strong>
                     <span id="userRole">Staff</span>
                 </div>
 
-                <button class="mobile-menu" id="mobileMenu">☰</button>
+                <button
+                    type="button"
+                    class="mobile-menu"
+                    id="mobileMenu"
+                    aria-label="Ouvrir le menu"
+                >
+                    ☰
+                </button>
+
             </div>
 
         </header>
@@ -741,19 +784,31 @@
 
             <div class="tabs">
 
-                <button class="tab active" data-tab="annonces">
+                <button
+                    type="button"
+                    class="tab active"
+                    data-tab="annonces"
+                >
                     Annonces
-                    <span class="tab-count" id="countAnnonces">0</span>
+                    <span class="tab-count" id="annoncesCount">0</span>
                 </button>
 
-                <button class="tab" data-tab="realisations">
+                <button
+                    type="button"
+                    class="tab"
+                    data-tab="realisations"
+                >
                     Réalisations
-                    <span class="tab-count" id="countRealisations">0</span>
+                    <span class="tab-count" id="realisationsCount">0</span>
                 </button>
 
-                <button class="tab" data-tab="partenaires">
+                <button
+                    type="button"
+                    class="tab"
+                    data-tab="partenaires"
+                >
                     Partenaires
-                    <span class="tab-count" id="countPartenaires">0</span>
+                    <span class="tab-count" id="partenairesCount">0</span>
                 </button>
 
             </div>
@@ -764,23 +819,28 @@
 
                     <div class="search">
                         <span class="search-icon">⌕</span>
+
                         <input
-                            type="search"
                             id="searchInput"
+                            type="search"
                             placeholder="Rechercher..."
                             autocomplete="off"
                         >
                     </div>
 
-                    <button class="primary-btn" id="addBtn">
+                    <button
+                        type="button"
+                        class="primary-btn"
+                        id="addButton"
+                    >
                         + Ajouter
                     </button>
 
                 </div>
 
-                <div id="contentArea">
+                <div id="tableContainer">
                     <div class="loading">
-                        Chargement des données...
+                        Chargement...
                     </div>
                 </div>
 
@@ -798,22 +858,40 @@
 
     <div class="modal">
 
-        <div class="modal-head">
+        <div class="modal-header">
+
             <h2 id="modalTitle">Ajouter</h2>
-            <button class="close" id="closeModal">×</button>
+
+            <button
+                type="button"
+                class="close-btn"
+                id="closeModalButton"
+                aria-label="Fermer"
+            >
+                ×
+            </button>
+
         </div>
 
         <form id="contentForm">
 
-            <div class="modal-body" id="formBody"></div>
+            <div class="modal-body" id="formFields"></div>
 
             <div class="modal-footer">
 
-                <button type="button" class="secondary-btn" id="cancelBtn">
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    id="cancelButton"
+                >
                     Annuler
                 </button>
 
-                <button type="submit" class="primary-btn" id="saveBtn">
+                <button
+                    type="submit"
+                    class="primary-btn"
+                    id="submitButton"
+                >
                     Enregistrer
                 </button>
 
@@ -832,8 +910,9 @@
     import { supabaseClient } from "../js/supabase.js";
 
     const state = {
-        currentTab: "annonces",
+        tab: "annonces",
         editingId: null,
+        loading: false,
         data: {
             annonces: [],
             realisations: [],
@@ -841,27 +920,39 @@
         }
     };
 
-    const contentArea = document.getElementById("contentArea");
-    const searchInput = document.getElementById("searchInput");
-    const modalOverlay = document.getElementById("modalOverlay");
-    const modalTitle = document.getElementById("modalTitle");
-    const formBody = document.getElementById("formBody");
-    const contentForm = document.getElementById("contentForm");
-    const toast = document.getElementById("toast");
+    const elements = {
+        sidebar: document.getElementById("sidebar"),
+        mobileMenu: document.getElementById("mobileMenu"),
+        logoutButton: document.getElementById("logoutButton"),
 
-    let toastTimer = null;
+        userAvatar: document.getElementById("userAvatar"),
+        userName: document.getElementById("userName"),
+        userRole: document.getElementById("userRole"),
 
-    function showToast(message, type) {
+        searchInput: document.getElementById("searchInput"),
+        addButton: document.getElementById("addButton"),
+        tableContainer: document.getElementById("tableContainer"),
 
-        clearTimeout(toastTimer);
+        annoncesCount: document.getElementById("annoncesCount"),
+        realisationsCount: document.getElementById("realisationsCount"),
+        partenairesCount: document.getElementById("partenairesCount"),
 
-        toast.textContent = message;
-        toast.className = "toast show " + (type || "");
+        modalOverlay: document.getElementById("modalOverlay"),
+        modalTitle: document.getElementById("modalTitle"),
+        closeModalButton: document.getElementById("closeModalButton"),
+        cancelButton: document.getElementById("cancelButton"),
+        contentForm: document.getElementById("contentForm"),
+        formFields: document.getElementById("formFields"),
+        submitButton: document.getElementById("submitButton"),
 
-        toastTimer = setTimeout(function () {
-            toast.className = "toast";
-        }, 3200);
-    }
+        toast: document.getElementById("toast")
+    };
+
+    let toastTimeout = null;
+
+    /* =========================
+       UTILITAIRES
+    ========================= */
 
     function escapeHtml(value) {
 
@@ -870,11 +961,11 @@
         }
 
         return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
     }
 
     function formatDate(value) {
@@ -898,113 +989,236 @@
 
     function getInitial(name, email) {
 
-        const value = name || email || "H";
+        const text = String(name || email || "H").trim();
 
-        return value
-            .trim()
-            .charAt(0)
-            .toUpperCase();
+        if (!text) {
+            return "H";
+        }
+
+        return text.charAt(0).toUpperCase();
     }
+
+    function showToast(message, type) {
+
+        clearTimeout(toastTimeout);
+
+        elements.toast.textContent = message;
+
+        elements.toast.className = "toast visible";
+
+        if (type) {
+            elements.toast.classList.add(type);
+        }
+
+        toastTimeout = setTimeout(function () {
+            elements.toast.className = "toast";
+        }, 3500);
+    }
+
+    function getCurrentItems() {
+        return state.data[state.tab] || [];
+    }
+
+    function getSingularName() {
+
+        if (state.tab === "annonces") {
+            return "une annonce";
+        }
+
+        if (state.tab === "realisations") {
+            return "une réalisation";
+        }
+
+        return "un partenaire";
+    }
+
+    /* =========================
+       AUTH
+    ========================= */
 
     async function checkAuth() {
 
-        const result = await supabaseClient.auth.getSession();
+        try {
 
-        const session = result.data ? result.data.session : null;
+            const sessionResult =
+                await supabaseClient.auth.getSession();
 
-        if (result.error || !session) {
+            if (
+                sessionResult.error ||
+                !sessionResult.data ||
+                !sessionResult.data.session
+            ) {
+                window.location.href = "../pages/connexion.html";
+                return false;
+            }
+
+            const session =
+                sessionResult.data.session;
+
+            const staffResult =
+                await supabaseClient
+                    .from("staff")
+                    .select("id,email,nom,role")
+                    .eq("id", session.user.id)
+                    .maybeSingle();
+
+            if (
+                staffResult.error ||
+                !staffResult.data
+            ) {
+                await supabaseClient.auth.signOut();
+                window.location.href = "../pages/connexion.html";
+                return false;
+            }
+
+            const staff = staffResult.data;
+
+            elements.userName.textContent =
+                staff.nom || staff.email || "Staff";
+
+            elements.userRole.textContent =
+                staff.role === "admin"
+                    ? "Administrateur"
+                    : "Staff";
+
+            elements.userAvatar.textContent =
+                getInitial(staff.nom, staff.email);
+
+            return true;
+
+        } catch (error) {
+
+            console.error(error);
+
             window.location.href = "../pages/connexion.html";
-            return null;
+
+            return false;
         }
-
-        const staffResult = await supabaseClient
-            .from("staff")
-            .select("id,email,nom,role")
-            .eq("id", session.user.id)
-            .maybeSingle();
-
-        if (staffResult.error || !staffResult.data) {
-            await supabaseClient.auth.signOut();
-            window.location.href = "../pages/connexion.html";
-            return null;
-        }
-
-        const staff = staffResult.data;
-
-        document.getElementById("userName").textContent =
-            staff.nom || staff.email || "Staff";
-
-        document.getElementById("userRole").textContent =
-            staff.role === "admin" ? "Administrateur" : "Staff";
-
-        document.getElementById("avatar").textContent =
-            getInitial(staff.nom, staff.email);
-
-        return staff;
     }
 
-    async function loadAll() {
+    /* =========================
+       CHARGEMENT
+    ========================= */
 
-        contentArea.innerHTML =
+    async function loadData() {
+
+        state.loading = true;
+
+        elements.tableContainer.innerHTML =
             '<div class="loading">Chargement des données...</div>';
 
-        const results = await Promise.all([
-            supabaseClient
-                .from("annonces")
-                .select("id,titre,categorie,contenu,created_at,updated_at")
-                .order("created_at", { ascending: false }),
+        try {
 
-            supabaseClient
-                .from("realisations")
-                .select("id,titre,description,lien,created_at,updated_at")
-                .order("created_at", { ascending: false }),
+            const annoncesRequest =
+                await supabaseClient
+                    .from("annonces")
+                    .select(
+                        "id,titre,categorie,contenu,created_at,updated_at"
+                    )
+                    .order("created_at", {
+                        ascending: false
+                    });
 
-            supabaseClient
-                .from("partenaires")
-                .select("id,nom,description,lien,created_at,updated_at")
-                .order("created_at", { ascending: false })
-        ]);
+            const realisationsRequest =
+                await supabaseClient
+                    .from("realisations")
+                    .select(
+                        "id,titre,description,lien,created_at,updated_at"
+                    )
+                    .order("created_at", {
+                        ascending: false
+                    });
 
-        if (results[0].error) {
-            console.error(results[0].error);
-            showToast("Impossible de charger les annonces.", "error");
+            const partenairesRequest =
+                await supabaseClient
+                    .from("partenaires")
+                    .select(
+                        "id,nom,description,lien,created_at,updated_at"
+                    )
+                    .order("created_at", {
+                        ascending: false
+                    });
+
+            if (annoncesRequest.error) {
+                throw new Error(
+                    "Erreur annonces : " +
+                    annoncesRequest.error.message
+                );
+            }
+
+            if (realisationsRequest.error) {
+                throw new Error(
+                    "Erreur réalisations : " +
+                    realisationsRequest.error.message
+                );
+            }
+
+            if (partenairesRequest.error) {
+                throw new Error(
+                    "Erreur partenaires : " +
+                    partenairesRequest.error.message
+                );
+            }
+
+            state.data.annonces =
+                annoncesRequest.data || [];
+
+            state.data.realisations =
+                realisationsRequest.data || [];
+
+            state.data.partenaires =
+                partenairesRequest.data || [];
+
+            updateCounters();
+            renderTable();
+
+        } catch (error) {
+
+            console.error(error);
+
+            elements.tableContainer.innerHTML =
+                '<div class="empty">' +
+                    '<strong>Impossible de charger les données</strong>' +
+                    '<span>' +
+                        escapeHtml(error.message) +
+                    '</span>' +
+                '</div>';
+
+            showToast(
+                "Erreur lors du chargement.",
+                "error"
+            );
+
+        } finally {
+
+            state.loading = false;
         }
-
-        if (results[1].error) {
-            console.error(results[1].error);
-            showToast("Impossible de charger les réalisations.", "error");
-        }
-
-        if (results[2].error) {
-            console.error(results[2].error);
-            showToast("Impossible de charger les partenaires.", "error");
-        }
-
-        state.data.annonces = results[0].data || [];
-        state.data.realisations = results[1].data || [];
-        state.data.partenaires = results[2].data || [];
-
-        updateCounts();
-        render();
     }
 
-    function updateCounts() {
+    function updateCounters() {
 
-        document.getElementById("countAnnonces").textContent =
+        elements.annoncesCount.textContent =
             state.data.annonces.length;
 
-        document.getElementById("countRealisations").textContent =
+        elements.realisationsCount.textContent =
             state.data.realisations.length;
 
-        document.getElementById("countPartenaires").textContent =
+        elements.partenairesCount.textContent =
             state.data.partenaires.length;
     }
 
-    function getFilteredData() {
+    /* =========================
+       RECHERCHE
+    ========================= */
 
-        const query = searchInput.value.trim().toLowerCase();
+    function getFilteredItems() {
 
-        const items = state.data[state.currentTab] || [];
+        const items = getCurrentItems();
+
+        const query =
+            elements.searchInput.value
+                .trim()
+                .toLowerCase();
 
         if (!query) {
             return items;
@@ -1014,24 +1228,31 @@
 
             let text = "";
 
-            if (state.currentTab === "annonces") {
+            if (state.tab === "annonces") {
+
                 text =
-                    (item.titre || "") + " " +
-                    (item.categorie || "") + " " +
+                    (item.titre || "") +
+                    " " +
+                    (item.categorie || "") +
+                    " " +
                     (item.contenu || "");
-            }
 
-            if (state.currentTab === "realisations") {
+            } else if (state.tab === "realisations") {
+
                 text =
-                    (item.titre || "") + " " +
-                    (item.description || "") + " " +
+                    (item.titre || "") +
+                    " " +
+                    (item.description || "") +
+                    " " +
                     (item.lien || "");
-            }
 
-            if (state.currentTab === "partenaires") {
+            } else {
+
                 text =
-                    (item.nom || "") + " " +
-                    (item.description || "") + " " +
+                    (item.nom || "") +
+                    " " +
+                    (item.description || "") +
+                    " " +
                     (item.lien || "");
             }
 
@@ -1039,28 +1260,34 @@
         });
     }
 
-    function render() {
+    /* =========================
+       AFFICHAGE
+    ========================= */
 
-        const items = getFilteredData();
+    function renderTable() {
 
-        if (!items.length) {
+        const items = getFilteredItems();
 
-            contentArea.innerHTML =
+        if (items.length === 0) {
+
+            elements.tableContainer.innerHTML =
                 '<div class="empty">' +
-                    '<strong>Aucun élément trouvé</strong>' +
-                    '<span>Il n’y a aucun contenu correspondant à votre recherche.</span>' +
+                    '<strong>Aucun élément</strong>' +
+                    '<span>' +
+                        'Aucun contenu ne correspond à votre recherche.' +
+                    '</span>' +
                 '</div>';
 
             return;
         }
 
         let html =
-            '<div class="table-wrap">' +
+            '<div class="table-container">' +
                 '<table>' +
                     '<thead>' +
                         '<tr>';
 
-        if (state.currentTab === "annonces") {
+        if (state.tab === "annonces") {
 
             html +=
                 '<th>Titre</th>' +
@@ -1069,7 +1296,7 @@
                 '<th>Modification</th>' +
                 '<th>Actions</th>';
 
-        } else if (state.currentTab === "realisations") {
+        } else if (state.tab === "realisations") {
 
             html +=
                 '<th>Réalisation</th>' +
@@ -1095,77 +1322,103 @@
 
         items.forEach(function (item) {
 
-            if (state.currentTab === "annonces") {
-
-                const contenu = item.contenu || "";
+            if (state.tab === "annonces") {
 
                 html +=
                     '<tr>' +
                         '<td class="title-cell">' +
-                            '<strong>' + escapeHtml(item.titre) + '</strong>' +
-                            '<span>' + escapeHtml(contenu) + '</span>' +
+                            '<strong>' +
+                                escapeHtml(item.titre) +
+                            '</strong>' +
+                            '<span>' +
+                                escapeHtml(item.contenu) +
+                            '</span>' +
                         '</td>' +
+
                         '<td>' +
                             '<span class="badge">' +
                                 escapeHtml(item.categorie) +
                             '</span>' +
                         '</td>' +
+
                         '<td class="date">' +
                             formatDate(item.created_at) +
                         '</td>' +
+
                         '<td class="date">' +
                             formatDate(item.updated_at) +
                         '</td>' +
+
                         '<td>' +
                             actionButtons(item.id) +
                         '</td>' +
+
                     '</tr>';
 
-            } else if (state.currentTab === "realisations") {
+            } else if (state.tab === "realisations") {
 
                 html +=
                     '<tr>' +
+
                         '<td class="title-cell">' +
-                            '<strong>' + escapeHtml(item.titre) + '</strong>' +
-                            '<span>' + escapeHtml(item.description || "") + '</span>' +
+                            '<strong>' +
+                                escapeHtml(item.titre) +
+                            '</strong>' +
+                            '<span>' +
+                                escapeHtml(item.description || "") +
+                            '</span>' +
                         '</td>' +
+
                         '<td>' +
-                            renderLink(item.lien) +
+                            linkButton(item.lien) +
                         '</td>' +
+
                         '<td class="date">' +
                             formatDate(item.created_at) +
                         '</td>' +
+
                         '<td class="date">' +
                             formatDate(item.updated_at) +
                         '</td>' +
+
                         '<td>' +
                             actionButtons(item.id) +
                         '</td>' +
+
                     '</tr>';
 
             } else {
 
                 html +=
                     '<tr>' +
+
                         '<td class="title-cell">' +
-                            '<strong>' + escapeHtml(item.nom) + '</strong>' +
-                            '<span>' + escapeHtml(item.description || "") + '</span>' +
+                            '<strong>' +
+                                escapeHtml(item.nom) +
+                            '</strong>' +
+                            '<span>' +
+                                escapeHtml(item.description || "") +
+                            '</span>' +
                         '</td>' +
+
                         '<td>' +
-                            renderLink(item.lien) +
+                            linkButton(item.lien) +
                         '</td>' +
+
                         '<td class="date">' +
                             formatDate(item.created_at) +
                         '</td>' +
+
                         '<td class="date">' +
                             formatDate(item.updated_at) +
                         '</td>' +
+
                         '<td>' +
                             actionButtons(item.id) +
                         '</td>' +
+
                     '</tr>';
             }
-
         });
 
         html +=
@@ -1173,52 +1426,72 @@
                 '</table>' +
             '</div>';
 
-        contentArea.innerHTML = html;
-    }
-
-    function renderLink(link) {
-
-        if (!link) {
-            return '<span class="date">Aucun lien</span>';
-        }
-
-        let safeLink = String(link);
-
-        if (
-            !safeLink.startsWith("http://") &&
-            !safeLink.startsWith("https://")
-        ) {
-            return '<span class="date">' + escapeHtml(link) + '</span>';
-        }
-
-        return (
-            '<a href="' +
-            escapeHtml(safeLink) +
-            '" target="_blank" rel="noopener noreferrer" ' +
-            'style="color:#9f8cff;font-size:12px;">' +
-            'Ouvrir ↗' +
-            '</a>'
-        );
+        elements.tableContainer.innerHTML = html;
     }
 
     function actionButtons(id) {
 
         return (
             '<div class="actions">' +
-                '<button class="action-btn edit-btn" data-id="' +
+
+                '<button ' +
+                    'type="button" ' +
+                    'class="action-btn edit-action" ' +
+                    'data-id="' +
                     escapeHtml(id) +
                 '">' +
                     'Modifier' +
                 '</button>' +
 
-                '<button class="action-btn delete delete-btn" data-id="' +
+                '<button ' +
+                    'type="button" ' +
+                    'class="action-btn delete delete-action" ' +
+                    'data-id="' +
                     escapeHtml(id) +
                 '">' +
                     'Supprimer' +
                 '</button>' +
+
             '</div>'
         );
     }
+
+    function linkButton(link) {
+
+        if (!link) {
+            return '<span class="date">Aucun lien</span>';
+        }
+
+        const value = String(link).trim();
+
+        if (
+            !value.startsWith("http://") &&
+            !value.startsWith("https://")
+        ) {
+            return (
+                '<span class="date">' +
+                    escapeHtml(value) +
+                '</span>'
+            );
+        }
+
+        return (
+            '<a ' +
+                'href="' +
+                    escapeHtml(value) +
+                '" ' +
+                'target="_blank" ' +
+                'rel="noopener noreferrer" ' +
+                'style="color:#9f8cff;font-size:12px;"' +
+            '>' +
+                'Ouvrir ↗' +
+            '</a>'
+        );
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
 
     function openModal(id) {
 
@@ -1226,221 +1499,380 @@
 
         let item = null;
 
-        if (id) {
+        if (state.editingId) {
 
-            item = state.data[state.currentTab].find(function (entry) {
-                return entry.id === id;
+            item = getCurrentItems().find(function (entry) {
+                return String(entry.id) === String(id);
             });
+
+            if (!item) {
+                showToast(
+                    "Élément introuvable.",
+                    "error"
+                );
+                return;
+            }
         }
 
-        const editing = Boolean(item);
+        const editMode = Boolean(item);
 
-        modalTitle.textContent =
-            editing
-                ? "Modifier " + getTabSingular()
-                : "Ajouter " + getTabSingular();
+        elements.modalTitle.textContent =
+            editMode
+                ? "Modifier " + getSingularName()
+                : "Ajouter " + getSingularName();
 
-        if (state.currentTab === "annonces") {
+        buildForm(item);
 
-            formBody.innerHTML =
-                '<div class="field">' +
-                    '<label for="fieldTitre">Titre</label>' +
-                    '<input id="fieldTitre" type="text" maxlength="200" required value="' +
-                        escapeHtml(item ? item.titre : "") +
-                    '">' +
-                '</div>' +
+        elements.modalOverlay.classList.add("open");
 
-                '<div class="field">' +
-                    '<label for="fieldCategorie">Catégorie</label>' +
-                    '<select id="fieldCategorie" required>' +
-                        categoryOption("Information", item ? item.categorie : "") +
-                        categoryOption("Actualité", item ? item.categorie : "") +
-                        categoryOption("Nouveauté", item ? item.categorie : "") +
-                        categoryOption("Projet", item ? item.categorie : "") +
-                        categoryOption("Autre", item ? item.categorie : "") +
-                    '</select>' +
-                '</div>' +
+        document.body.style.overflow = "hidden";
 
-                '<div class="field">' +
-                    '<label for="fieldContenu">Contenu</label>' +
-                    '<textarea id="fieldContenu" required>' +
-                        escapeHtml(item ? item.contenu : "") +
-                    '</textarea>' +
-                '</div>';
+        const firstField =
+            elements.formFields.querySelector("input, textarea, select");
 
-        } else if (state.currentTab === "realisations") {
-
-            formBody.innerHTML =
-                '<div class="field">' +
-                    '<label for="fieldTitre">Titre</label>' +
-                    '<input id="fieldTitre" type="text" maxlength="200" required value="' +
-                        escapeHtml(item ? item.titre : "") +
-                    '">' +
-                '</div>' +
-
-                '<div class="field">' +
-                    '<label for="fieldDescription">Description</label>' +
-                    '<textarea id="fieldDescription">' +
-                        escapeHtml(item ? item.description : "") +
-                    '</textarea>' +
-                '</div>' +
-
-                '<div class="field">' +
-                    '<label for="fieldLien">Lien du projet</label>' +
-                    '<input id="fieldLien" type="url" placeholder="https://..." value="' +
-                        escapeHtml(item ? item.lien : "") +
-                    '">' +
-                    '<small>Optionnel. Laissez vide si le projet n’a pas de lien public.</small>' +
-                '</div>';
-
-        } else {
-
-            formBody.innerHTML =
-                '<div class="field">' +
-                    '<label for="fieldNom">Nom du partenaire</label>' +
-                    '<input id="fieldNom" type="text" maxlength="200" required value="' +
-                        escapeHtml(item ? item.nom : "") +
-                    '">' +
-                '</div>' +
-
-                '<div class="field">' +
-                    '<label for="fieldDescription">Description</label>' +
-                    '<textarea id="fieldDescription">' +
-                        escapeHtml(item ? item.description : "") +
-                    '</textarea>' +
-                '</div>' +
-
-                '<div class="field">' +
-                    '<label for="fieldLien">Lien</label>' +
-                    '<input id="fieldLien" type="url" placeholder="https://..." value="' +
-                        escapeHtml(item ? item.lien : "") +
-                    '">' +
-                    '<small>Optionnel.</small>' +
-                '</div>';
-        }
-
-        modalOverlay.classList.add("show");
-
-        const firstInput = formBody.querySelector("input");
-
-        if (firstInput) {
+        if (firstField) {
             setTimeout(function () {
-                firstInput.focus();
+                firstField.focus();
             }, 50);
         }
     }
 
+    function buildForm(item) {
+
+        if (state.tab === "annonces") {
+
+            elements.formFields.innerHTML =
+                '<div class="field">' +
+
+                    '<label for="fieldTitle">' +
+                        'Titre *' +
+                    '</label>' +
+
+                    '<input ' +
+                        'id="fieldTitle" ' +
+                        'type="text" ' +
+                        'maxlength="200" ' +
+                        'required ' +
+                        'value="' +
+                            escapeHtml(item ? item.titre : "") +
+                        '"' +
+                    '>' +
+
+                '</div>' +
+
+                '<div class="field">' +
+
+                    '<label for="fieldCategory">' +
+                        'Catégorie *' +
+                    '</label>' +
+
+                    '<select ' +
+                        'id="fieldCategory" ' +
+                        'required' +
+                    '>' +
+
+                        categoryOption(
+                            "Information",
+                            item ? item.categorie : ""
+                        ) +
+
+                        categoryOption(
+                            "Actualité",
+                            item ? item.categorie : ""
+                        ) +
+
+                        categoryOption(
+                            "Nouveauté",
+                            item ? item.categorie : ""
+                        ) +
+
+                        categoryOption(
+                            "Projet",
+                            item ? item.categorie : ""
+                        ) +
+
+                        categoryOption(
+                            "Autre",
+                            item ? item.categorie : ""
+                        ) +
+
+                    '</select>' +
+
+                '</div>' +
+
+                '<div class="field">' +
+
+                    '<label for="fieldContent">' +
+                        'Contenu *' +
+                    '</label>' +
+
+                    '<textarea ' +
+                        'id="fieldContent" ' +
+                        'required' +
+                    '>' +
+                        escapeHtml(item ? item.contenu : "") +
+                    '</textarea>' +
+
+                '</div>';
+
+            return;
+        }
+
+        if (state.tab === "realisations") {
+
+            elements.formFields.innerHTML =
+                '<div class="field">' +
+
+                    '<label for="fieldTitle">' +
+                        'Titre *' +
+                    '</label>' +
+
+                    '<input ' +
+                        'id="fieldTitle" ' +
+                        'type="text" ' +
+                        'maxlength="200" ' +
+                        'required ' +
+                        'value="' +
+                            escapeHtml(item ? item.titre : "") +
+                        '"' +
+                    '>' +
+
+                '</div>' +
+
+                '<div class="field">' +
+
+                    '<label for="fieldDescription">' +
+                        'Description' +
+                    '</label>' +
+
+                    '<textarea id="fieldDescription">' +
+                        escapeHtml(item ? item.description : "") +
+                    '</textarea>' +
+
+                '</div>' +
+
+                '<div class="field">' +
+
+                    '<label for="fieldLink">' +
+                        'Lien du projet' +
+                    '</label>' +
+
+                    '<input ' +
+                        'id="fieldLink" ' +
+                        'type="url" ' +
+                        'placeholder="https://..." ' +
+                        'value="' +
+                            escapeHtml(item ? item.lien : "") +
+                        '"' +
+                    '>' +
+
+                    '<small>' +
+                        'Optionnel.' +
+                    '</small>' +
+
+                '</div>';
+
+            return;
+        }
+
+        elements.formFields.innerHTML =
+            '<div class="field">' +
+
+                '<label for="fieldName">' +
+                    'Nom du partenaire *' +
+                '</label>' +
+
+                '<input ' +
+                    'id="fieldName" ' +
+                    'type="text" ' +
+                    'maxlength="200" ' +
+                    'required ' +
+                    'value="' +
+                        escapeHtml(item ? item.nom : "") +
+                    '"' +
+                '>' +
+
+            '</div>' +
+
+            '<div class="field">' +
+
+                '<label for="fieldDescription">' +
+                    'Description' +
+                '</label>' +
+
+                '<textarea id="fieldDescription">' +
+                    escapeHtml(item ? item.description : "") +
+                '</textarea>' +
+
+            '</div>' +
+
+            '<div class="field">' +
+
+                '<label for="fieldLink">' +
+                    'Lien' +
+                '</label>' +
+
+                '<input ' +
+                    'id="fieldLink" ' +
+                    'type="url" ' +
+                    'placeholder="https://..." ' +
+                    'value="' +
+                        escapeHtml(item ? item.lien : "") +
+                    '"' +
+                '>' +
+
+                '<small>' +
+                    'Optionnel.' +
+                '</small>' +
+
+            '</div>';
+    }
+
     function categoryOption(value, selected) {
 
-        const isSelected =
-            selected === value ? " selected" : "";
+        const selectedAttribute =
+            value === selected
+                ? " selected"
+                : "";
 
         return (
             '<option value="' +
-            escapeHtml(value) +
-            '"' +
-            isSelected +
+                escapeHtml(value) +
+                '"' +
+                selectedAttribute +
             '>' +
-            escapeHtml(value) +
+                escapeHtml(value) +
             '</option>'
         );
     }
 
-    function getTabSingular() {
-
-        if (state.currentTab === "annonces") {
-            return "une annonce";
-        }
-
-        if (state.currentTab === "realisations") {
-            return "une réalisation";
-        }
-
-        return "un partenaire";
-    }
-
     function closeModal() {
 
-        modalOverlay.classList.remove("show");
+        elements.modalOverlay.classList.remove("open");
+
+        document.body.style.overflow = "";
+
         state.editingId = null;
-        contentForm.reset();
+
+        elements.contentForm.reset();
+        elements.formFields.innerHTML = "";
     }
+
+    /* =========================
+       ENREGISTREMENT
+    ========================= */
 
     async function saveContent(event) {
 
         event.preventDefault();
 
-        const saveBtn = document.getElementById("saveBtn");
+        if (state.loading) {
+            return;
+        }
 
-        saveBtn.disabled = true;
-        saveBtn.textContent = "Enregistrement...";
+        state.loading = true;
+
+        elements.submitButton.disabled = true;
+        elements.submitButton.textContent = "Enregistrement...";
 
         try {
 
             let payload = {};
-            let table = state.currentTab;
 
-            if (state.currentTab === "annonces") {
+            if (state.tab === "annonces") {
 
-                const titre =
-                    document.getElementById("fieldTitre").value.trim();
+                const title =
+                    document
+                        .getElementById("fieldTitle")
+                        .value
+                        .trim();
 
-                const categorie =
-                    document.getElementById("fieldCategorie").value.trim();
+                const category =
+                    document
+                        .getElementById("fieldCategory")
+                        .value
+                        .trim();
 
-                const contenu =
-                    document.getElementById("fieldContenu").value.trim();
+                const content =
+                    document
+                        .getElementById("fieldContent")
+                        .value
+                        .trim();
 
-                if (!titre || !categorie || !contenu) {
-                    throw new Error("Veuillez remplir tous les champs obligatoires.");
+                if (!title || !category || !content) {
+                    throw new Error(
+                        "Remplis tous les champs obligatoires."
+                    );
                 }
 
                 payload = {
-                    titre: titre,
-                    categorie: categorie,
-                    contenu: contenu
+                    titre: title,
+                    categorie: category,
+                    contenu: content
                 };
 
-            } else if (state.currentTab === "realisations") {
+            } else if (state.tab === "realisations") {
 
-                const titre =
-                    document.getElementById("fieldTitre").value.trim();
+                const title =
+                    document
+                        .getElementById("fieldTitle")
+                        .value
+                        .trim();
 
                 const description =
-                    document.getElementById("fieldDescription").value.trim();
+                    document
+                        .getElementById("fieldDescription")
+                        .value
+                        .trim();
 
-                const lien =
-                    document.getElementById("fieldLien").value.trim();
+                const link =
+                    document
+                        .getElementById("fieldLink")
+                        .value
+                        .trim();
 
-                if (!titre) {
-                    throw new Error("Le titre est obligatoire.");
+                if (!title) {
+                    throw new Error(
+                        "Le titre est obligatoire."
+                    );
                 }
 
                 payload = {
-                    titre: titre,
+                    titre: title,
                     description: description || null,
-                    lien: lien || null
+                    lien: link || null
                 };
 
             } else {
 
-                const nom =
-                    document.getElementById("fieldNom").value.trim();
+                const name =
+                    document
+                        .getElementById("fieldName")
+                        .value
+                        .trim();
 
                 const description =
-                    document.getElementById("fieldDescription").value.trim();
+                    document
+                        .getElementById("fieldDescription")
+                        .value
+                        .trim();
 
-                const lien =
-                    document.getElementById("fieldLien").value.trim();
+                const link =
+                    document
+                        .getElementById("fieldLink")
+                        .value
+                        .trim();
 
-                if (!nom) {
-                    throw new Error("Le nom du partenaire est obligatoire.");
+                if (!name) {
+                    throw new Error(
+                        "Le nom du partenaire est obligatoire."
+                    );
                 }
 
                 payload = {
-                    nom: nom,
+                    nom: name,
                     description: description || null,
-                    lien: lien || null
+                    lien: link || null
                 };
             }
 
@@ -1448,16 +1880,18 @@
 
             if (state.editingId) {
 
-                result = await supabaseClient
-                    .from(table)
-                    .update(payload)
-                    .eq("id", state.editingId);
+                result =
+                    await supabaseClient
+                        .from(state.tab)
+                        .update(payload)
+                        .eq("id", state.editingId);
 
             } else {
 
-                result = await supabaseClient
-                    .from(table)
-                    .insert(payload);
+                result =
+                    await supabaseClient
+                        .from(state.tab)
+                        .insert(payload);
             }
 
             if (result.error) {
@@ -1466,12 +1900,12 @@
 
             closeModal();
 
-            await loadAll();
+            await loadData();
 
             showToast(
                 state.editingId
-                    ? "Contenu modifié avec succès."
-                    : "Contenu ajouté avec succès.",
+                    ? "Modification effectuée."
+                    : "Élément ajouté.",
                 "success"
             );
 
@@ -1480,193 +1914,279 @@
             console.error(error);
 
             showToast(
-                error.message || "Une erreur est survenue.",
+                error.message ||
+                "Une erreur est survenue.",
                 "error"
             );
 
         } finally {
 
-            saveBtn.disabled = false;
-            saveBtn.textContent = "Enregistrer";
+            state.loading = false;
+
+            elements.submitButton.disabled = false;
+            elements.submitButton.textContent =
+                "Enregistrer";
         }
     }
 
+    /* =========================
+       SUPPRESSION
+    ========================= */
+
     async function deleteContent(id) {
 
+        if (state.loading) {
+            return;
+        }
+
         const item =
-            state.data[state.currentTab].find(function (entry) {
-                return entry.id === id;
+            getCurrentItems().find(function (entry) {
+                return String(entry.id) === String(id);
             });
 
         if (!item) {
+            showToast(
+                "Élément introuvable.",
+                "error"
+            );
             return;
         }
 
         let name =
-            state.currentTab === "partenaires"
+            state.tab === "partenaires"
                 ? item.nom
                 : item.titre;
 
-        const confirmed = window.confirm(
-            'Voulez-vous vraiment supprimer "' +
-            name +
-            '" ?\n\nCette action est définitive.'
-        );
+        const confirmed =
+            window.confirm(
+                'Supprimer "' +
+                name +
+                '" ?\n\n' +
+                "Cette action est définitive."
+            );
 
         if (!confirmed) {
             return;
         }
 
-        const result = await supabaseClient
-            .from(state.currentTab)
-            .delete()
-            .eq("id", id);
+        state.loading = true;
 
-        if (result.error) {
+        try {
 
-            console.error(result.error);
+            const result =
+                await supabaseClient
+                    .from(state.tab)
+                    .delete()
+                    .eq("id", id);
+
+            if (result.error) {
+                throw result.error;
+            }
+
+            await loadData();
 
             showToast(
+                "Élément supprimé.",
+                "success"
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            showToast(
+                error.message ||
                 "Impossible de supprimer cet élément.",
                 "error"
             );
 
-            return;
+        } finally {
+
+            state.loading = false;
         }
-
-        await loadAll();
-
-        showToast(
-            "Élément supprimé avec succès.",
-            "success"
-        );
     }
 
-    /* TABS */
+    /* =========================
+       ÉVÉNEMENTS
+    ========================= */
 
-    document.querySelectorAll(".tab").forEach(function (button) {
+    document.querySelectorAll(".tab").forEach(
+        function (tabButton) {
 
-        button.addEventListener("click", function () {
+            tabButton.addEventListener(
+                "click",
+                function () {
 
-            document.querySelectorAll(".tab").forEach(function (tab) {
-                tab.classList.remove("active");
-            });
+                    if (state.loading) {
+                        return;
+                    }
 
-            button.classList.add("active");
+                    document
+                        .querySelectorAll(".tab")
+                        .forEach(function (button) {
+                            button.classList.remove("active");
+                        });
 
-            state.currentTab =
-                button.getAttribute("data-tab");
+                    tabButton.classList.add("active");
 
-            searchInput.value = "";
+                    state.tab =
+                        tabButton.dataset.tab;
 
-            render();
-        });
-    });
+                    elements.searchInput.value = "";
 
-    /* SEARCH */
-
-    searchInput.addEventListener("input", function () {
-        render();
-    });
-
-    /* ADD */
-
-    document.getElementById("addBtn").addEventListener("click", function () {
-        openModal(null);
-    });
-
-    /* CLOSE */
-
-    document.getElementById("closeModal").addEventListener(
-        "click",
-        closeModal
+                    renderTable();
+                }
+            );
+        }
     );
 
-    document.getElementById("cancelBtn").addEventListener(
-        "click",
-        closeModal
+    elements.searchInput.addEventListener(
+        "input",
+        function () {
+            renderTable();
+        }
     );
 
-    modalOverlay.addEventListener("click", function (event) {
+    elements.addButton.addEventListener(
+        "click",
+        function () {
 
-        if (event.target === modalOverlay) {
+            if (state.loading) {
+                return;
+            }
+
+            openModal(null);
+        }
+    );
+
+    elements.closeModalButton.addEventListener(
+        "click",
+        function () {
             closeModal();
         }
-    });
+    );
 
-    /* FORM */
-
-    contentForm.addEventListener("submit", saveContent);
-
-    /* EDIT / DELETE */
-
-    contentArea.addEventListener("click", function (event) {
-
-        const editButton =
-            event.target.closest(".edit-btn");
-
-        const deleteButton =
-            event.target.closest(".delete-btn");
-
-        if (editButton) {
-
-            const id =
-                editButton.getAttribute("data-id");
-
-            openModal(id);
-
-            return;
+    elements.cancelButton.addEventListener(
+        "click",
+        function () {
+            closeModal();
         }
+    );
 
-        if (deleteButton) {
+    elements.modalOverlay.addEventListener(
+        "click",
+        function (event) {
 
-            const id =
-                deleteButton.getAttribute("data-id");
-
-            deleteContent(id);
+            if (event.target === elements.modalOverlay) {
+                closeModal();
+            }
         }
-    });
+    );
 
-    /* LOGOUT */
+    elements.contentForm.addEventListener(
+        "submit",
+        saveContent
+    );
 
-    document.getElementById("logoutBtn").addEventListener(
+    /*
+        Délégation d'événement :
+        les boutons Modifier/Supprimer sont recréés
+        à chaque render, donc on écoute leur parent.
+    */
+
+    elements.tableContainer.addEventListener(
+        "click",
+        function (event) {
+
+            const editButton =
+                event.target.closest(".edit-action");
+
+            const deleteButton =
+                event.target.closest(".delete-action");
+
+            if (editButton) {
+
+                const id =
+                    editButton.getAttribute("data-id");
+
+                if (id) {
+                    openModal(id);
+                }
+
+                return;
+            }
+
+            if (deleteButton) {
+
+                const id =
+                    deleteButton.getAttribute("data-id");
+
+                if (id) {
+                    deleteContent(id);
+                }
+            }
+        }
+    );
+
+    elements.logoutButton.addEventListener(
         "click",
         async function () {
 
-            await supabaseClient.auth.signOut();
+            try {
+                await supabaseClient.auth.signOut();
+            } catch (error) {
+                console.error(error);
+            }
 
             window.location.href =
                 "../pages/connexion.html";
         }
     );
 
-    /* MOBILE MENU */
-
-    document.getElementById("mobileMenu").addEventListener(
+    elements.mobileMenu.addEventListener(
         "click",
         function () {
 
-            document
-                .getElementById("sidebar")
-                .classList.toggle("open");
+            elements.sidebar.classList.toggle("open");
         }
     );
 
-    /* ESC */
+    document.addEventListener(
+        "keydown",
+        function (event) {
 
-    document.addEventListener("keydown", function (event) {
-
-        if (event.key === "Escape") {
-            closeModal();
+            if (event.key === "Escape") {
+                closeModal();
+            }
         }
-    });
+    );
 
-    /* START */
+    /* Ferme le menu mobile après navigation */
 
-    const staff = await checkAuth();
+    elements.sidebar
+        .querySelectorAll("a")
+        .forEach(function (link) {
 
-    if (staff) {
-        await loadAll();
+            link.addEventListener(
+                "click",
+                function () {
+
+                    elements.sidebar.classList.remove(
+                        "open"
+                    );
+                }
+            );
+        });
+
+    /* =========================
+       DÉMARRAGE
+    ========================= */
+
+    const authenticated =
+        await checkAuth();
+
+    if (authenticated) {
+        await loadData();
     }
 
 </script>
