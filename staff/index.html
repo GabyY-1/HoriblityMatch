@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Panel staff — HoriblitiMatch</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+</head>
+
+
+<body class="staff-page">
+
+
+<header class="panel-header">
+
+    <a
+        href="../index.html"
+        class="logo"
+    >
+
+        <span class="logo-icon">
+            H
+        </span>
+
+        <span class="logo-text">
+            Horibliti<span>Match</span>
+        </span>
+
+    </a>
+
+
+    <div class="panel-actions">
+
+        <a
+            href="../index.html"
+            target="_blank"
+        >
+            Voir le site ↗
+        </a>
+
+        <button id="logout">
+            Déconnexion
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="panel">
+
+
+    <aside class="panel-sidebar">
+
+        <div class="eyebrow">
+            PANEL STAFF
+        </div>
+
+
+        <button
+            class="panel-nav active"
+            data-section="dashboard"
+        >
+            Tableau de bord
+        </button>
+
+
+        <button
+            class="panel-nav"
+            data-section="annonces"
+        >
+            Annonces
+        </button>
+
+
+        <button
+            class="panel-nav"
+            data-section="partenaires"
+        >
+            Partenaires
+        </button>
+
+
+        <button
+            class="panel-nav"
+            data-section="realisations"
+        >
+            Réalisations
+        </button>
+
+
+    </aside>
+
+
+    <section class="panel-content">
+
+
+        <!-- DASHBOARD -->
+
+        <div
+            class="admin-section active"
+            id="dashboard"
+        >
+
+            <div class="eyebrow">
+                TABLEAU DE BORD
+            </div>
+
+            <h1>
+                Bienvenue dans le panel.
+            </h1>
+
+            <p class="panel-muted">
+                Gérez le contenu public de
+                HoriblitiMatch depuis cet espace.
+            </p>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <span>
+                        Annonces
+                    </span>
+
+                    <strong id="statAnnouncements">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span>
+                        Partenaires
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span>
+                        Réalisations
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ANNONCES -->
+
+        <div
+            class="admin-section"
+            id="annonces"
+        >
+
+            <div class="eyebrow">
+                CONTENU
+            </div>
+
+            <h2>
+                Gérer les annonces
+            </h2>
+
+
+            <form
+                id="announcementForm"
+                class="admin-form"
+            >
+
+                <label>
+
+                    Titre
+
+                    <input
+                        id="announcementTitle"
+                        type="text"
+                        placeholder="Titre de l'annonce"
+                        required
+                    >
+
+                </label>
+
+
+                <label>
+
+                    Contenu
+
+                    <textarea
+                        id="announcementContent"
+                        placeholder="Contenu de l'annonce"
+                        required
+                    ></textarea>
+
+                </label>
+
+
+                <button
+                    type="submit"
+                    class="button button-primary"
+                >
+                    Publier l'annonce
+                </button>
+
+            </form>
+
+
+            <div
+                id="adminAnnouncementList"
+                class="admin-list"
+            ></div>
+
+        </div>
+
+
+        <!-- PARTENAIRES -->
+
+        <div
+            class="admin-section"
+            id="partenaires"
+        >
+
+            <div class="eyebrow">
+                COLLABORATIONS
+            </div>
+
+            <h2>
+                Gérer les partenaires
+            </h2>
+
+
+            <div class="coming-box">
+
+                La gestion complète des partenaires
+                sera ajoutée ensuite.
+
+            </div>
+
+        </div>
+
+
+        <!-- REALISATIONS -->
+
+        <div
+            class="admin-section"
+            id="realisations"
+        >
+
+            <div class="eyebrow">
+                PROJETS
+            </div>
+
+            <h2>
+                Gérer les réalisations
+            </h2>
+
+
+            <div class="coming-box">
+
+                La gestion complète des réalisations
+                sera ajoutée ensuite.
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+<script>
+
+if (
+    sessionStorage.getItem(
+        "horiblitimatch_staff"
+    ) !== "true"
+) {
+
+    window.location.href =
+        "../pages/connexion.html";
+
+}
+
+
+const navigation =
+    document.querySelectorAll(
+        ".panel-nav"
+    );
+
+
+const sections =
+    document.querySelectorAll(
+        ".admin-section"
+    );
+
+
+navigation.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            navigation.forEach(
+                item =>
+                    item.classList.remove(
+                        "active"
+                    )
+            );
+
+
+            sections.forEach(
+                section =>
+                    section.classList.remove(
+                        "active"
+                    )
+            );
+
+
+            button.classList.add(
+                "active"
+            );
+
+
+            document
+                .getElementById(
+                    button.dataset.section
+                )
+                .classList.add(
+                    "active"
+                );
+
+
+            renderAnnouncements();
+
+        }
+    );
+
+});
+
+
+const form =
+    document.getElementById(
+        "announcementForm"
+    );
+
+
+const list =
+    document.getElementById(
+        "adminAnnouncementList"
+    );
+
+
+const stat =
+    document.getElementById(
+        "statAnnouncements"
+    );
+
+
+function getAnnouncements() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "horiblitimatch_announcements"
+            ) || "[]"
+        );
+
+    } catch {
+
+        return [];
+
+    }
+
+}
+
+
+function saveAnnouncements(
+    announcements
+) {
+
+    localStorage.setItem(
+        "horiblitimatch_announcements",
+        JSON.stringify(
+            announcements
+        )
+    );
+
+}
+
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(
+            /[&<>"']/g,
+            character => {
+
+                const entities = {
+
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#039;"
+
+                };
+
+                return entities[
+                    character
+                ];
+
+            }
+        );
+
+}
+
+
+function renderAnnouncements() {
+
+    const announcements =
+        getAnnouncements();
+
+
+    stat.textContent =
+        announcements.length;
+
+
+    if (!announcements.length) {
+
+        list.innerHTML = `
+            <p class="panel-muted">
+                Aucune annonce publiée.
+            </p>
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        announcements
+            .map(
+                (item, index) => `
+
+                    <div class="admin-item">
+
+                        <div>
+
+                            <strong>
+                                ${escapeHTML(
+                                    item.title
+                                )}
+                            </strong>
+
+                            <p>
+                                ${escapeHTML(
+                                    item.content
+                                )}
+                            </p>
+
+                        </div>
+
+                        <button
+                            onclick="deleteAnnouncement(${index})"
+                        >
+                            Supprimer
+                        </button>
+
+                    </div>
+
+                `
+            )
+            .join("");
+
+}
+
+
+form.addEventListener(
+    "submit",
+    event => {
+
+        event.preventDefault();
+
+
+        const title =
+            document
+                .getElementById(
+                    "announcementTitle"
+                )
+                .value
+                .trim();
+
+
+        const content =
+            document
+                .getElementById(
+                    "announcementContent"
+                )
+                .value
+                .trim();
+
+
+        const announcements =
+            getAnnouncements();
+
+
+        announcements.unshift({
+
+            title,
+
+            content,
+
+            date:
+                new Date()
+                    .toLocaleDateString(
+                        "fr-FR"
+                    )
+
+        });
+
+
+        saveAnnouncements(
+            announcements
+        );
+
+
+        form.reset();
+
+
+        renderAnnouncements();
+
+    }
+);
+
+
+window.deleteAnnouncement =
+    function(index) {
+
+        const announcements =
+            getAnnouncements();
+
+
+        announcements.splice(
+            index,
+            1
+        );
+
+
+        saveAnnouncements(
+            announcements
+        );
+
+
+        renderAnnouncements();
+
+    };
+
+
+document
+    .getElementById("logout")
+    .addEventListener(
+        "click",
+        () => {
+
+            sessionStorage.removeItem(
+                "horiblitimatch_staff"
+            );
+
+            window.location.href =
+                "../pages/connexion.html";
+
+        }
+    );
+
+
+renderAnnouncements();
+
+</script>
+
+</body>
+</html>
