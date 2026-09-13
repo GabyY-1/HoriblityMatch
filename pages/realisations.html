@@ -25,10 +25,7 @@
 
 <header class="header">
 
-    <a
-        href="../index.html"
-        class="logo"
-    >
+    <a href="../index.html" class="logo">
 
         <span class="logo-icon">
             H
@@ -41,17 +38,26 @@
     </a>
 
 
-    <nav class="desktop-nav">
+    <button class="menu-toggle">
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </button>
+
+
+    <nav class="nav">
 
         <a href="../index.html">
             Accueil
         </a>
 
         <a href="studio.html">
-            Studio
+            Le studio
         </a>
 
-        <a href="realisations.html">
+        <a href="realisations.html" class="active">
             Réalisations
         </a>
 
@@ -65,220 +71,72 @@
 
         <a
             href="connexion.html"
-            class="nav-login"
+            class="staff-link"
         >
-            Se connecter
+            Espace staff
         </a>
 
     </nav>
 
-
-    <button
-        class="hamburger"
-        id="hamburger"
-    >
-
-        <span></span>
-        <span></span>
-        <span></span>
-
-    </button>
-
 </header>
-
-
-<div
-    class="mobile-menu"
-    id="mobileMenu"
->
-
-    <a href="../index.html">
-        Accueil
-    </a>
-
-    <a href="studio.html">
-        Studio
-    </a>
-
-    <a href="realisations.html">
-        Réalisations
-    </a>
-
-    <a href="partenaires.html">
-        Partenaires
-    </a>
-
-    <a href="annonces.html">
-        Annonces
-    </a>
-
-    <a
-        href="connexion.html"
-        class="mobile-login"
-    >
-        Espace staff
-    </a>
-
-</div>
 
 
 <main>
 
+
+<section class="page-hero">
+
+    <span class="eyebrow">
+        PORTFOLIO
+    </span>
+
+    <h1>
+        Nos réalisations.
+    </h1>
+
+    <p>
+        Une sélection de projets développés
+        et présentés par HoriblitiMatch.
+    </p>
+
+</section>
+
+
 <section class="section">
 
-    <div class="section-heading reveal">
+    <div
+        id="publicProjects"
+        class="content-grid"
+    >
 
-        <div class="eyebrow">
-            RÉALISATIONS
+        <div class="loading-box">
+            Chargement des réalisations...
         </div>
-
-        <h2>
-            Les projets de
-            <span>HoriblitiMatch.</span>
-        </h2>
-
-        <p>
-            Cette page accueillera les projets réalisés
-            par le studio.
-        </p>
-
-    </div>
-
-
-    <div class="project-grid">
-
-        <article class="project-card reveal">
-
-            <div class="project-visual visual-purple">
-
-                <span>
-                    PROJECT 01
-                </span>
-
-            </div>
-
-            <div class="project-content">
-
-                <div>
-
-                    <small>
-                        SITE WEB
-                    </small>
-
-                    <h3>
-                        Projet à venir
-                    </h3>
-
-                </div>
-
-                <span class="project-arrow">
-                    ↗
-                </span>
-
-            </div>
-
-        </article>
-
-
-        <article class="project-card reveal">
-
-            <div class="project-visual visual-blue">
-
-                <span>
-                    PROJECT 02
-                </span>
-
-            </div>
-
-            <div class="project-content">
-
-                <div>
-
-                    <small>
-                        SITE WEB
-                    </small>
-
-                    <h3>
-                        Projet à venir
-                    </h3>
-
-                </div>
-
-                <span class="project-arrow">
-                    ↗
-                </span>
-
-            </div>
-
-        </article>
-
-
-        <article class="project-card reveal">
-
-            <div class="project-visual visual-pink">
-
-                <span>
-                    PROJECT 03
-                </span>
-
-            </div>
-
-            <div class="project-content">
-
-                <div>
-
-                    <small>
-                        SITE WEB
-                    </small>
-
-                    <h3>
-                        Projet à venir
-                    </h3>
-
-                </div>
-
-                <span class="project-arrow">
-                    ↗
-                </span>
-
-            </div>
-
-        </article>
 
     </div>
 
 </section>
+
 
 </main>
 
 
 <footer class="footer">
 
-    <div class="footer-brand">
-
-        <a
-            href="../index.html"
-            class="logo"
-        >
-
-            <span class="logo-icon">
-                H
-            </span>
-
-            <span class="logo-text">
-                Horibliti<span>Match</span>
-            </span>
-
-        </a>
-
-        <p>
-            Studio de création de sites web.
-        </p>
-
+    <div class="footer-logo">
+        Horibliti<span>Match</span>
     </div>
+
+    <p>
+         <span data-year></span> HoriblitiMatch.
+    </p>
 
 </footer>
 
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
 
 <script src="../js/script.js"></script>
 
