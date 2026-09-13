@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -127,6 +128,13 @@
                 HoriblitiMatch depuis cet espace.
             </p>
 
+            <p
+                class="panel-muted"
+                id="staffEmail"
+            >
+                Vérification de la session...
+            </p>
+
 
             <div class="stats-grid">
 
@@ -149,7 +157,7 @@
                         Partenaires
                     </span>
 
-                    <strong>
+                    <strong id="statPartners">
                         0
                     </strong>
 
@@ -162,7 +170,7 @@
                         Réalisations
                     </span>
 
-                    <strong>
+                    <strong id="statRealisations">
                         0
                     </strong>
 
@@ -232,6 +240,12 @@
 
 
             <div
+                id="announcementMessage"
+                class="panel-message"
+            ></div>
+
+
+            <div
                 id="adminAnnouncementList"
                 class="admin-list"
             ></div>
@@ -296,316 +310,720 @@
 </main>
 
 
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+
+<script src="../js/script.js"></script>
+
+
 <script>
 
-if (
-    sessionStorage.getItem(
-        "horiblitimatch_staff"
-    ) !== "true"
-) {
+document.addEventListener("DOMContentLoaded", async () => {
 
-    window.location.href =
-        "../pages/connexion.html";
+    /*
+     * =====================================================
+     * VERIFICATION DE LA SESSION SUPABASE
+     * =====================================================
+     */
 
-}
-
-
-const navigation =
-    document.querySelectorAll(
-        ".panel-nav"
-    );
+    const {
+        data: {
+            session
+        },
+        error: sessionError
+    } = await supabaseClient.auth.getSession();
 
 
-const sections =
-    document.querySelectorAll(
-        ".admin-section"
-    );
+    if (
+        sessionError ||
+        !session
+    ) {
 
-
-navigation.forEach(button => {
-
-    button.addEventListener(
-        "click",
-        () => {
-
-            navigation.forEach(
-                item =>
-                    item.classList.remove(
-                        "active"
-                    )
-            );
-
-
-            sections.forEach(
-                section =>
-                    section.classList.remove(
-                        "active"
-                    )
-            );
-
-
-            button.classList.add(
-                "active"
-            );
-
-
-            document
-                .getElementById(
-                    button.dataset.section
-                )
-                .classList.add(
-                    "active"
-                );
-
-
-            renderAnnouncements();
-
-        }
-    );
-
-});
-
-
-const form =
-    document.getElementById(
-        "announcementForm"
-    );
-
-
-const list =
-    document.getElementById(
-        "adminAnnouncementList"
-    );
-
-
-const stat =
-    document.getElementById(
-        "statAnnouncements"
-    );
-
-
-function getAnnouncements() {
-
-    try {
-
-        return JSON.parse(
-            localStorage.getItem(
-                "horiblitimatch_announcements"
-            ) || "[]"
-        );
-
-    } catch {
-
-        return [];
-
-    }
-
-}
-
-
-function saveAnnouncements(
-    announcements
-) {
-
-    localStorage.setItem(
-        "horiblitimatch_announcements",
-        JSON.stringify(
-            announcements
-        )
-    );
-
-}
-
-
-function escapeHTML(value) {
-
-    return String(value)
-        .replace(
-            /[&<>"']/g,
-            character => {
-
-                const entities = {
-
-                    "&": "&amp;",
-                    "<": "&lt;",
-                    ">": "&gt;",
-                    '"': "&quot;",
-                    "'": "&#039;"
-
-                };
-
-                return entities[
-                    character
-                ];
-
-            }
-        );
-
-}
-
-
-function renderAnnouncements() {
-
-    const announcements =
-        getAnnouncements();
-
-
-    stat.textContent =
-        announcements.length;
-
-
-    if (!announcements.length) {
-
-        list.innerHTML = `
-            <p class="panel-muted">
-                Aucune annonce publiée.
-            </p>
-        `;
+        window.location.href =
+            "../pages/connexion.html";
 
         return;
 
     }
 
 
-    list.innerHTML =
-        announcements
-            .map(
-                (item, index) => `
+    /*
+     * =====================================================
+     * VERIFICATION DU COMPTE STAFF
+     * =====================================================
+     */
 
-                    <div class="admin-item">
-
-                        <div>
-
-                            <strong>
-                                ${escapeHTML(
-                                    item.title
-                                )}
-                            </strong>
-
-                            <p>
-                                ${escapeHTML(
-                                    item.content
-                                )}
-                            </p>
-
-                        </div>
-
-                        <button
-                            onclick="deleteAnnouncement(${index})"
-                        >
-                            Supprimer
-                        </button>
-
-                    </div>
-
-                `
-            )
-            .join("");
-
-}
+    const {
+        data: staff,
+        error: staffError
+    } = await supabaseClient
+        .from("staff")
+        .select("id, email, nom, role")
+        .eq("id", session.user.id)
+        .maybeSingle();
 
 
-form.addEventListener(
-    "submit",
-    event => {
+    if (
+        staffError ||
+        !staff
+    ) {
 
-        event.preventDefault();
+        await supabaseClient.auth.signOut();
 
-
-        const title =
-            document
-                .getElementById(
-                    "announcementTitle"
-                )
-                .value
-                .trim();
-
-
-        const content =
-            document
-                .getElementById(
-                    "announcementContent"
-                )
-                .value
-                .trim();
-
-
-        const announcements =
-            getAnnouncements();
-
-
-        announcements.unshift({
-
-            title,
-
-            content,
-
-            date:
-                new Date()
-                    .toLocaleDateString(
-                        "fr-FR"
-                    )
-
-        });
-
-
-        saveAnnouncements(
-            announcements
+        alert(
+            "Ce compte n'est pas autorisé à accéder au panel staff."
         );
 
+        window.location.href =
+            "../pages/connexion.html";
 
-        form.reset();
-
-
-        renderAnnouncements();
+        return;
 
     }
-);
 
 
-window.deleteAnnouncement =
-    function(index) {
+    /*
+     * =====================================================
+     * AFFICHER LE STAFF CONNECTÉ
+     * =====================================================
+     */
 
-        const announcements =
-            getAnnouncements();
-
-
-        announcements.splice(
-            index,
-            1
+    const staffEmail =
+        document.getElementById(
+            "staffEmail"
         );
 
 
-        saveAnnouncements(
-            announcements
+    staffEmail.textContent =
+        "Connecté avec : " +
+        session.user.email;
+
+
+    /*
+     * =====================================================
+     * NAVIGATION
+     * =====================================================
+     */
+
+    const navigation =
+        document.querySelectorAll(
+            ".panel-nav"
         );
 
 
-        renderAnnouncements();
+    const sections =
+        document.querySelectorAll(
+            ".admin-section"
+        );
 
-    };
+
+    navigation.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            async () => {
+
+                navigation.forEach(
+                    item => {
+
+                        item.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
 
 
-document
-    .getElementById("logout")
-    .addEventListener(
-        "click",
-        () => {
+                sections.forEach(
+                    section => {
 
-            sessionStorage.removeItem(
-                "horiblitimatch_staff"
+                        section.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                const section =
+                    document.getElementById(
+                        button.dataset.section
+                    );
+
+
+                if (section) {
+
+                    section.classList.add(
+                        "active"
+                    );
+
+                }
+
+
+                if (
+                    button.dataset.section ===
+                    "annonces"
+                ) {
+
+                    await loadAnnouncements();
+
+                }
+
+
+                await updateStats();
+
+            }
+        );
+
+    });
+
+
+    /*
+     * =====================================================
+     * ELEMENTS
+     * =====================================================
+     */
+
+    const form =
+        document.getElementById(
+            "announcementForm"
+        );
+
+
+    const list =
+        document.getElementById(
+            "adminAnnouncementList"
+        );
+
+
+    const statAnnouncements =
+        document.getElementById(
+            "statAnnouncements"
+        );
+
+
+    const statPartners =
+        document.getElementById(
+            "statPartners"
+        );
+
+
+    const statRealisations =
+        document.getElementById(
+            "statRealisations"
+        );
+
+
+    const message =
+        document.getElementById(
+            "announcementMessage"
+        );
+
+
+    /*
+     * =====================================================
+     * SECURITE HTML
+     * =====================================================
+     */
+
+    function escapeHTML(value) {
+
+        return String(value)
+            .replace(
+                /[&<>"']/g,
+                character => {
+
+                    const entities = {
+
+                        "&": "&amp;",
+                        "<": "&lt;",
+                        ">": "&gt;",
+                        '"': "&quot;",
+                        "'": "&#039;"
+
+                    };
+
+                    return entities[
+                        character
+                    ];
+
+                }
             );
 
-            window.location.href =
-                "../pages/connexion.html";
+    }
+
+
+    /*
+     * =====================================================
+     * CHARGER LES ANNONCES
+     * =====================================================
+     */
+
+    async function loadAnnouncements() {
+
+        list.innerHTML = `
+            <p class="panel-muted">
+                Chargement des annonces...
+            </p>
+        `;
+
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from("annonces")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Erreur annonces :",
+                error
+            );
+
+
+            list.innerHTML = `
+                <p class="panel-muted">
+                    Impossible de charger les annonces.
+                </p>
+            `;
+
+            return;
+
+        }
+
+
+        if (
+            !data ||
+            data.length === 0
+        ) {
+
+            list.innerHTML = `
+                <p class="panel-muted">
+                    Aucune annonce publiée.
+                </p>
+            `;
+
+            return;
+
+        }
+
+
+        list.innerHTML =
+            data
+                .map(
+                    announcement => {
+
+                        const date =
+                            new Date(
+                                announcement.created_at
+                            )
+                            .toLocaleDateString(
+                                "fr-FR"
+                            );
+
+
+                        return `
+
+                            <div class="admin-item">
+
+                                <div>
+
+                                    <strong>
+                                        ${escapeHTML(
+                                            announcement.titre
+                                        )}
+                                    </strong>
+
+                                    <p>
+                                        ${escapeHTML(
+                                            announcement.contenu
+                                        )}
+                                    </p>
+
+                                    <small>
+                                        ${date}
+                                    </small>
+
+                                </div>
+
+
+                                <button
+                                    class="delete-announcement"
+                                    data-id="${escapeHTML(
+                                        announcement.id
+                                    )}"
+                                >
+                                    Supprimer
+                                </button>
+
+                            </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+
+        document
+            .querySelectorAll(
+                ".delete-announcement"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    async () => {
+
+                        await deleteAnnouncement(
+                            button.dataset.id
+                        );
+
+                    }
+                );
+
+            });
+
+    }
+
+
+    /*
+     * =====================================================
+     * AJOUTER UNE ANNONCE
+     * =====================================================
+     */
+
+    form.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+
+            const title =
+                document
+                    .getElementById(
+                        "announcementTitle"
+                    )
+                    .value
+                    .trim();
+
+
+            const content =
+                document
+                    .getElementById(
+                        "announcementContent"
+                    )
+                    .value
+                    .trim();
+
+
+            if (
+                !title ||
+                !content
+            ) {
+
+                return;
+
+            }
+
+
+            const button =
+                form.querySelector(
+                    "button[type='submit']"
+                );
+
+
+            button.disabled = true;
+
+            button.textContent =
+                "Publication...";
+
+
+            message.textContent =
+                "";
+
+
+            const {
+                error
+            } = await supabaseClient
+                .from("annonces")
+                .insert({
+
+                    titre: title,
+
+                    categorie:
+                        "Information",
+
+                    contenu: content
+
+                });
+
+
+            if (error) {
+
+                console.error(
+                    "Erreur publication :",
+                    error
+                );
+
+
+                message.textContent =
+                    "Impossible de publier l'annonce.";
+
+
+                message.className =
+                    "panel-message error";
+
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Publier l'annonce";
+
+                return;
+
+            }
+
+
+            form.reset();
+
+
+            message.textContent =
+                "Annonce publiée avec succès.";
+
+
+            message.className =
+                "panel-message success";
+
+
+            button.disabled = false;
+
+            button.textContent =
+                "Publier l'annonce";
+
+
+            await loadAnnouncements();
+
+            await updateStats();
 
         }
     );
 
 
-renderAnnouncements();
+    /*
+     * =====================================================
+     * SUPPRIMER UNE ANNONCE
+     * =====================================================
+     */
+
+    async function deleteAnnouncement(id) {
+
+        const confirmed =
+            confirm(
+                "Voulez-vous vraiment supprimer cette annonce ?"
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        const {
+            error
+        } = await supabaseClient
+            .from("annonces")
+            .delete()
+            .eq(
+                "id",
+                id
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Erreur suppression :",
+                error
+            );
+
+
+            alert(
+                "Impossible de supprimer cette annonce."
+            );
+
+            return;
+
+        }
+
+
+        await loadAnnouncements();
+
+        await updateStats();
+
+    }
+
+
+    /*
+     * =====================================================
+     * STATISTIQUES
+     * =====================================================
+     */
+
+    async function updateStats() {
+
+        /*
+         * ANNONCES
+         */
+
+        const {
+            count: announcementsCount,
+            error: announcementsError
+        } = await supabaseClient
+            .from("annonces")
+            .select(
+                "*",
+                {
+                    count: "exact",
+                    head: true
+                }
+            );
+
+
+        if (!announcementsError) {
+
+            statAnnouncements.textContent =
+                announcementsCount || 0;
+
+        }
+
+
+        /*
+         * PARTENAIRES
+         */
+
+        const {
+            count: partnersCount,
+            error: partnersError
+        } = await supabaseClient
+            .from("partenaires")
+            .select(
+                "*",
+                {
+                    count: "exact",
+                    head: true
+                }
+            );
+
+
+        if (!partnersError) {
+
+            statPartners.textContent =
+                partnersCount || 0;
+
+        }
+
+
+        /*
+         * REALISATIONS
+         */
+
+        const {
+            count: projectsCount,
+            error: projectsError
+        } = await supabaseClient
+            .from("realisations")
+            .select(
+                "*",
+                {
+                    count: "exact",
+                    head: true
+                }
+            );
+
+
+        if (!projectsError) {
+
+            statRealisations.textContent =
+                projectsCount || 0;
+
+        }
+
+    }
+
+
+    /*
+     * =====================================================
+     * DECONNEXION
+     * =====================================================
+     */
+
+    document
+        .getElementById("logout")
+        .addEventListener(
+            "click",
+            async () => {
+
+                const {
+                    error
+                } = await supabaseClient
+                    .auth
+                    .signOut();
+
+
+                if (error) {
+
+                    console.error(
+                        "Erreur déconnexion :",
+                        error
+                    );
+
+                    return;
+
+                }
+
+
+                window.location.href =
+                    "../pages/connexion.html";
+
+            }
+        );
+
+
+    /*
+     * =====================================================
+     * CHARGEMENT INITIAL
+     * =====================================================
+     */
+
+    await loadAnnouncements();
+
+    await updateStats();
+
+});
 
 </script>
 
 </body>
 </html>
+```
