@@ -270,19 +270,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (error) {
 
-                console.error(error);
+    console.error("ERREUR SUPABASE :", error);
 
-                message.textContent =
-                    "Email ou mot de passe incorrect.";
+    message.textContent =
+        error.message;
 
-                message.classList.add("error");
+    message.classList.add("error");
 
-                button.disabled = false;
+    button.disabled = false;
 
-                button.textContent =
-                    "Se connecter";
+    button.textContent =
+        "Se connecter";
 
-                return;
+    return;
+}
 
             }
 
