@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -102,6 +101,13 @@
         </button>
 
 
+        <a
+            href="gestion.html"
+            class="panel-management-link"
+        >
+            Gestion avancée →
+        </a>
+
     </aside>
 
 
@@ -115,24 +121,24 @@
             id="dashboard"
         >
 
-            <div class="eyebrow">
+            <span class="eyebrow">
                 TABLEAU DE BORD
-            </div>
+            </span>
 
             <h1>
                 Bienvenue dans le panel.
             </h1>
 
             <p class="panel-muted">
-                Gérez le contenu public de
-                HoriblitiMatch depuis cet espace.
+                Gérez le contenu public
+                d'HoriblitiMatch.
             </p>
 
             <p
-                class="panel-muted"
                 id="staffEmail"
+                class="staff-email"
             >
-                Vérification de la session...
+                Connexion...
             </p>
 
 
@@ -170,7 +176,7 @@
                         Réalisations
                     </span>
 
-                    <strong id="statRealisations">
+                    <strong id="statProjects">
                         0
                     </strong>
 
@@ -188,13 +194,18 @@
             id="annonces"
         >
 
-            <div class="eyebrow">
+            <span class="eyebrow">
                 CONTENU
-            </div>
+            </span>
 
             <h2>
-                Gérer les annonces
+                Annonces
             </h2>
+
+            <p class="panel-muted">
+                Les annonces sont directement
+                enregistrées dans Supabase.
+            </p>
 
 
             <form
@@ -230,10 +241,10 @@
 
 
                 <button
-                    type="submit"
                     class="button button-primary"
+                    type="submit"
                 >
-                    Publier l'annonce
+                    Publier
                 </button>
 
             </form>
@@ -241,7 +252,7 @@
 
             <div
                 id="announcementMessage"
-                class="panel-message"
+                class="form-message"
             ></div>
 
 
@@ -260,21 +271,26 @@
             id="partenaires"
         >
 
-            <div class="eyebrow">
+            <span class="eyebrow">
                 COLLABORATIONS
-            </div>
+            </span>
 
             <h2>
-                Gérer les partenaires
+                Partenaires
             </h2>
 
+            <p class="panel-muted">
+                La gestion des partenaires est disponible
+                depuis la gestion avancée.
+            </p>
 
-            <div class="coming-box">
 
-                La gestion complète des partenaires
-                sera ajoutée ensuite.
-
-            </div>
+            <a
+                href="gestion.html"
+                class="button button-secondary"
+            >
+                Gérer les partenaires
+            </a>
 
         </div>
 
@@ -286,21 +302,26 @@
             id="realisations"
         >
 
-            <div class="eyebrow">
+            <span class="eyebrow">
                 PROJETS
-            </div>
+            </span>
 
             <h2>
-                Gérer les réalisations
+                Réalisations
             </h2>
 
+            <p class="panel-muted">
+                La gestion des réalisations est disponible
+                depuis la gestion avancée.
+            </p>
 
-            <div class="coming-box">
 
-                La gestion complète des réalisations
-                sera ajoutée ensuite.
-
-            </div>
+            <a
+                href="gestion.html"
+                class="button button-secondary"
+            >
+                Gérer les réalisations
+            </a>
 
         </div>
 
@@ -309,8 +330,6 @@
 
 </main>
 
-
-<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -323,24 +342,19 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-    /*
-     * =====================================================
-     * VERIFICATION DE LA SESSION SUPABASE
-     * =====================================================
-     */
+
+    /* =========================
+       SESSION
+    ========================= */
 
     const {
         data: {
             session
-        },
-        error: sessionError
+        }
     } = await supabaseClient.auth.getSession();
 
 
-    if (
-        sessionError ||
-        !session
-    ) {
+    if (!session) {
 
         window.location.href =
             "../pages/connexion.html";
@@ -350,18 +364,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
 
-    /*
-     * =====================================================
-     * VERIFICATION DU COMPTE STAFF
-     * =====================================================
-     */
+    /* =========================
+       STAFF
+    ========================= */
 
     const {
         data: staff,
         error: staffError
     } = await supabaseClient
         .from("staff")
-        .select("id, email, nom, role")
+        .select("*")
         .eq("id", session.user.id)
         .maybeSingle();
 
@@ -373,10 +385,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         await supabaseClient.auth.signOut();
 
-        alert(
-            "Ce compte n'est pas autorisé à accéder au panel staff."
-        );
-
         window.location.href =
             "../pages/connexion.html";
 
@@ -385,142 +393,61 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
 
-    /*
-     * =====================================================
-     * AFFICHER LE STAFF CONNECTÉ
-     * =====================================================
-     */
-
-    const staffEmail =
-        document.getElementById(
-            "staffEmail"
-        );
+    document.getElementById("staffEmail")
+        .textContent =
+            "Connecté : " + session.user.email;
 
 
-    staffEmail.textContent =
-        "Connecté avec : " +
-        session.user.email;
+    /* =========================
+       NAVIGATION
+    ========================= */
 
-
-    /*
-     * =====================================================
-     * NAVIGATION
-     * =====================================================
-     */
-
-    const navigation =
-        document.querySelectorAll(
-            ".panel-nav"
-        );
-
+    const buttons =
+        document.querySelectorAll(".panel-nav");
 
     const sections =
-        document.querySelectorAll(
-            ".admin-section"
-        );
+        document.querySelectorAll(".admin-section");
 
 
-    navigation.forEach(button => {
+    buttons.forEach(button => {
 
-        button.addEventListener(
-            "click",
-            async () => {
+        button.addEventListener("click", () => {
 
-                navigation.forEach(
-                    item => {
+            buttons.forEach(item =>
+                item.classList.remove("active")
+            );
 
-                        item.classList.remove(
-                            "active"
-                        );
+            sections.forEach(section =>
+                section.classList.remove("active")
+            );
 
-                    }
+            button.classList.add("active");
+
+            const target =
+                document.getElementById(
+                    button.dataset.section
                 );
 
-
-                sections.forEach(
-                    section => {
-
-                        section.classList.remove(
-                            "active"
-                        );
-
-                    }
-                );
-
-
-                button.classList.add(
-                    "active"
-                );
-
-
-                const section =
-                    document.getElementById(
-                        button.dataset.section
-                    );
-
-
-                if (section) {
-
-                    section.classList.add(
-                        "active"
-                    );
-
-                }
-
-
-                if (
-                    button.dataset.section ===
-                    "annonces"
-                ) {
-
-                    await loadAnnouncements();
-
-                }
-
-
-                await updateStats();
-
+            if (target) {
+                target.classList.add("active");
             }
-        );
+
+        });
 
     });
 
 
-    /*
-     * =====================================================
-     * ELEMENTS
-     * =====================================================
-     */
+    /* =========================
+       ELEMENTS
+    ========================= */
 
     const form =
-        document.getElementById(
-            "announcementForm"
-        );
-
+        document.getElementById("announcementForm");
 
     const list =
         document.getElementById(
             "adminAnnouncementList"
         );
-
-
-    const statAnnouncements =
-        document.getElementById(
-            "statAnnouncements"
-        );
-
-
-    const statPartners =
-        document.getElementById(
-            "statPartners"
-        );
-
-
-    const statRealisations =
-        document.getElementById(
-            "statRealisations"
-        );
-
 
     const message =
         document.getElementById(
@@ -528,53 +455,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
 
 
-    /*
-     * =====================================================
-     * SECURITE HTML
-     * =====================================================
-     */
-
-    function escapeHTML(value) {
-
-        return String(value)
-            .replace(
-                /[&<>"']/g,
-                character => {
-
-                    const entities = {
-
-                        "&": "&amp;",
-                        "<": "&lt;",
-                        ">": "&gt;",
-                        '"': "&quot;",
-                        "'": "&#039;"
-
-                    };
-
-                    return entities[
-                        character
-                    ];
-
-                }
-            );
-
-    }
-
-
-    /*
-     * =====================================================
-     * CHARGER LES ANNONCES
-     * =====================================================
-     */
+    /* =========================
+       ANNONCES
+    ========================= */
 
     async function loadAnnouncements() {
-
-        list.innerHTML = `
-            <p class="panel-muted">
-                Chargement des annonces...
-            </p>
-        `;
-
 
         const {
             data,
@@ -582,119 +467,116 @@ document.addEventListener("DOMContentLoaded", async () => {
         } = await supabaseClient
             .from("annonces")
             .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
+            .order("created_at", {
+                ascending: false
+            });
 
 
         if (error) {
 
-            console.error(
-                "Erreur annonces :",
-                error
-            );
-
+            console.error(error);
 
             list.innerHTML = `
-                <p class="panel-muted">
-                    Impossible de charger les annonces.
-                </p>
+                <div class="empty-box">
+                    Erreur de chargement.
+                </div>
             `;
 
             return;
-
         }
 
 
-        if (
-            !data ||
-            data.length === 0
-        ) {
+        if (!data.length) {
 
             list.innerHTML = `
-                <p class="panel-muted">
-                    Aucune annonce publiée.
-                </p>
+                <div class="empty-box">
+                    Aucune annonce.
+                </div>
             `;
 
             return;
-
         }
 
 
-        list.innerHTML =
-            data
-                .map(
-                    announcement => {
+        list.innerHTML = data.map(item => `
 
-                        const date =
-                            new Date(
-                                announcement.created_at
-                            )
-                            .toLocaleDateString(
-                                "fr-FR"
-                            );
+            <div class="admin-item">
 
+                <div>
 
-                        return `
+                    <strong>
+                        ${escapeHTML(item.titre)}
+                    </strong>
 
-                            <div class="admin-item">
+                    <p>
+                        ${escapeHTML(item.contenu)}
+                    </p>
 
-                                <div>
+                    <small>
+                        ${new Date(
+                            item.created_at
+                        ).toLocaleDateString("fr-FR")}
+                    </small>
 
-                                    <strong>
-                                        ${escapeHTML(
-                                            announcement.titre
-                                        )}
-                                    </strong>
-
-                                    <p>
-                                        ${escapeHTML(
-                                            announcement.contenu
-                                        )}
-                                    </p>
-
-                                    <small>
-                                        ${date}
-                                    </small>
-
-                                </div>
+                </div>
 
 
-                                <button
-                                    class="delete-announcement"
-                                    data-id="${escapeHTML(
-                                        announcement.id
-                                    )}"
-                                >
-                                    Supprimer
-                                </button>
+                <button
+                    class="delete-button"
+                    data-id="${item.id}"
+                >
+                    Supprimer
+                </button>
 
-                            </div>
+            </div>
 
-                        `;
-
-                    }
-                )
-                .join("");
+        `).join("");
 
 
         document
-            .querySelectorAll(
-                ".delete-announcement"
-            )
+            .querySelectorAll(".delete-button")
             .forEach(button => {
 
                 button.addEventListener(
                     "click",
                     async () => {
 
-                        await deleteAnnouncement(
-                            button.dataset.id
-                        );
+                        const confirmed =
+                            confirm(
+                                "Supprimer cette annonce ?"
+                            );
+
+                        if (!confirmed) {
+                            return;
+                        }
+
+
+                        const {
+                            error
+                        } = await supabaseClient
+                            .from("annonces")
+                            .delete()
+                            .eq(
+                                "id",
+                                button.dataset.id
+                            );
+
+
+                        if (error) {
+
+                            alert(
+                                "Impossible de supprimer l'annonce."
+                            );
+
+                            console.error(error);
+
+                            return;
+                        }
+
+
+                        loadAnnouncements();
+
+                        updateStats();
 
                     }
                 );
@@ -704,11 +586,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
 
-    /*
-     * =====================================================
-     * AJOUTER UNE ANNONCE
-     * =====================================================
-     */
+    /* =========================
+       AJOUT
+    ========================= */
 
     form.addEventListener(
         "submit",
@@ -717,7 +597,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             event.preventDefault();
 
 
-            const title =
+            const titre =
                 document
                     .getElementById(
                         "announcementTitle"
@@ -726,7 +606,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     .trim();
 
 
-            const content =
+            const contenu =
                 document
                     .getElementById(
                         "announcementContent"
@@ -735,20 +615,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     .trim();
 
 
-            if (
-                !title ||
-                !content
-            ) {
-
-                return;
-
-            }
-
-
             const button =
-                form.querySelector(
-                    "button[type='submit']"
-                );
+                form.querySelector("button");
 
 
             button.disabled = true;
@@ -757,226 +625,95 @@ document.addEventListener("DOMContentLoaded", async () => {
                 "Publication...";
 
 
-            message.textContent =
-                "";
-
-
             const {
                 error
             } = await supabaseClient
                 .from("annonces")
                 .insert({
-
-                    titre: title,
-
-                    categorie:
-                        "Information",
-
-                    contenu: content
-
+                    titre,
+                    categorie: "Information",
+                    contenu
                 });
 
 
             if (error) {
 
-                console.error(
-                    "Erreur publication :",
-                    error
-                );
-
+                console.error(error);
 
                 message.textContent =
-                    "Impossible de publier l'annonce.";
-
+                    "Erreur lors de la publication.";
 
                 message.className =
-                    "panel-message error";
+                    "form-message error";
 
+            } else {
 
-                button.disabled = false;
+                form.reset();
 
-                button.textContent =
-                    "Publier l'annonce";
+                message.textContent =
+                    "Annonce publiée.";
 
-                return;
+                message.className =
+                    "form-message success";
+
+                await loadAnnouncements();
+
+                await updateStats();
 
             }
-
-
-            form.reset();
-
-
-            message.textContent =
-                "Annonce publiée avec succès.";
-
-
-            message.className =
-                "panel-message success";
 
 
             button.disabled = false;
 
             button.textContent =
-                "Publier l'annonce";
-
-
-            await loadAnnouncements();
-
-            await updateStats();
+                "Publier";
 
         }
     );
 
 
-    /*
-     * =====================================================
-     * SUPPRIMER UNE ANNONCE
-     * =====================================================
-     */
-
-    async function deleteAnnouncement(id) {
-
-        const confirmed =
-            confirm(
-                "Voulez-vous vraiment supprimer cette annonce ?"
-            );
-
-
-        if (!confirmed) {
-
-            return;
-
-        }
-
-
-        const {
-            error
-        } = await supabaseClient
-            .from("annonces")
-            .delete()
-            .eq(
-                "id",
-                id
-            );
-
-
-        if (error) {
-
-            console.error(
-                "Erreur suppression :",
-                error
-            );
-
-
-            alert(
-                "Impossible de supprimer cette annonce."
-            );
-
-            return;
-
-        }
-
-
-        await loadAnnouncements();
-
-        await updateStats();
-
-    }
-
-
-    /*
-     * =====================================================
-     * STATISTIQUES
-     * =====================================================
-     */
+    /* =========================
+       STATS
+    ========================= */
 
     async function updateStats() {
 
-        /*
-         * ANNONCES
-         */
+        const tables = [
+            ["annonces", "statAnnouncements"],
+            ["partenaires", "statPartners"],
+            ["realisations", "statProjects"]
+        ];
 
-        const {
-            count: announcementsCount,
-            error: announcementsError
-        } = await supabaseClient
-            .from("annonces")
-            .select(
-                "*",
-                {
+
+        for (const [table, elementId] of tables) {
+
+            const {
+                count,
+                error
+            } = await supabaseClient
+                .from(table)
+                .select("*", {
                     count: "exact",
                     head: true
-                }
-            );
+                });
 
 
-        if (!announcementsError) {
+            if (!error) {
 
-            statAnnouncements.textContent =
-                announcementsCount || 0;
+                document.getElementById(
+                    elementId
+                ).textContent = count || 0;
 
-        }
-
-
-        /*
-         * PARTENAIRES
-         */
-
-        const {
-            count: partnersCount,
-            error: partnersError
-        } = await supabaseClient
-            .from("partenaires")
-            .select(
-                "*",
-                {
-                    count: "exact",
-                    head: true
-                }
-            );
-
-
-        if (!partnersError) {
-
-            statPartners.textContent =
-                partnersCount || 0;
-
-        }
-
-
-        /*
-         * REALISATIONS
-         */
-
-        const {
-            count: projectsCount,
-            error: projectsError
-        } = await supabaseClient
-            .from("realisations")
-            .select(
-                "*",
-                {
-                    count: "exact",
-                    head: true
-                }
-            );
-
-
-        if (!projectsError) {
-
-            statRealisations.textContent =
-                projectsCount || 0;
+            }
 
         }
 
     }
 
 
-    /*
-     * =====================================================
-     * DECONNEXION
-     * =====================================================
-     */
+    /* =========================
+       DECONNEXION
+    ========================= */
 
     document
         .getElementById("logout")
@@ -984,24 +721,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             "click",
             async () => {
 
-                const {
-                    error
-                } = await supabaseClient
-                    .auth
-                    .signOut();
-
-
-                if (error) {
-
-                    console.error(
-                        "Erreur déconnexion :",
-                        error
-                    );
-
-                    return;
-
-                }
-
+                await supabaseClient.auth.signOut();
 
                 window.location.href =
                     "../pages/connexion.html";
@@ -1010,20 +730,33 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
 
 
-    /*
-     * =====================================================
-     * CHARGEMENT INITIAL
-     * =====================================================
-     */
-
     await loadAnnouncements();
 
     await updateStats();
 
 });
 
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/[&<>"']/g, character => {
+
+            const entities = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+            };
+
+            return entities[character];
+
+        });
+
+}
+
 </script>
 
 </body>
 </html>
-```
