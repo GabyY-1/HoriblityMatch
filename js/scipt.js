@@ -1,244 +1,447 @@
-/* =========================================
-   HORIBLITIMATCH
-   SCRIPT PRINCIPAL
-========================================= */
+document.addEventListener("DOMContentLoaded", () => {
 
+    /* =========================
+       MENU MOBILE
+    ========================= */
 
-/* ================= MENU ================= */
+    const menuToggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".nav");
 
-const hamburger = document.getElementById("hamburger");
-const mobileMenu = document.getElementById("mobileMenu");
+    if (menuToggle && nav) {
 
-if (hamburger && mobileMenu) {
+        menuToggle.addEventListener("click", () => {
 
-    hamburger.addEventListener("click", () => {
-
-        const isOpen =
-            mobileMenu.classList.toggle("open");
-
-        hamburger.classList.toggle(
-            "active",
-            isOpen
-        );
-
-        hamburger.setAttribute(
-            "aria-expanded",
-            String(isOpen)
-        );
-
-    });
-
-
-    mobileMenu
-        .querySelectorAll("a")
-        .forEach(link => {
-
-            link.addEventListener(
-                "click",
-                () => {
-
-                    mobileMenu.classList.remove(
-                        "open"
-                    );
-
-                    hamburger.classList.remove(
-                        "active"
-                    );
-
-                    hamburger.setAttribute(
-                        "aria-expanded",
-                        "false"
-                    );
-
-                }
-            );
+            menuToggle.classList.toggle("active");
+            nav.classList.toggle("open");
 
         });
-}
 
+        nav.querySelectorAll("a").forEach(link => {
 
-/* ================= REVEAL ================= */
+            link.addEventListener("click", () => {
 
-const revealElements =
-    document.querySelectorAll(".reveal");
-
-
-const revealObserver =
-    new IntersectionObserver(
-        entries => {
-
-            entries.forEach(entry => {
-
-                if (
-                    entry.isIntersecting
-                ) {
-
-                    entry.target.classList.add(
-                        "visible"
-                    );
-
-                    revealObserver.unobserve(
-                        entry.target
-                    );
-
-                }
+                menuToggle.classList.remove("active");
+                nav.classList.remove("open");
 
             });
 
-        },
-        {
-            threshold: 0.12
-        }
-    );
+        });
+
+    }
 
 
-revealElements.forEach(element => {
+    /* =========================
+       ANNÉE FOOTER
+    ========================= */
 
-    revealObserver.observe(element);
+    document.querySelectorAll("[data-year]").forEach(element => {
+        element.textContent = new Date().getFullYear();
+    });
+
+
+    /* =========================
+       PAGE ANNONCES
+    ========================= */
+
+    if (document.getElementById("publicAnnouncements")) {
+        loadPublicAnnouncements();
+    }
+
+
+    /* =========================
+       PAGE PARTENAIRES
+    ========================= */
+
+    if (document.getElementById("publicPartners")) {
+        loadPublicPartners();
+    }
+
+
+    /* =========================
+       PAGE REALISATIONS
+    ========================= */
+
+    if (document.getElementById("publicProjects")) {
+        loadPublicProjects();
+    }
+
+
+    /* =========================
+       ACCUEIL
+    ========================= */
+
+    if (document.getElementById("homeAnnouncements")) {
+        loadHomeAnnouncements();
+    }
 
 });
 
 
-/* ================= YEAR ================= */
-
-const year =
-    document.getElementById(
-        "currentYear"
-    );
-
-if (year) {
-
-    year.textContent =
-        new Date().getFullYear();
-
-}
-
-
-/* ================= ESCAPE HTML ================= */
+/* =====================================================
+   UTILITAIRES
+===================================================== */
 
 function escapeHTML(value) {
 
-    return String(value)
-        .replace(
-            /[&<>"']/g,
-            character => {
+    return String(value ?? "")
+        .replace(/[&<>"']/g, character => {
 
-                const entities = {
+            const entities = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+            };
 
-                    "&": "&amp;",
-                    "<": "&lt;",
-                    ">": "&gt;",
-                    '"': "&quot;",
-                    "'": "&#039;"
+            return entities[character];
 
-                };
-
-                return entities[
-                    character
-                ];
-
-            }
-        );
+        });
 
 }
 
 
-/* ================= ANNONCES ================= */
+function formatDate(date) {
 
-/*
-    Les annonces du panel staff sont stockées
-    temporairement dans localStorage pour la V1.
-
-    Plus tard :
-    localStorage
-        ↓
-    vraie base de données
-*/
-
-
-function getAnnouncements() {
-
-    try {
-
-        return JSON.parse(
-            localStorage.getItem(
-                "horiblitimatch_announcements"
-            ) || "[]"
-        );
-
-    } catch {
-
-        return [];
-
+    if (!date) {
+        return "";
     }
 
+    return new Date(date).toLocaleDateString("fr-FR", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+    });
+
 }
 
 
-function displayHomeAnnouncements() {
+/* =====================================================
+   ANNONCES PUBLIQUES
+===================================================== */
+
+async function loadPublicAnnouncements() {
 
     const container =
-        document.getElementById(
-            "homeAnnouncements"
-        );
+        document.getElementById("publicAnnouncements");
 
-    if (!container) return;
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="loading-box">
+            Chargement des annonces...
+        </div>
+    `;
 
 
-    const announcements =
-        getAnnouncements();
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("annonces")
+        .select("*")
+        .order("created_at", {
+            ascending: false
+        });
 
 
-    if (!announcements.length) return;
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="empty-box">
+                Impossible de charger les annonces.
+            </div>
+        `;
+
+        return;
+    }
 
 
-    container.innerHTML =
-        announcements
-            .slice(0, 3)
-            .map(
-                announcement => {
+    if (!data || data.length === 0) {
 
-                    return `
-                        <article class="announcement-card reveal visible">
+        container.innerHTML = `
+            <div class="empty-box">
+                Aucune annonce pour le moment.
+            </div>
+        `;
 
-                            <div class="announcement-date">
-                                ${escapeHTML(
-                                    announcement.date
-                                )}
-                            </div>
+        return;
+    }
 
-                            <div>
 
-                                <small>
-                                    HORIBLITIMATCH
-                                </small>
+    container.innerHTML = data.map(item => `
 
-                                <h3>
-                                    ${escapeHTML(
-                                        announcement.title
-                                    )}
-                                </h3>
+        <article class="content-card">
 
-                                <p>
-                                    ${escapeHTML(
-                                        announcement.content
-                                    )}
-                                </p>
+            <div class="card-top">
 
-                            </div>
+                <span class="tag">
+                    ${escapeHTML(item.categorie || "Information")}
+                </span>
 
-                            <span>
-                                →
-                            </span>
+                <span class="date">
+                    ${formatDate(item.created_at)}
+                </span>
 
-                        </article>
-                    `;
+            </div>
 
-                }
-            )
-            .join("");
+            <h3>
+                ${escapeHTML(item.titre)}
+            </h3>
+
+            <p>
+                ${escapeHTML(item.contenu)}
+            </p>
+
+        </article>
+
+    `).join("");
 
 }
 
 
-displayHomeAnnouncements();
+/* =====================================================
+   ANNONCES ACCUEIL
+===================================================== */
+
+async function loadHomeAnnouncements() {
+
+    const container =
+        document.getElementById("homeAnnouncements");
+
+    if (!container) {
+        return;
+    }
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("annonces")
+        .select("*")
+        .order("created_at", {
+            ascending: false
+        })
+        .limit(3);
+
+
+    if (error || !data || data.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty-box">
+                Aucune annonce récente.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = data.map(item => `
+
+        <article class="mini-card">
+
+            <span class="tag">
+                ${escapeHTML(item.categorie || "Information")}
+            </span>
+
+            <h3>
+                ${escapeHTML(item.titre)}
+            </h3>
+
+            <p>
+                ${escapeHTML(item.contenu)}
+            </p>
+
+            <small>
+                ${formatDate(item.created_at)}
+            </small>
+
+        </article>
+
+    `).join("");
+
+}
+
+
+/* =====================================================
+   PARTENAIRES
+===================================================== */
+
+async function loadPublicPartners() {
+
+    const container =
+        document.getElementById("publicPartners");
+
+    if (!container) {
+        return;
+    }
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("partenaires")
+        .select("*")
+        .order("created_at", {
+            ascending: false
+        });
+
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="empty-box">
+                Impossible de charger les partenaires.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty-box">
+                Aucun partenaire pour le moment.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = data.map(item => `
+
+        <article class="content-card">
+
+            <div class="partner-icon">
+                ${escapeHTML(item.nom.charAt(0).toUpperCase())}
+            </div>
+
+            <h3>
+                ${escapeHTML(item.nom)}
+            </h3>
+
+            <p>
+                ${escapeHTML(item.description || "")}
+            </p>
+
+            ${
+                item.lien
+                ? `
+                    <a
+                        href="${escapeHTML(item.lien)}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-link"
+                    >
+                        Découvrir le partenaire ↗
+                    </a>
+                `
+                : ""
+            }
+
+        </article>
+
+    `).join("");
+
+}
+
+
+/* =====================================================
+   REALISATIONS
+===================================================== */
+
+async function loadPublicProjects() {
+
+    const container =
+        document.getElementById("publicProjects");
+
+    if (!container) {
+        return;
+    }
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("realisations")
+        .select("*")
+        .order("created_at", {
+            ascending: false
+        });
+
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="empty-box">
+                Impossible de charger les réalisations.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty-box">
+                Les réalisations seront bientôt disponibles.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = data.map(item => `
+
+        <article class="content-card project-card">
+
+            <div class="project-number">
+                PROJET
+            </div>
+
+            <h3>
+                ${escapeHTML(item.titre)}
+            </h3>
+
+            <p>
+                ${escapeHTML(item.description || "")}
+            </p>
+
+            ${
+                item.lien
+                ? `
+                    <a
+                        href="${escapeHTML(item.lien)}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-link"
+                    >
+                        Voir le projet ↗
+                    </a>
+                `
+                : ""
+            }
+
+        </article>
+
+    `).join("");
+
+}
