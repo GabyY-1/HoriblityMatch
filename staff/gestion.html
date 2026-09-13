@@ -1,832 +1,889 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Gestion — HoriblitiMatch</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
 </head>
+
 
 <body class="staff-page">
 
-    <header class="header">
 
-        <a href="../index.html" class="logo">
+<header class="panel-header">
+
+    <a href="../index.html" class="logo">
+
+        <span class="logo-icon">
+            H
+        </span>
+
+        <span class="logo-text">
             Horibliti<span>Match</span>
+        </span>
+
+    </a>
+
+
+    <div class="panel-actions">
+
+        <a href="index.html">
+            ← Panel
         </a>
 
-        <button class="menu-toggle" aria-label="Ouvrir le menu">
-            <span></span>
-            <span></span>
-            <span></span>
+        <button id="logout">
+            Déconnexion
         </button>
 
-        <nav class="nav">
-            <a href="../index.html">Site</a>
-            <a href="index.html">Panel staff</a>
-            <a href="gestion.html" class="active">Gestion</a>
-            <a href="../pages/connexion.html" class="staff-link">Déconnexion</a>
-        </nav>
+    </div>
 
-    </header>
+</header>
 
 
-    <main class="staff-main">
-
-        <!-- INTRODUCTION -->
-
-        <section class="staff-header">
-
-            <div>
-                <p class="eyebrow">HORIBLITIMATCH • STAFF</p>
-
-                <h1>
-                    Gestion du site
-                </h1>
-
-                <p>
-                    Gérez les annonces et les partenaires
-                    directement depuis cet espace.
-                </p>
-            </div>
-
-            <a href="index.html" class="btn secondary">
-                ← Retour au panel
-            </a>
-
-        </section>
+<main class="management-page">
 
 
-        <!-- STATISTIQUES -->
+<section class="management-header">
 
-        <section class="staff-stats">
+    <span class="eyebrow">
+        ADMINISTRATION
+    </span>
 
-            <div class="staff-stat">
-                <span class="stat-label">Annonces</span>
-                <strong id="announcementCount">0</strong>
-            </div>
+    <h1>
+        Gestion du contenu
+    </h1>
 
-            <div class="staff-stat">
-                <span class="stat-label">Partenaires</span>
-                <strong id="partnerCount">0</strong>
-            </div>
+    <p>
+        Ajoutez, modifiez et supprimez les contenus
+        visibles sur HoriblitiMatch.
+    </p>
 
-            <div class="staff-stat">
-                <span class="stat-label">Statut</span>
-                <strong class="online-status">EN LIGNE</strong>
-            </div>
-
-        </section>
+</section>
 
 
-        <!-- GESTION DES ANNONCES -->
+<!-- =========================
+     ANNONCES
+========================= -->
 
-        <section class="management-section">
+<section class="management-section">
 
-            <div class="section-heading">
-                <p class="eyebrow">PUBLICATION</p>
-                <h2>Créer une annonce</h2>
-            </div>
+    <div class="section-heading">
 
+        <div>
 
-            <form id="announcementForm" class="management-form">
+            <span class="eyebrow">
+                CONTENU
+            </span>
 
-                <div class="form-group">
+            <h2>
+                Annonces
+            </h2>
 
-                    <label for="announcementTitle">
-                        Titre
-                    </label>
+        </div>
 
-                    <input
-                        type="text"
-                        id="announcementTitle"
-                        placeholder="Ex : Nouveau projet en préparation"
-                        required
-                    >
-
-                </div>
+    </div>
 
 
-                <div class="form-group">
+    <form
+        id="announcementForm"
+        class="management-form"
+    >
 
-                    <label for="announcementCategory">
-                        Catégorie
-                    </label>
+        <div class="form-group">
 
-                    <select id="announcementCategory">
+            <label for="announcementTitle">
+                Titre
+            </label>
 
-                        <option value="Actualité">
-                            Actualité
-                        </option>
-
-                        <option value="Projet">
-                            Projet
-                        </option>
-
-                        <option value="Partenariat">
-                            Partenariat
-                        </option>
-
-                        <option value="Information">
-                            Information
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="announcementContent">
-                        Contenu
-                    </label>
-
-                    <textarea
-                        id="announcementContent"
-                        rows="7"
-                        placeholder="Écrivez le contenu de votre annonce..."
-                        required
-                    ></textarea>
-
-                </div>
-
-
-                <div class="form-actions">
-
-                    <button
-                        type="submit"
-                        class="btn primary"
-                    >
-                        Publier l'annonce
-                    </button>
-
-                    <button
-                        type="reset"
-                        class="btn secondary"
-                    >
-                        Réinitialiser
-                    </button>
-
-                </div>
-
-            </form>
-
-        </section>
-
-
-        <!-- LISTE DES ANNONCES -->
-
-        <section class="management-section">
-
-            <div class="section-heading">
-
-                <p class="eyebrow">
-                    CONTENU
-                </p>
-
-                <h2>
-                    Annonces publiées
-                </h2>
-
-            </div>
-
-
-            <div
-                id="announcementList"
-                class="management-list"
+            <input
+                id="announcementTitle"
+                type="text"
+                placeholder="Titre"
+                required
             >
-
-                <!-- Les annonces seront ajoutées ici -->
-
-            </div>
-
-        </section>
-
-
-        <!-- GESTION DES PARTENAIRES -->
-
-        <section class="management-section">
-
-            <div class="section-heading">
-
-                <p class="eyebrow">
-                    COLLABORATIONS
-                </p>
-
-                <h2>
-                    Ajouter un partenaire
-                </h2>
-
-            </div>
-
-
-            <form id="partnerForm" class="management-form">
-
-                <div class="form-group">
-
-                    <label for="partnerName">
-                        Nom du partenaire
-                    </label>
-
-                    <input
-                        type="text"
-                        id="partnerName"
-                        placeholder="Ex : Studio XYZ"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="partnerDescription">
-                        Description
-                    </label>
-
-                    <textarea
-                        id="partnerDescription"
-                        rows="5"
-                        placeholder="Présentez brièvement le partenaire..."
-                        required
-                    ></textarea>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="partnerLink">
-                        Lien
-                    </label>
-
-                    <input
-                        type="url"
-                        id="partnerLink"
-                        placeholder="https://..."
-                    >
-
-                </div>
-
-
-                <div class="form-actions">
-
-                    <button
-                        type="submit"
-                        class="btn primary"
-                    >
-                        Ajouter le partenaire
-                    </button>
-
-                    <button
-                        type="reset"
-                        class="btn secondary"
-                    >
-                        Réinitialiser
-                    </button>
-
-                </div>
-
-            </form>
-
-        </section>
-
-
-        <!-- LISTE DES PARTENAIRES -->
-
-        <section class="management-section">
-
-            <div class="section-heading">
-
-                <p class="eyebrow">
-                    PARTENAIRES
-                </p>
-
-                <h2>
-                    Partenaires actuels
-                </h2>
-
-            </div>
-
-
-            <div
-                id="partnerList"
-                class="management-list"
-            >
-
-                <!-- Les partenaires seront ajoutés ici -->
-
-            </div>
-
-        </section>
-
-
-        <!-- ZONE DANGEREUSE -->
-
-        <section class="danger-zone">
-
-            <div>
-
-                <p class="eyebrow">
-                    ZONE SENSIBLE
-                </p>
-
-                <h2>
-                    Réinitialisation
-                </h2>
-
-                <p>
-                    Supprime toutes les données enregistrées
-                    localement sur ce navigateur.
-                </p>
-
-            </div>
-
-            <button
-                id="clearData"
-                class="btn danger"
-            >
-                Tout supprimer
-            </button>
-
-        </section>
-
-    </main>
-
-
-    <footer class="footer">
-
-        <div class="footer-main">
-
-            <div>
-
-                <a href="../index.html" class="logo">
-                    Horibliti<span>Match</span>
-                </a>
-
-                <p>
-                    Administration du site HoriblitiMatch.
-                </p>
-
-            </div>
-
-            <div class="footer-links">
-
-                <a href="../index.html">
-                    Site
-                </a>
-
-                <a href="index.html">
-                    Panel
-                </a>
-
-                <a href="../pages/annonces.html">
-                    Annonces
-                </a>
-
-            </div>
 
         </div>
 
 
-        <div class="footer-bottom">
+        <div class="form-group">
 
-            <p>
-                © 2026 HoriblitiMatch — Staff
-            </p>
+            <label for="announcementContent">
+                Contenu
+            </label>
+
+            <textarea
+                id="announcementContent"
+                placeholder="Contenu"
+                required
+            ></textarea>
 
         </div>
 
-    </footer>
+
+        <button
+            class="button button-primary"
+            type="submit"
+        >
+            Publier l'annonce
+        </button>
+
+    </form>
 
 
-    <script src="../js/script.js"></script>
+    <div
+        id="announcementList"
+        class="management-list"
+    ></div>
 
-    <script>
-
-        /*
-         * ==========================================
-         * GESTION DES DONNÉES
-         * ==========================================
-         *
-         * Pour la V1, les données sont sauvegardées
-         * dans localStorage.
-         *
-         * Plus tard, on pourra remplacer ça par
-         * une vraie base de données.
-         */
-
-        let announcements =
-            JSON.parse(
-                localStorage.getItem("horibliti_announcements")
-            ) || [];
-
-        let partners =
-            JSON.parse(
-                localStorage.getItem("horibliti_partners")
-            ) || [];
+</section>
 
 
-        /*
-         * ==========================================
-         * ELEMENTS
-         * ==========================================
-         */
+<!-- =========================
+     PARTENAIRES
+========================= -->
 
-        const announcementForm =
-            document.getElementById("announcementForm");
+<section class="management-section">
 
-        const partnerForm =
-            document.getElementById("partnerForm");
+    <div class="section-heading">
 
-        const announcementList =
-            document.getElementById("announcementList");
+        <div>
 
-        const partnerList =
-            document.getElementById("partnerList");
+            <span class="eyebrow">
+                COLLABORATIONS
+            </span>
 
-        const announcementCount =
-            document.getElementById("announcementCount");
+            <h2>
+                Partenaires
+            </h2>
 
-        const partnerCount =
-            document.getElementById("partnerCount");
+        </div>
+
+    </div>
 
 
-        /*
-         * ==========================================
-         * AFFICHER LES STATISTIQUES
-         * ==========================================
-         */
+    <form
+        id="partnerForm"
+        class="management-form"
+    >
 
-        function updateStats() {
+        <div class="form-group">
 
-            announcementCount.textContent =
-                announcements.length;
+            <label for="partnerName">
+                Nom
+            </label>
 
-            partnerCount.textContent =
-                partners.length;
+            <input
+                id="partnerName"
+                type="text"
+                placeholder="Nom du partenaire"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="partnerDescription">
+                Description
+            </label>
+
+            <textarea
+                id="partnerDescription"
+                placeholder="Description"
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="partnerLink">
+                Lien
+            </label>
+
+            <input
+                id="partnerLink"
+                type="url"
+                placeholder="https://..."
+            >
+
+        </div>
+
+
+        <button
+            class="button button-primary"
+            type="submit"
+        >
+            Ajouter le partenaire
+        </button>
+
+    </form>
+
+
+    <div
+        id="partnerList"
+        class="management-list"
+    ></div>
+
+</section>
+
+
+<!-- =========================
+     REALISATIONS
+========================= -->
+
+<section class="management-section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <span class="eyebrow">
+                PORTFOLIO
+            </span>
+
+            <h2>
+                Réalisations
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <form
+        id="projectForm"
+        class="management-form"
+    >
+
+        <div class="form-group">
+
+            <label for="projectTitle">
+                Titre
+            </label>
+
+            <input
+                id="projectTitle"
+                type="text"
+                placeholder="Nom du projet"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="projectDescription">
+                Description
+            </label>
+
+            <textarea
+                id="projectDescription"
+                placeholder="Description du projet"
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="projectLink">
+                Lien
+            </label>
+
+            <input
+                id="projectLink"
+                type="url"
+                placeholder="https://..."
+            >
+
+        </div>
+
+
+        <button
+            class="button button-primary"
+            type="submit"
+        >
+            Ajouter la réalisation
+        </button>
+
+    </form>
+
+
+    <div
+        id="projectList"
+        class="management-list"
+    ></div>
+
+</section>
+
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+
+<script src="../js/script.js"></script>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    const {
+        data: {
+            session
+        }
+    } = await supabaseClient.auth.getSession();
+
+
+    if (!session) {
+
+        window.location.href =
+            "../pages/connexion.html";
+
+        return;
+
+    }
+
+
+    const {
+        data: staff
+    } = await supabaseClient
+        .from("staff")
+        .select("id")
+        .eq("id", session.user.id)
+        .maybeSingle();
+
+
+    if (!staff) {
+
+        await supabaseClient.auth.signOut();
+
+        window.location.href =
+            "../pages/connexion.html";
+
+        return;
+
+    }
+
+
+    /* =========================
+       HELPERS
+    ========================= */
+
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(/[&<>"']/g, character => {
+
+                const entities = {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#039;"
+                };
+
+                return entities[character];
+
+            });
+
+    }
+
+
+    /* =========================
+       ANNONCES
+    ========================= */
+
+    const announcementForm =
+        document.getElementById(
+            "announcementForm"
+        );
+
+
+    const announcementList =
+        document.getElementById(
+            "announcementList"
+        );
+
+
+    async function loadAnnouncements() {
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from("annonces")
+            .select("*")
+            .order("created_at", {
+                ascending: false
+            });
+
+
+        if (error) {
+
+            announcementList.innerHTML =
+                `<div class="empty-box">
+                    Erreur de chargement.
+                </div>`;
+
+            return;
 
         }
 
 
-        /*
-         * ==========================================
-         * AFFICHER LES ANNONCES
-         * ==========================================
-         */
+        if (!data.length) {
 
-        function renderAnnouncements() {
+            announcementList.innerHTML =
+                `<div class="empty-box">
+                    Aucune annonce.
+                </div>`;
 
-            announcementList.innerHTML = "";
+            return;
 
-            if (announcements.length === 0) {
-
-                announcementList.innerHTML = `
-                    <div class="empty-state">
-                        <h3>Aucune annonce</h3>
-                        <p>
-                            Les annonces que vous publierez
-                            apparaîtront ici.
-                        </p>
-                    </div>
-                `;
-
-                return;
-            }
+        }
 
 
-            announcements.forEach((announcement, index) => {
+        announcementList.innerHTML =
+            data.map(item => `
 
-                const article =
-                    document.createElement("article");
+                <div class="management-item">
 
-                article.className =
-                    "management-item";
+                    <div>
 
-
-                article.innerHTML = `
-
-                    <div class="management-item-content">
-
-                        <div class="item-meta">
-                            ${escapeHTML(announcement.category)}
-                        </div>
-
-                        <h3>
-                            ${escapeHTML(announcement.title)}
-                        </h3>
+                        <strong>
+                            ${escapeHTML(item.titre)}
+                        </strong>
 
                         <p>
-                            ${escapeHTML(announcement.content)}
+                            ${escapeHTML(item.contenu)}
                         </p>
-
-                        <small>
-                            ${escapeHTML(announcement.date)}
-                        </small>
 
                     </div>
 
                     <button
                         class="delete-button"
-                        onclick="deleteAnnouncement(${index})"
+                        data-table="annonces"
+                        data-id="${item.id}"
                     >
                         Supprimer
                     </button>
 
-                `;
+                </div>
+
+            `).join("");
+
+    }
 
 
-                announcementList.appendChild(article);
+    announcementForm.addEventListener(
+        "submit",
+        async event => {
 
-            });
-
-        }
-
-
-        /*
-         * ==========================================
-         * AJOUTER UNE ANNONCE
-         * ==========================================
-         */
-
-        announcementForm.addEventListener(
-            "submit",
-            function(event) {
-
-                event.preventDefault();
+            event.preventDefault();
 
 
-                const title =
-                    document.getElementById(
+            const titre =
+                document
+                    .getElementById(
                         "announcementTitle"
-                    ).value.trim();
+                    )
+                    .value
+                    .trim();
 
 
-                const category =
-                    document.getElementById(
-                        "announcementCategory"
-                    ).value;
-
-
-                const content =
-                    document.getElementById(
+            const contenu =
+                document
+                    .getElementById(
                         "announcementContent"
-                    ).value.trim();
+                    )
+                    .value
+                    .trim();
 
 
-                if (!title || !content) {
-                    return;
-                }
+            const {
+                error
+            } = await supabaseClient
+                .from("annonces")
+                .insert({
+                    titre,
+                    categorie: "Information",
+                    contenu
+                });
 
 
-                const announcement = {
+            if (error) {
 
-                    id: Date.now(),
-
-                    title: title,
-
-                    category: category,
-
-                    content: content,
-
-                    date:
-                        new Date().toLocaleDateString(
-                            "fr-FR"
-                        )
-
-                };
-
-
-                announcements.unshift(
-                    announcement
+                alert(
+                    "Erreur lors de la publication."
                 );
 
+                console.error(error);
 
-                localStorage.setItem(
-                    "horibliti_announcements",
-                    JSON.stringify(announcements)
-                );
-
-
-                announcementForm.reset();
-
-                renderAnnouncements();
-
-                updateStats();
+                return;
 
             }
+
+
+            announcementForm.reset();
+
+            loadAnnouncements();
+
+        }
+    );
+
+
+    /* =========================
+       PARTENAIRES
+    ========================= */
+
+    const partnerForm =
+        document.getElementById(
+            "partnerForm"
         );
 
 
-        /*
-         * ==========================================
-         * SUPPRIMER UNE ANNONCE
-         * ==========================================
-         */
-
-        function deleteAnnouncement(index) {
-
-            const confirmed =
-                confirm(
-                    "Voulez-vous vraiment supprimer cette annonce ?"
-                );
+    const partnerList =
+        document.getElementById(
+            "partnerList"
+        );
 
 
-            if (!confirmed) {
-                return;
-            }
+    async function loadPartners() {
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from("partenaires")
+            .select("*")
+            .order("created_at", {
+                ascending: false
+            });
 
 
-            announcements.splice(index, 1);
+        if (error) {
 
+            partnerList.innerHTML =
+                `<div class="empty-box">
+                    Erreur de chargement.
+                </div>`;
 
-            localStorage.setItem(
-                "horibliti_announcements",
-                JSON.stringify(announcements)
-            );
-
-
-            renderAnnouncements();
-
-            updateStats();
+            return;
 
         }
 
 
-        /*
-         * ==========================================
-         * AFFICHER LES PARTENAIRES
-         * ==========================================
-         */
+        if (!data.length) {
 
-        function renderPartners() {
+            partnerList.innerHTML =
+                `<div class="empty-box">
+                    Aucun partenaire.
+                </div>`;
 
-            partnerList.innerHTML = "";
+            return;
 
-
-            if (partners.length === 0) {
-
-                partnerList.innerHTML = `
-                    <div class="empty-state">
-                        <h3>Aucun partenaire</h3>
-                        <p>
-                            Les partenaires ajoutés
-                            apparaîtront ici.
-                        </p>
-                    </div>
-                `;
-
-                return;
-            }
+        }
 
 
-            partners.forEach((partner, index) => {
+        partnerList.innerHTML =
+            data.map(item => `
 
-                const article =
-                    document.createElement("article");
+                <div class="management-item">
 
-                article.className =
-                    "management-item";
+                    <div>
 
-
-                let linkHTML = "";
-
-
-                if (partner.link) {
-
-                    linkHTML = `
-                        <a
-                            href="${escapeAttribute(partner.link)}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="text-link"
-                        >
-                            Visiter le site →
-                        </a>
-                    `;
-
-                }
-
-
-                article.innerHTML = `
-
-                    <div class="management-item-content">
-
-                        <div class="item-meta">
-                            PARTENAIRE
-                        </div>
-
-                        <h3>
-                            ${escapeHTML(partner.name)}
-                        </h3>
+                        <strong>
+                            ${escapeHTML(item.nom)}
+                        </strong>
 
                         <p>
-                            ${escapeHTML(partner.description)}
+                            ${escapeHTML(
+                                item.description || ""
+                            )}
                         </p>
-
-                        ${linkHTML}
 
                     </div>
 
                     <button
                         class="delete-button"
-                        onclick="deletePartner(${index})"
+                        data-table="partenaires"
+                        data-id="${item.id}"
                     >
                         Supprimer
                     </button>
 
-                `;
+                </div>
+
+            `).join("");
+
+    }
 
 
-                partnerList.appendChild(article);
+    partnerForm.addEventListener(
+        "submit",
+        async event => {
 
+            event.preventDefault();
+
+
+            const nom =
+                document
+                    .getElementById(
+                        "partnerName"
+                    )
+                    .value
+                    .trim();
+
+
+            const description =
+                document
+                    .getElementById(
+                        "partnerDescription"
+                    )
+                    .value
+                    .trim();
+
+
+            const lien =
+                document
+                    .getElementById(
+                        "partnerLink"
+                    )
+                    .value
+                    .trim();
+
+
+            const {
+                error
+            } = await supabaseClient
+                .from("partenaires")
+                .insert({
+                    nom,
+                    description,
+                    lien
+                });
+
+
+            if (error) {
+
+                alert(
+                    "Erreur lors de l'ajout du partenaire."
+                );
+
+                console.error(error);
+
+                return;
+
+            }
+
+
+            partnerForm.reset();
+
+            loadPartners();
+
+        }
+    );
+
+
+    /* =========================
+       REALISATIONS
+    ========================= */
+
+    const projectForm =
+        document.getElementById(
+            "projectForm"
+        );
+
+
+    const projectList =
+        document.getElementById(
+            "projectList"
+        );
+
+
+    async function loadProjects() {
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from("realisations")
+            .select("*")
+            .order("created_at", {
+                ascending: false
             });
+
+
+        if (error) {
+
+            projectList.innerHTML =
+                `<div class="empty-box">
+                    Erreur de chargement.
+                </div>`;
+
+            return;
 
         }
 
 
-        /*
-         * ==========================================
-         * AJOUTER UN PARTENAIRE
-         * ==========================================
-         */
+        if (!data.length) {
 
-        partnerForm.addEventListener(
-            "submit",
-            function(event) {
+            projectList.innerHTML =
+                `<div class="empty-box">
+                    Aucune réalisation.
+                </div>`;
 
-                event.preventDefault();
+            return;
 
-
-                const name =
-                    document.getElementById(
-                        "partnerName"
-                    ).value.trim();
+        }
 
 
-                const description =
-                    document.getElementById(
-                        "partnerDescription"
-                    ).value.trim();
+        projectList.innerHTML =
+            data.map(item => `
+
+                <div class="management-item">
+
+                    <div>
+
+                        <strong>
+                            ${escapeHTML(item.titre)}
+                        </strong>
+
+                        <p>
+                            ${escapeHTML(
+                                item.description || ""
+                            )}
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="delete-button"
+                        data-table="realisations"
+                        data-id="${item.id}"
+                    >
+                        Supprimer
+                    </button>
+
+                </div>
+
+            `).join("");
+
+    }
 
 
-                const link =
-                    document.getElementById(
-                        "partnerLink"
-                    ).value.trim();
+    projectForm.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
 
 
-                if (!name || !description) {
-                    return;
-                }
+            const titre =
+                document
+                    .getElementById(
+                        "projectTitle"
+                    )
+                    .value
+                    .trim();
 
 
-                const partner = {
-
-                    id: Date.now(),
-
-                    name: name,
-
-                    description: description,
-
-                    link: link
-
-                };
+            const description =
+                document
+                    .getElementById(
+                        "projectDescription"
+                    )
+                    .value
+                    .trim();
 
 
-                partners.unshift(partner);
+            const lien =
+                document
+                    .getElementById(
+                        "projectLink"
+                    )
+                    .value
+                    .trim();
 
 
-                localStorage.setItem(
-                    "horibliti_partners",
-                    JSON.stringify(partners)
+            const {
+                error
+            } = await supabaseClient
+                .from("realisations")
+                .insert({
+                    titre,
+                    description,
+                    lien
+                });
+
+
+            if (error) {
+
+                alert(
+                    "Erreur lors de l'ajout du projet."
+                );
+
+                console.error(error);
+
+                return;
+
+            }
+
+
+            projectForm.reset();
+
+            loadProjects();
+
+        }
+    );
+
+
+    /* =========================
+       SUPPRESSION GENERALE
+    ========================= */
+
+    document.addEventListener(
+        "click",
+        async event => {
+
+            const button =
+                event.target.closest(
+                    ".delete-button"
                 );
 
 
-                partnerForm.reset();
-
-                renderPartners();
-
-                updateStats();
-
+            if (!button) {
+                return;
             }
-        );
 
-
-        /*
-         * ==========================================
-         * SUPPRIMER UN PARTENAIRE
-         * ==========================================
-         */
-
-        function deletePartner(index) {
 
             const confirmed =
                 confirm(
-                    "Voulez-vous vraiment supprimer ce partenaire ?"
+                    "Voulez-vous vraiment supprimer cet élément ?"
                 );
 
 
@@ -835,111 +892,89 @@
             }
 
 
-            partners.splice(index, 1);
+            const {
+                error
+            } = await supabaseClient
+                .from(button.dataset.table)
+                .delete()
+                .eq(
+                    "id",
+                    button.dataset.id
+                );
 
 
-            localStorage.setItem(
-                "horibliti_partners",
-                JSON.stringify(partners)
-            );
+            if (error) {
+
+                alert(
+                    "Impossible de supprimer cet élément."
+                );
+
+                console.error(error);
+
+                return;
+
+            }
 
 
-            renderPartners();
-
-            updateStats();
-
-        }
-
-
-        /*
-         * ==========================================
-         * SUPPRIMER TOUTES LES DONNÉES
-         * ==========================================
-         */
-
-        document
-            .getElementById("clearData")
-            .addEventListener(
-                "click",
-                function() {
-
-                    const confirmed =
-                        confirm(
-                            "Cette action supprimera toutes les annonces et tous les partenaires. Continuer ?"
-                        );
+            if (
+                button.dataset.table ===
+                "annonces"
+            ) {
+                loadAnnouncements();
+            }
 
 
-                    if (!confirmed) {
-                        return;
-                    }
+            if (
+                button.dataset.table ===
+                "partenaires"
+            ) {
+                loadPartners();
+            }
 
 
-                    localStorage.removeItem(
-                        "horibliti_announcements"
-                    );
-
-                    localStorage.removeItem(
-                        "horibliti_partners"
-                    );
-
-
-                    announcements = [];
-
-                    partners = [];
-
-
-                    renderAnnouncements();
-
-                    renderPartners();
-
-                    updateStats();
-
-                }
-            );
-
-
-        /*
-         * ==========================================
-         * PROTECTION DU HTML
-         * ==========================================
-         */
-
-        function escapeHTML(value) {
-
-            return String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+            if (
+                button.dataset.table ===
+                "realisations"
+            ) {
+                loadProjects();
+            }
 
         }
+    );
 
 
-        function escapeAttribute(value) {
+    /* =========================
+       LOGOUT
+    ========================= */
 
-            return String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/"/g, "&quot;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;");
+    document
+        .getElementById("logout")
+        .addEventListener(
+            "click",
+            async () => {
 
-        }
+                await supabaseClient.auth.signOut();
+
+                window.location.href =
+                    "../pages/connexion.html";
+
+            }
+        );
 
 
-        /*
-         * ==========================================
-         * INITIALISATION
-         * ==========================================
-         */
+    /* =========================
+       INITIALISATION
+    ========================= */
 
-        renderAnnouncements();
+    await loadAnnouncements();
 
-        renderPartners();
+    await loadPartners();
 
-        updateStats();
+    await loadProjects();
 
-    </script>
+});
+
+</script>
 
 </body>
 </html>
