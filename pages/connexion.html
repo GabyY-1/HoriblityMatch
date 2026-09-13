@@ -1,161 +1,344 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Connexion staff — HoriblitiMatch</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
 </head>
+
 
 <body>
 
+
 <header class="header">
+
     <a href="../index.html" class="logo">
-        Horibliti<span>Match</span>
+
+        <span class="logo-icon">
+            H
+        </span>
+
+        <span class="logo-text">
+            Horibliti<span>Match</span>
+        </span>
+
     </a>
 
-    <button class="menu-toggle" aria-label="Ouvrir le menu">
+
+    <button class="menu-toggle">
+
         <span></span>
         <span></span>
         <span></span>
+
     </button>
 
+
     <nav class="nav">
-        <a href="../index.html">Accueil</a>
-        <a href="studio.html">Le studio</a>
-        <a href="realisations.html">Réalisations</a>
-        <a href="partenaires.html">Partenaires</a>
-        <a href="annonces.html">Annonces</a>
+
+        <a href="../index.html">
+            Accueil
+        </a>
+
+        <a href="studio.html">
+            Le studio
+        </a>
+
+        <a href="realisations.html">
+            Réalisations
+        </a>
+
+        <a href="partenaires.html">
+            Partenaires
+        </a>
+
+        <a href="annonces.html">
+            Annonces
+        </a>
+
     </nav>
+
 </header>
 
 
 <main class="auth-page">
 
-    <section class="auth-card">
 
-        <div class="auth-header">
-            <span class="eyebrow">ESPACE PRIVÉ</span>
+<section class="auth-card">
 
-            <h1>Connexion staff</h1>
+    <div class="auth-header">
 
-            <p>
-                Connectez-vous pour accéder à l'espace de gestion
-                d'HoriblitiMatch.
-            </p>
+        <span class="eyebrow">
+            ESPACE PRIVÉ
+        </span>
+
+        <h1>
+            Connexion staff
+        </h1>
+
+        <p>
+            Connectez-vous pour accéder
+            à l'administration d'HoriblitiMatch.
+        </p>
+
+    </div>
+
+
+    <form id="loginForm" class="auth-form">
+
+
+        <div class="form-group">
+
+            <label for="email">
+                Adresse email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="vous@exemple.com"
+                autocomplete="email"
+                required
+            >
+
         </div>
 
 
-        <form id="loginForm" class="auth-form">
+        <div class="form-group">
 
-            <div class="form-group">
-                <label for="email">Adresse email</label>
+            <label for="password">
+                Mot de passe
+            </label>
 
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="vous@exemple.com"
-                    autocomplete="email"
-                    required
-                >
-            </div>
+            <input
+                type="password"
+                id="password"
+                placeholder="Votre mot de passe"
+                autocomplete="current-password"
+                required
+            >
 
-
-            <div class="form-group">
-                <label for="password">Mot de passe</label>
-
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Votre mot de passe"
-                    autocomplete="current-password"
-                    required
-                >
-            </div>
+        </div>
 
 
-            <p id="loginMessage" class="form-message"></p>
+        <div
+            id="loginMessage"
+            class="form-message"
+        ></div>
 
 
-            <button type="submit" class="btn primary auth-submit">
-                Se connecter
-            </button>
+        <button
+            type="submit"
+            class="button button-primary auth-submit"
+        >
+            Se connecter
+        </button>
 
-        </form>
 
-    </section>
+    </form>
+
+</section>
+
 
 </main>
 
 
+<footer class="footer">
+
+    <div class="footer-logo">
+        Horibliti<span>Match</span>
+    </div>
+
+    <p>
+        © <span data-year></span> HoriblitiMatch.
+    </p>
+
+</footer>
+
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="../js/supabase.js"></script>
+
 <script src="../js/script.js"></script>
 
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
 
-    const form = document.getElementById("loginForm");
-    const message = document.getElementById("loginMessage");
+document.addEventListener("DOMContentLoaded", async () => {
 
-    form.addEventListener("submit", async (event) => {
+    const form =
+        document.getElementById("loginForm");
 
-        event.preventDefault();
+    const message =
+        document.getElementById("loginMessage");
 
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
 
-        message.textContent = "";
-        message.className = "form-message";
+    /*
+     * Si déjà connecté,
+     * on vérifie s'il est staff.
+     */
 
-        const button = form.querySelector("button");
+    const {
+        data: {
+            session
+        }
+    } = await supabaseClient.auth.getSession();
 
-        button.disabled = true;
-        button.textContent = "Connexion...";
 
-        try {
+    if (session) {
 
-            const { data, error } = await supabaseClient.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
+        const {
+            data: staff
+        } = await supabaseClient
+            .from("staff")
+            .select("id")
+            .eq("id", session.user.id)
+            .maybeSingle();
+
+
+        if (staff) {
+
+            window.location.href =
+                "../staff/index.html";
+
+            return;
+
+        }
+
+    }
+
+
+    form.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
+
+
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+
+            const button =
+                form.querySelector("button");
+
+
+            message.textContent = "";
+
+            message.className =
+                "form-message";
+
+
+            button.disabled = true;
+
+            button.textContent =
+                "Connexion...";
+
+
+            const {
+                data,
+                error
+            } = await supabaseClient.auth
+                .signInWithPassword({
+                    email,
+                    password
+                });
+
 
             if (error) {
-                throw error;
+
+                console.error(error);
+
+                message.textContent =
+                    "Email ou mot de passe incorrect.";
+
+                message.classList.add("error");
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Se connecter";
+
+                return;
+
             }
 
-            if (!data.session) {
-                throw new Error("Impossible de créer la session.");
+
+            /*
+             * Vérification STAFF
+             */
+
+            const {
+                data: staff,
+                error: staffError
+            } = await supabaseClient
+                .from("staff")
+                .select("id, role")
+                .eq("id", data.user.id)
+                .maybeSingle();
+
+
+            if (
+                staffError ||
+                !staff
+            ) {
+
+                await supabaseClient.auth.signOut();
+
+                message.textContent =
+                    "Ce compte n'est pas autorisé à accéder au panel.";
+
+                message.classList.add("error");
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Se connecter";
+
+                return;
+
             }
 
-            message.textContent = "Connexion réussie !";
-            message.classList.add("success");
-
-            setTimeout(() => {
-                window.location.href = "../staff/index.html";
-            }, 500);
-
-        } catch (error) {
-
-            console.error(error);
 
             message.textContent =
-                "Email ou mot de passe incorrect.";
+                "Connexion réussie.";
 
-            message.classList.add("error");
+            message.classList.add("success");
 
-            button.disabled = false;
-            button.textContent = "Se connecter";
+
+            window.location.href =
+                "../staff/index.html";
+
         }
-    });
+    );
 
 });
+
 </script>
+
 
 </body>
 </html>
