@@ -109,7 +109,7 @@
             border-radius: 9px;
             color: #9ba5b7;
             font-size: 14px;
-            transition: background 0.2s, color 0.2s, border-color 0.2s;
+            transition: 0.2s;
         }
 
         .nav a:hover {
@@ -242,8 +242,6 @@
             padding: 30px;
         }
 
-        /* TABS */
-
         .tabs {
             display: flex;
             gap: 8px;
@@ -283,8 +281,6 @@
             background: #222a3a;
             font-size: 10px;
         }
-
-        /* PANEL */
 
         .panel {
             overflow: hidden;
@@ -351,8 +347,6 @@
             opacity: 0.6;
             transform: none;
         }
-
-        /* TABLE */
 
         .table-container {
             width: 100%;
@@ -600,7 +594,7 @@
             z-index: 300;
             right: 22px;
             bottom: 22px;
-            max-width: 380px;
+            max-width: 420px;
             padding: 13px 16px;
             border: 1px solid var(--border);
             border-radius: 10px;
@@ -628,9 +622,8 @@
             color: #ff9da7;
         }
 
-        /* MOBILE */
-
         @media (max-width: 900px) {
+
             .sidebar {
                 transform: translateX(-100%);
                 transition: transform 0.25s ease;
@@ -662,6 +655,7 @@
         }
 
         @media (max-width: 600px) {
+
             .topbar h1 {
                 font-size: 17px;
             }
@@ -738,6 +732,7 @@
         </nav>
 
         <div class="sidebar-bottom">
+
             <a class="site-link" href="../index.html" target="_blank">
                 ↗ Voir le site
             </a>
@@ -745,6 +740,7 @@
             <button type="button" class="logout-btn" id="logoutButton">
                 Se déconnecter
             </button>
+
         </div>
 
     </aside>
@@ -771,7 +767,6 @@
                     type="button"
                     class="mobile-menu"
                     id="mobileMenu"
-                    aria-label="Ouvrir le menu"
                 >
                     ☰
                 </button>
@@ -784,29 +779,17 @@
 
             <div class="tabs">
 
-                <button
-                    type="button"
-                    class="tab active"
-                    data-tab="annonces"
-                >
+                <button type="button" class="tab active" data-tab="annonces">
                     Annonces
                     <span class="tab-count" id="annoncesCount">0</span>
                 </button>
 
-                <button
-                    type="button"
-                    class="tab"
-                    data-tab="realisations"
-                >
+                <button type="button" class="tab" data-tab="realisations">
                     Réalisations
                     <span class="tab-count" id="realisationsCount">0</span>
                 </button>
 
-                <button
-                    type="button"
-                    class="tab"
-                    data-tab="partenaires"
-                >
+                <button type="button" class="tab" data-tab="partenaires">
                     Partenaires
                     <span class="tab-count" id="partenairesCount">0</span>
                 </button>
@@ -818,6 +801,7 @@
                 <div class="toolbar">
 
                     <div class="search">
+
                         <span class="search-icon">⌕</span>
 
                         <input
@@ -826,6 +810,7 @@
                             placeholder="Rechercher..."
                             autocomplete="off"
                         >
+
                     </div>
 
                     <button
@@ -866,7 +851,6 @@
                 type="button"
                 class="close-btn"
                 id="closeModalButton"
-                aria-label="Fermer"
             >
                 ×
             </button>
@@ -907,788 +891,962 @@
 
 <script type="module">
 
-    import { supabaseClient } from "../js/supabase.js";
+import { supabaseClient } from "../js/supabase.js";
 
-    const state = {
-        tab: "annonces",
-        editingId: null,
-        loading: false,
-        data: {
-            annonces: [],
-            realisations: [],
-            partenaires: []
-        }
-    };
 
-    const elements = {
-        sidebar: document.getElementById("sidebar"),
-        mobileMenu: document.getElementById("mobileMenu"),
-        logoutButton: document.getElementById("logoutButton"),
+/* =========================
+   ÉTAT
+========================= */
 
-        userAvatar: document.getElementById("userAvatar"),
-        userName: document.getElementById("userName"),
-        userRole: document.getElementById("userRole"),
+const state = {
 
-        searchInput: document.getElementById("searchInput"),
-        addButton: document.getElementById("addButton"),
-        tableContainer: document.getElementById("tableContainer"),
+    tab: "annonces",
 
-        annoncesCount: document.getElementById("annoncesCount"),
-        realisationsCount: document.getElementById("realisationsCount"),
-        partenairesCount: document.getElementById("partenairesCount"),
+    editingId: null,
 
-        modalOverlay: document.getElementById("modalOverlay"),
-        modalTitle: document.getElementById("modalTitle"),
-        closeModalButton: document.getElementById("closeModalButton"),
-        cancelButton: document.getElementById("cancelButton"),
-        contentForm: document.getElementById("contentForm"),
-        formFields: document.getElementById("formFields"),
-        submitButton: document.getElementById("submitButton"),
+    data: {
+        annonces: [],
+        realisations: [],
+        partenaires: []
+    },
 
-        toast: document.getElementById("toast")
-    };
+    loadingData: false,
 
-    let toastTimeout = null;
+    saving: false,
 
-    /* =========================
-       UTILITAIRES
-    ========================= */
+    deleting: false
 
-    function escapeHtml(value) {
+};
 
-        if (value === null || value === undefined) {
-            return "";
-        }
 
-        return String(value)
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&#039;");
+/* =========================
+   ELEMENTS
+========================= */
+
+const elements = {
+
+    sidebar: document.getElementById("sidebar"),
+
+    mobileMenu: document.getElementById("mobileMenu"),
+
+    logoutButton: document.getElementById("logoutButton"),
+
+    userAvatar: document.getElementById("userAvatar"),
+
+    userName: document.getElementById("userName"),
+
+    userRole: document.getElementById("userRole"),
+
+    searchInput: document.getElementById("searchInput"),
+
+    addButton: document.getElementById("addButton"),
+
+    tableContainer: document.getElementById("tableContainer"),
+
+    annoncesCount: document.getElementById("annoncesCount"),
+
+    realisationsCount: document.getElementById("realisationsCount"),
+
+    partenairesCount: document.getElementById("partenairesCount"),
+
+    modalOverlay: document.getElementById("modalOverlay"),
+
+    modalTitle: document.getElementById("modalTitle"),
+
+    closeModalButton: document.getElementById("closeModalButton"),
+
+    cancelButton: document.getElementById("cancelButton"),
+
+    contentForm: document.getElementById("contentForm"),
+
+    formFields: document.getElementById("formFields"),
+
+    submitButton: document.getElementById("submitButton"),
+
+    toast: document.getElementById("toast")
+
+};
+
+
+let toastTimeout = null;
+
+
+/* =========================
+   TOAST
+========================= */
+
+function showToast(message, type) {
+
+    clearTimeout(toastTimeout);
+
+    elements.toast.textContent = message;
+
+    elements.toast.className = "toast visible";
+
+    if (type) {
+        elements.toast.classList.add(type);
     }
 
-    function formatDate(value) {
+    toastTimeout = setTimeout(function () {
 
-        if (!value) {
-            return "—";
-        }
+        elements.toast.className = "toast";
 
-        const date = new Date(value);
+    }, 5000);
 
-        if (Number.isNaN(date.getTime())) {
-            return "—";
-        }
+}
 
-        return date.toLocaleDateString("fr-FR", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric"
-        });
+
+/* =========================
+   UTILITAIRES
+========================= */
+
+function escapeHtml(value) {
+
+    if (value === null || value === undefined) {
+        return "";
     }
 
-    function getInitial(name, email) {
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 
-        const text = String(name || email || "H").trim();
+}
 
-        if (!text) {
-            return "H";
-        }
 
-        return text.charAt(0).toUpperCase();
+function formatDate(value) {
+
+    if (!value) {
+        return "—";
     }
 
-    function showToast(message, type) {
+    const date = new Date(value);
 
-        clearTimeout(toastTimeout);
-
-        elements.toast.textContent = message;
-
-        elements.toast.className = "toast visible";
-
-        if (type) {
-            elements.toast.classList.add(type);
-        }
-
-        toastTimeout = setTimeout(function () {
-            elements.toast.className = "toast";
-        }, 3500);
+    if (Number.isNaN(date.getTime())) {
+        return "—";
     }
 
-    function getCurrentItems() {
-        return state.data[state.tab] || [];
+    return date.toLocaleDateString("fr-FR", {
+
+        day: "2-digit",
+
+        month: "2-digit",
+
+        year: "numeric"
+
+    });
+
+}
+
+
+function getInitial(name, email) {
+
+    const text =
+        String(name || email || "H").trim();
+
+    return text
+        ? text.charAt(0).toUpperCase()
+        : "H";
+
+}
+
+
+function getCurrentItems() {
+
+    return state.data[state.tab] || [];
+
+}
+
+
+function getSingularName() {
+
+    if (state.tab === "annonces") {
+        return "une annonce";
     }
 
-    function getSingularName() {
-
-        if (state.tab === "annonces") {
-            return "une annonce";
-        }
-
-        if (state.tab === "realisations") {
-            return "une réalisation";
-        }
-
-        return "un partenaire";
+    if (state.tab === "realisations") {
+        return "une réalisation";
     }
 
-    /* =========================
-       AUTH
-    ========================= */
+    return "un partenaire";
 
-    async function checkAuth() {
+}
 
-        try {
 
-            const sessionResult =
-                await supabaseClient.auth.getSession();
+/* =========================
+   AUTH
+========================= */
 
-            if (
-                sessionResult.error ||
-                !sessionResult.data ||
-                !sessionResult.data.session
-            ) {
-                window.location.href = "../pages/connexion.html";
-                return false;
-            }
+async function checkAuth() {
 
-            const session =
-                sessionResult.data.session;
+    try {
 
-            const staffResult =
-                await supabaseClient
-                    .from("staff")
-                    .select("id,email,nom,role")
-                    .eq("id", session.user.id)
-                    .maybeSingle();
+        const result =
+            await supabaseClient.auth.getSession();
 
-            if (
-                staffResult.error ||
-                !staffResult.data
-            ) {
-                await supabaseClient.auth.signOut();
-                window.location.href = "../pages/connexion.html";
-                return false;
-            }
+        if (
+            result.error ||
+            !result.data ||
+            !result.data.session
+        ) {
 
-            const staff = staffResult.data;
-
-            elements.userName.textContent =
-                staff.nom || staff.email || "Staff";
-
-            elements.userRole.textContent =
-                staff.role === "admin"
-                    ? "Administrateur"
-                    : "Staff";
-
-            elements.userAvatar.textContent =
-                getInitial(staff.nom, staff.email);
-
-            return true;
-
-        } catch (error) {
-
-            console.error(error);
-
-            window.location.href = "../pages/connexion.html";
+            window.location.href =
+                "../pages/connexion.html";
 
             return false;
+
         }
+
+
+        const userId =
+            result.data.session.user.id;
+
+
+        const staffResult =
+            await supabaseClient
+                .from("staff")
+                .select("id,email,nom,role")
+                .eq("id", userId)
+                .maybeSingle();
+
+
+        if (
+            staffResult.error ||
+            !staffResult.data
+        ) {
+
+            console.error(
+                "Erreur staff :",
+                staffResult.error
+            );
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href =
+                "../pages/connexion.html";
+
+            return false;
+
+        }
+
+
+        const staff = staffResult.data;
+
+
+        elements.userName.textContent =
+            staff.nom ||
+            staff.email ||
+            "Staff";
+
+
+        elements.userRole.textContent =
+            staff.role === "admin"
+                ? "Administrateur"
+                : "Staff";
+
+
+        elements.userAvatar.textContent =
+            getInitial(
+                staff.nom,
+                staff.email
+            );
+
+
+        return true;
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        window.location.href =
+            "../pages/connexion.html";
+
+        return false;
+
     }
 
-    /* =========================
-       CHARGEMENT
-    ========================= */
+}
 
-    async function loadData() {
 
-        state.loading = true;
+/* =========================
+   CHARGEMENT
+========================= */
+
+async function loadData() {
+
+    state.loadingData = true;
+
+    elements.tableContainer.innerHTML =
+        '<div class="loading">Chargement des données...</div>';
+
+
+    try {
+
+        const annonces =
+            await supabaseClient
+                .from("annonces")
+                .select(
+                    "id,titre,categorie,contenu,created_at,updated_at"
+                )
+                .order("created_at", {
+                    ascending: false
+                });
+
+
+        const realisations =
+            await supabaseClient
+                .from("realisations")
+                .select(
+                    "id,titre,description,lien,created_at,updated_at"
+                )
+                .order("created_at", {
+                    ascending: false
+                });
+
+
+        const partenaires =
+            await supabaseClient
+                .from("partenaires")
+                .select(
+                    "id,nom,description,lien,created_at,updated_at"
+                )
+                .order("created_at", {
+                    ascending: false
+                });
+
+
+        if (annonces.error) {
+            throw annonces.error;
+        }
+
+        if (realisations.error) {
+            throw realisations.error;
+        }
+
+        if (partenaires.error) {
+            throw partenaires.error;
+        }
+
+
+        state.data.annonces =
+            annonces.data || [];
+
+
+        state.data.realisations =
+            realisations.data || [];
+
+
+        state.data.partenaires =
+            partenaires.data || [];
+
+
+        updateCounters();
+
+        renderTable();
+
+
+    } catch (error) {
+
+        console.error(
+            "Erreur chargement :",
+            error
+        );
+
 
         elements.tableContainer.innerHTML =
-            '<div class="loading">Chargement des données...</div>';
+            '<div class="empty">' +
+                '<strong>Impossible de charger les données</strong>' +
+                '<span>' +
+                    escapeHtml(
+                        error.message ||
+                        "Erreur inconnue."
+                    ) +
+                '</span>' +
+            '</div>';
 
-        try {
 
-            const annoncesRequest =
-                await supabaseClient
-                    .from("annonces")
-                    .select(
-                        "id,titre,categorie,contenu,created_at,updated_at"
-                    )
-                    .order("created_at", {
-                        ascending: false
-                    });
+        showToast(
+            error.message ||
+            "Erreur lors du chargement.",
+            "error"
+        );
 
-            const realisationsRequest =
-                await supabaseClient
-                    .from("realisations")
-                    .select(
-                        "id,titre,description,lien,created_at,updated_at"
-                    )
-                    .order("created_at", {
-                        ascending: false
-                    });
 
-            const partenairesRequest =
-                await supabaseClient
-                    .from("partenaires")
-                    .select(
-                        "id,nom,description,lien,created_at,updated_at"
-                    )
-                    .order("created_at", {
-                        ascending: false
-                    });
+    } finally {
 
-            if (annoncesRequest.error) {
-                throw new Error(
-                    "Erreur annonces : " +
-                    annoncesRequest.error.message
-                );
-            }
+        state.loadingData = false;
 
-            if (realisationsRequest.error) {
-                throw new Error(
-                    "Erreur réalisations : " +
-                    realisationsRequest.error.message
-                );
-            }
+    }
 
-            if (partenairesRequest.error) {
-                throw new Error(
-                    "Erreur partenaires : " +
-                    partenairesRequest.error.message
-                );
-            }
+}
 
-            state.data.annonces =
-                annoncesRequest.data || [];
 
-            state.data.realisations =
-                realisationsRequest.data || [];
+function updateCounters() {
 
-            state.data.partenaires =
-                partenairesRequest.data || [];
+    elements.annoncesCount.textContent =
+        state.data.annonces.length;
 
-            updateCounters();
-            renderTable();
+    elements.realisationsCount.textContent =
+        state.data.realisations.length;
 
-        } catch (error) {
+    elements.partenairesCount.textContent =
+        state.data.partenaires.length;
 
-            console.error(error);
+}
 
-            elements.tableContainer.innerHTML =
-                '<div class="empty">' +
-                    '<strong>Impossible de charger les données</strong>' +
-                    '<span>' +
-                        escapeHtml(error.message) +
-                    '</span>' +
-                '</div>';
+
+/* =========================
+   RECHERCHE
+========================= */
+
+function getFilteredItems() {
+
+    const items =
+        getCurrentItems();
+
+
+    const query =
+        elements.searchInput.value
+            .trim()
+            .toLowerCase();
+
+
+    if (!query) {
+        return items;
+    }
+
+
+    return items.filter(function (item) {
+
+        let text = "";
+
+
+        if (state.tab === "annonces") {
+
+            text =
+                (item.titre || "") +
+                " " +
+                (item.categorie || "") +
+                " " +
+                (item.contenu || "");
+
+        }
+
+        else if (state.tab === "realisations") {
+
+            text =
+                (item.titre || "") +
+                " " +
+                (item.description || "") +
+                " " +
+                (item.lien || "");
+
+        }
+
+        else {
+
+            text =
+                (item.nom || "") +
+                " " +
+                (item.description || "") +
+                " " +
+                (item.lien || "");
+
+        }
+
+
+        return text
+            .toLowerCase()
+            .includes(query);
+
+    });
+
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+function renderTable() {
+
+    const items =
+        getFilteredItems();
+
+
+    if (items.length === 0) {
+
+        elements.tableContainer.innerHTML =
+            '<div class="empty">' +
+                '<strong>Aucun élément</strong>' +
+                '<span>Aucun contenu ne correspond à votre recherche.</span>' +
+            '</div>';
+
+        return;
+
+    }
+
+
+    let html =
+        '<div class="table-container">' +
+            '<table>' +
+                '<thead>' +
+                    '<tr>';
+
+
+    if (state.tab === "annonces") {
+
+        html +=
+            '<th>Titre</th>' +
+            '<th>Catégorie</th>' +
+            '<th>Création</th>' +
+            '<th>Modification</th>' +
+            '<th>Actions</th>';
+
+    }
+
+    else if (state.tab === "realisations") {
+
+        html +=
+            '<th>Réalisation</th>' +
+            '<th>Lien</th>' +
+            '<th>Création</th>' +
+            '<th>Modification</th>' +
+            '<th>Actions</th>';
+
+    }
+
+    else {
+
+        html +=
+            '<th>Partenaire</th>' +
+            '<th>Lien</th>' +
+            '<th>Création</th>' +
+            '<th>Modification</th>' +
+            '<th>Actions</th>';
+
+    }
+
+
+    html +=
+                    '</tr>' +
+                '</thead>' +
+                '<tbody>';
+
+
+    items.forEach(function (item) {
+
+        if (state.tab === "annonces") {
+
+            html +=
+                '<tr>' +
+
+                    '<td class="title-cell">' +
+                        '<strong>' +
+                            escapeHtml(item.titre) +
+                        '</strong>' +
+
+                        '<span>' +
+                            escapeHtml(item.contenu) +
+                        '</span>' +
+                    '</td>' +
+
+                    '<td>' +
+                        '<span class="badge">' +
+                            escapeHtml(item.categorie) +
+                        '</span>' +
+                    '</td>' +
+
+                    '<td class="date">' +
+                        formatDate(item.created_at) +
+                    '</td>' +
+
+                    '<td class="date">' +
+                        formatDate(item.updated_at) +
+                    '</td>' +
+
+                    '<td>' +
+                        actionButtons(item.id) +
+                    '</td>' +
+
+                '</tr>';
+
+        }
+
+        else if (state.tab === "realisations") {
+
+            html +=
+                '<tr>' +
+
+                    '<td class="title-cell">' +
+                        '<strong>' +
+                            escapeHtml(item.titre) +
+                        '</strong>' +
+
+                        '<span>' +
+                            escapeHtml(item.description || "") +
+                        '</span>' +
+                    '</td>' +
+
+                    '<td>' +
+                        linkButton(item.lien) +
+                    '</td>' +
+
+                    '<td class="date">' +
+                        formatDate(item.created_at) +
+                    '</td>' +
+
+                    '<td class="date">' +
+                        formatDate(item.updated_at) +
+                    '</td>' +
+
+                    '<td>' +
+                        actionButtons(item.id) +
+                    '</td>' +
+
+                '</tr>';
+
+        }
+
+        else {
+
+            html +=
+                '<tr>' +
+
+                    '<td class="title-cell">' +
+                        '<strong>' +
+                            escapeHtml(item.nom) +
+                        '</strong>' +
+
+                        '<span>' +
+                            escapeHtml(item.description || "") +
+                        '</span>' +
+                    '</td>' +
+
+                    '<td>' +
+                        linkButton(item.lien) +
+                    '</td>' +
+
+                    '<td class="date">' +
+                        formatDate(item.created_at) +
+                    '</td>' +
+
+                    '<td class="date">' +
+                        formatDate(item.updated_at) +
+                    '</td>' +
+
+                    '<td>' +
+                        actionButtons(item.id) +
+                    '</td>' +
+
+                '</tr>';
+
+        }
+
+    });
+
+
+    html +=
+                '</tbody>' +
+            '</table>' +
+        '</div>';
+
+
+    elements.tableContainer.innerHTML =
+        html;
+
+}
+
+
+function actionButtons(id) {
+
+    return (
+        '<div class="actions">' +
+
+            '<button ' +
+                'type="button" ' +
+                'class="action-btn edit-action" ' +
+                'data-id="' +
+                    escapeHtml(id) +
+                '"' +
+            '>' +
+                'Modifier' +
+            '</button>' +
+
+            '<button ' +
+                'type="button" ' +
+                'class="action-btn delete delete-action" ' +
+                'data-id="' +
+                    escapeHtml(id) +
+                '"' +
+            '>' +
+                'Supprimer' +
+            '</button>' +
+
+        '</div>'
+    );
+
+}
+
+
+function linkButton(link) {
+
+    if (!link) {
+
+        return (
+            '<span class="date">' +
+                'Aucun lien' +
+            '</span>'
+        );
+
+    }
+
+
+    const value =
+        String(link).trim();
+
+
+    if (
+        !value.startsWith("http://") &&
+        !value.startsWith("https://")
+    ) {
+
+        return (
+            '<span class="date">' +
+                escapeHtml(value) +
+            '</span>'
+        );
+
+    }
+
+
+    return (
+        '<a ' +
+            'href="' +
+                escapeHtml(value) +
+            '" ' +
+            'target="_blank" ' +
+            'rel="noopener noreferrer" ' +
+            'style="color:#9f8cff;font-size:12px;"' +
+        '>' +
+            'Ouvrir ↗' +
+        '</a>'
+    );
+
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+function openModal(id) {
+
+    console.log(
+        "Ouverture du modal",
+        id
+    );
+
+
+    state.editingId =
+        id || null;
+
+
+    let item = null;
+
+
+    if (state.editingId) {
+
+        item =
+            getCurrentItems().find(function (entry) {
+
+                return String(entry.id) ===
+                    String(state.editingId);
+
+            });
+
+
+        if (!item) {
 
             showToast(
-                "Erreur lors du chargement.",
+                "Élément introuvable.",
                 "error"
             );
 
-        } finally {
-
-            state.loading = false;
-        }
-    }
-
-    function updateCounters() {
-
-        elements.annoncesCount.textContent =
-            state.data.annonces.length;
-
-        elements.realisationsCount.textContent =
-            state.data.realisations.length;
-
-        elements.partenairesCount.textContent =
-            state.data.partenaires.length;
-    }
-
-    /* =========================
-       RECHERCHE
-    ========================= */
-
-    function getFilteredItems() {
-
-        const items = getCurrentItems();
-
-        const query =
-            elements.searchInput.value
-                .trim()
-                .toLowerCase();
-
-        if (!query) {
-            return items;
-        }
-
-        return items.filter(function (item) {
-
-            let text = "";
-
-            if (state.tab === "annonces") {
-
-                text =
-                    (item.titre || "") +
-                    " " +
-                    (item.categorie || "") +
-                    " " +
-                    (item.contenu || "");
-
-            } else if (state.tab === "realisations") {
-
-                text =
-                    (item.titre || "") +
-                    " " +
-                    (item.description || "") +
-                    " " +
-                    (item.lien || "");
-
-            } else {
-
-                text =
-                    (item.nom || "") +
-                    " " +
-                    (item.description || "") +
-                    " " +
-                    (item.lien || "");
-            }
-
-            return text.toLowerCase().includes(query);
-        });
-    }
-
-    /* =========================
-       AFFICHAGE
-    ========================= */
-
-    function renderTable() {
-
-        const items = getFilteredItems();
-
-        if (items.length === 0) {
-
-            elements.tableContainer.innerHTML =
-                '<div class="empty">' +
-                    '<strong>Aucun élément</strong>' +
-                    '<span>' +
-                        'Aucun contenu ne correspond à votre recherche.' +
-                    '</span>' +
-                '</div>';
+            state.editingId = null;
 
             return;
+
         }
 
-        let html =
-            '<div class="table-container">' +
-                '<table>' +
-                    '<thead>' +
-                        '<tr>';
-
-        if (state.tab === "annonces") {
-
-            html +=
-                '<th>Titre</th>' +
-                '<th>Catégorie</th>' +
-                '<th>Création</th>' +
-                '<th>Modification</th>' +
-                '<th>Actions</th>';
-
-        } else if (state.tab === "realisations") {
-
-            html +=
-                '<th>Réalisation</th>' +
-                '<th>Lien</th>' +
-                '<th>Création</th>' +
-                '<th>Modification</th>' +
-                '<th>Actions</th>';
-
-        } else {
-
-            html +=
-                '<th>Partenaire</th>' +
-                '<th>Lien</th>' +
-                '<th>Création</th>' +
-                '<th>Modification</th>' +
-                '<th>Actions</th>';
-        }
-
-        html +=
-                        '</tr>' +
-                    '</thead>' +
-                    '<tbody>';
-
-        items.forEach(function (item) {
-
-            if (state.tab === "annonces") {
-
-                html +=
-                    '<tr>' +
-                        '<td class="title-cell">' +
-                            '<strong>' +
-                                escapeHtml(item.titre) +
-                            '</strong>' +
-                            '<span>' +
-                                escapeHtml(item.contenu) +
-                            '</span>' +
-                        '</td>' +
-
-                        '<td>' +
-                            '<span class="badge">' +
-                                escapeHtml(item.categorie) +
-                            '</span>' +
-                        '</td>' +
-
-                        '<td class="date">' +
-                            formatDate(item.created_at) +
-                        '</td>' +
-
-                        '<td class="date">' +
-                            formatDate(item.updated_at) +
-                        '</td>' +
-
-                        '<td>' +
-                            actionButtons(item.id) +
-                        '</td>' +
-
-                    '</tr>';
-
-            } else if (state.tab === "realisations") {
-
-                html +=
-                    '<tr>' +
-
-                        '<td class="title-cell">' +
-                            '<strong>' +
-                                escapeHtml(item.titre) +
-                            '</strong>' +
-                            '<span>' +
-                                escapeHtml(item.description || "") +
-                            '</span>' +
-                        '</td>' +
-
-                        '<td>' +
-                            linkButton(item.lien) +
-                        '</td>' +
-
-                        '<td class="date">' +
-                            formatDate(item.created_at) +
-                        '</td>' +
-
-                        '<td class="date">' +
-                            formatDate(item.updated_at) +
-                        '</td>' +
-
-                        '<td>' +
-                            actionButtons(item.id) +
-                        '</td>' +
-
-                    '</tr>';
-
-            } else {
-
-                html +=
-                    '<tr>' +
-
-                        '<td class="title-cell">' +
-                            '<strong>' +
-                                escapeHtml(item.nom) +
-                            '</strong>' +
-                            '<span>' +
-                                escapeHtml(item.description || "") +
-                            '</span>' +
-                        '</td>' +
-
-                        '<td>' +
-                            linkButton(item.lien) +
-                        '</td>' +
-
-                        '<td class="date">' +
-                            formatDate(item.created_at) +
-                        '</td>' +
-
-                        '<td class="date">' +
-                            formatDate(item.updated_at) +
-                        '</td>' +
-
-                        '<td>' +
-                            actionButtons(item.id) +
-                        '</td>' +
-
-                    '</tr>';
-            }
-        });
-
-        html +=
-                    '</tbody>' +
-                '</table>' +
-            '</div>';
-
-        elements.tableContainer.innerHTML = html;
     }
 
-    function actionButtons(id) {
 
-        return (
-            '<div class="actions">' +
+    const editMode =
+        Boolean(item);
 
-                '<button ' +
-                    'type="button" ' +
-                    'class="action-btn edit-action" ' +
-                    'data-id="' +
-                    escapeHtml(id) +
-                '">' +
-                    'Modifier' +
-                '</button>' +
 
-                '<button ' +
-                    'type="button" ' +
-                    'class="action-btn delete delete-action" ' +
-                    'data-id="' +
-                    escapeHtml(id) +
-                '">' +
-                    'Supprimer' +
-                '</button>' +
+    elements.modalTitle.textContent =
+        editMode
+            ? "Modifier " + getSingularName()
+            : "Ajouter " + getSingularName();
 
-            '</div>'
+
+    buildForm(item);
+
+
+    elements.modalOverlay.classList.add("open");
+
+
+    document.body.style.overflow =
+        "hidden";
+
+
+    const firstField =
+        elements.formFields.querySelector(
+            "input, textarea, select"
         );
+
+
+    if (firstField) {
+
+        setTimeout(function () {
+
+            firstField.focus();
+
+        }, 100);
+
     }
 
-    function linkButton(link) {
+}
 
-        if (!link) {
-            return '<span class="date">Aucun lien</span>';
-        }
 
-        const value = String(link).trim();
+function buildForm(item) {
 
-        if (
-            !value.startsWith("http://") &&
-            !value.startsWith("https://")
-        ) {
-            return (
-                '<span class="date">' +
-                    escapeHtml(value) +
-                '</span>'
-            );
-        }
-
-        return (
-            '<a ' +
-                'href="' +
-                    escapeHtml(value) +
-                '" ' +
-                'target="_blank" ' +
-                'rel="noopener noreferrer" ' +
-                'style="color:#9f8cff;font-size:12px;"' +
-            '>' +
-                'Ouvrir ↗' +
-            '</a>'
-        );
-    }
-
-    /* =========================
-       MODAL
-    ========================= */
-
-    function openModal(id) {
-
-        state.editingId = id || null;
-
-        let item = null;
-
-        if (state.editingId) {
-
-            item = getCurrentItems().find(function (entry) {
-                return String(entry.id) === String(id);
-            });
-
-            if (!item) {
-                showToast(
-                    "Élément introuvable.",
-                    "error"
-                );
-                return;
-            }
-        }
-
-        const editMode = Boolean(item);
-
-        elements.modalTitle.textContent =
-            editMode
-                ? "Modifier " + getSingularName()
-                : "Ajouter " + getSingularName();
-
-        buildForm(item);
-
-        elements.modalOverlay.classList.add("open");
-
-        document.body.style.overflow = "hidden";
-
-        const firstField =
-            elements.formFields.querySelector("input, textarea, select");
-
-        if (firstField) {
-            setTimeout(function () {
-                firstField.focus();
-            }, 50);
-        }
-    }
-
-    function buildForm(item) {
-
-        if (state.tab === "annonces") {
-
-            elements.formFields.innerHTML =
-                '<div class="field">' +
-
-                    '<label for="fieldTitle">' +
-                        'Titre *' +
-                    '</label>' +
-
-                    '<input ' +
-                        'id="fieldTitle" ' +
-                        'type="text" ' +
-                        'maxlength="200" ' +
-                        'required ' +
-                        'value="' +
-                            escapeHtml(item ? item.titre : "") +
-                        '"' +
-                    '>' +
-
-                '</div>' +
-
-                '<div class="field">' +
-
-                    '<label for="fieldCategory">' +
-                        'Catégorie *' +
-                    '</label>' +
-
-                    '<select ' +
-                        'id="fieldCategory" ' +
-                        'required' +
-                    '>' +
-
-                        categoryOption(
-                            "Information",
-                            item ? item.categorie : ""
-                        ) +
-
-                        categoryOption(
-                            "Actualité",
-                            item ? item.categorie : ""
-                        ) +
-
-                        categoryOption(
-                            "Nouveauté",
-                            item ? item.categorie : ""
-                        ) +
-
-                        categoryOption(
-                            "Projet",
-                            item ? item.categorie : ""
-                        ) +
-
-                        categoryOption(
-                            "Autre",
-                            item ? item.categorie : ""
-                        ) +
-
-                    '</select>' +
-
-                '</div>' +
-
-                '<div class="field">' +
-
-                    '<label for="fieldContent">' +
-                        'Contenu *' +
-                    '</label>' +
-
-                    '<textarea ' +
-                        'id="fieldContent" ' +
-                        'required' +
-                    '>' +
-                        escapeHtml(item ? item.contenu : "") +
-                    '</textarea>' +
-
-                '</div>';
-
-            return;
-        }
-
-        if (state.tab === "realisations") {
-
-            elements.formFields.innerHTML =
-                '<div class="field">' +
-
-                    '<label for="fieldTitle">' +
-                        'Titre *' +
-                    '</label>' +
-
-                    '<input ' +
-                        'id="fieldTitle" ' +
-                        'type="text" ' +
-                        'maxlength="200" ' +
-                        'required ' +
-                        'value="' +
-                            escapeHtml(item ? item.titre : "") +
-                        '"' +
-                    '>' +
-
-                '</div>' +
-
-                '<div class="field">' +
-
-                    '<label for="fieldDescription">' +
-                        'Description' +
-                    '</label>' +
-
-                    '<textarea id="fieldDescription">' +
-                        escapeHtml(item ? item.description : "") +
-                    '</textarea>' +
-
-                '</div>' +
-
-                '<div class="field">' +
-
-                    '<label for="fieldLink">' +
-                        'Lien du projet' +
-                    '</label>' +
-
-                    '<input ' +
-                        'id="fieldLink" ' +
-                        'type="url" ' +
-                        'placeholder="https://..." ' +
-                        'value="' +
-                            escapeHtml(item ? item.lien : "") +
-                        '"' +
-                    '>' +
-
-                    '<small>' +
-                        'Optionnel.' +
-                    '</small>' +
-
-                '</div>';
-
-            return;
-        }
+    if (state.tab === "annonces") {
 
         elements.formFields.innerHTML =
+
             '<div class="field">' +
 
-                '<label for="fieldName">' +
-                    'Nom du partenaire *' +
+                '<label for="fieldTitle">' +
+                    'Titre *' +
                 '</label>' +
 
                 '<input ' +
-                    'id="fieldName" ' +
+                    'id="fieldTitle" ' +
                     'type="text" ' +
                     'maxlength="200" ' +
                     'required ' +
                     'value="' +
-                        escapeHtml(item ? item.nom : "") +
+                        escapeHtml(
+                            item
+                                ? item.titre
+                                : ""
+                        ) +
+                    '"' +
+                '>' +
+
+            '</div>' +
+
+            '<div class="field">' +
+
+                '<label for="fieldCategory">' +
+                    'Catégorie *' +
+                '</label>' +
+
+                '<select ' +
+                    'id="fieldCategory" ' +
+                    'required' +
+                '>' +
+
+                    categoryOption(
+                        "Information",
+                        item
+                            ? item.categorie
+                            : ""
+                    ) +
+
+                    categoryOption(
+                        "Actualité",
+                        item
+                            ? item.categorie
+                            : ""
+                    ) +
+
+                    categoryOption(
+                        "Nouveauté",
+                        item
+                            ? item.categorie
+                            : ""
+                    ) +
+
+                    categoryOption(
+                        "Projet",
+                        item
+                            ? item.categorie
+                            : ""
+                    ) +
+
+                    categoryOption(
+                        "Autre",
+                        item
+                            ? item.categorie
+                            : ""
+                    ) +
+
+                '</select>' +
+
+            '</div>' +
+
+            '<div class="field">' +
+
+                '<label for="fieldContent">' +
+                    'Contenu *' +
+                '</label>' +
+
+                '<textarea ' +
+                    'id="fieldContent" ' +
+                    'required' +
+                '>' +
+                    escapeHtml(
+                        item
+                            ? item.contenu
+                            : ""
+                    ) +
+                '</textarea>' +
+
+            '</div>';
+
+        return;
+
+    }
+
+
+    if (state.tab === "realisations") {
+
+        elements.formFields.innerHTML =
+
+            '<div class="field">' +
+
+                '<label for="fieldTitle">' +
+                    'Titre *' +
+                '</label>' +
+
+                '<input ' +
+                    'id="fieldTitle" ' +
+                    'type="text" ' +
+                    'maxlength="200" ' +
+                    'required ' +
+                    'value="' +
+                        escapeHtml(
+                            item
+                                ? item.titre
+                                : ""
+                        ) +
                     '"' +
                 '>' +
 
@@ -1701,7 +1859,11 @@
                 '</label>' +
 
                 '<textarea id="fieldDescription">' +
-                    escapeHtml(item ? item.description : "") +
+                    escapeHtml(
+                        item
+                            ? item.description
+                            : ""
+                    ) +
                 '</textarea>' +
 
             '</div>' +
@@ -1709,7 +1871,7 @@
             '<div class="field">' +
 
                 '<label for="fieldLink">' +
-                    'Lien' +
+                    'Lien du projet' +
                 '</label>' +
 
                 '<input ' +
@@ -1717,477 +1879,803 @@
                     'type="url" ' +
                     'placeholder="https://..." ' +
                     'value="' +
-                        escapeHtml(item ? item.lien : "") +
+                        escapeHtml(
+                            item
+                                ? item.lien
+                                : ""
+                        ) +
                     '"' +
                 '>' +
 
-                '<small>' +
-                    'Optionnel.' +
-                '</small>' +
+                '<small>Optionnel.</small>' +
 
             '</div>';
+
+        return;
+
     }
 
-    function categoryOption(value, selected) {
 
-        const selectedAttribute =
-            value === selected
-                ? " selected"
-                : "";
+    elements.formFields.innerHTML =
 
-        return (
-            '<option value="' +
-                escapeHtml(value) +
+        '<div class="field">' +
+
+            '<label for="fieldName">' +
+                'Nom du partenaire *' +
+            '</label>' +
+
+            '<input ' +
+                'id="fieldName" ' +
+                'type="text" ' +
+                'maxlength="200" ' +
+                'required ' +
+                'value="' +
+                    escapeHtml(
+                        item
+                            ? item.nom
+                            : ""
+                    ) +
                 '"' +
-                selectedAttribute +
             '>' +
-                escapeHtml(value) +
-            '</option>'
+
+        '</div>' +
+
+        '<div class="field">' +
+
+            '<label for="fieldDescription">' +
+                'Description' +
+            '</label>' +
+
+            '<textarea id="fieldDescription">' +
+                escapeHtml(
+                    item
+                        ? item.description
+                        : ""
+                ) +
+            '</textarea>' +
+
+        '</div>' +
+
+        '<div class="field">' +
+
+            '<label for="fieldLink">' +
+                'Lien' +
+            '</label>' +
+
+            '<input ' +
+                'id="fieldLink" ' +
+                'type="url" ' +
+                'placeholder="https://..." ' +
+                'value="' +
+                    escapeHtml(
+                        item
+                            ? item.lien
+                            : ""
+                    ) +
+                '"' +
+            '>' +
+
+            '<small>Optionnel.</small>' +
+
+        '</div>';
+
+}
+
+
+function categoryOption(value, selected) {
+
+    return (
+        '<option value="' +
+            escapeHtml(value) +
+            '"' +
+            (
+                value === selected
+                    ? " selected"
+                    : ""
+            ) +
+        '>' +
+            escapeHtml(value) +
+        '</option>'
+    );
+
+}
+
+
+function closeModal() {
+
+    elements.modalOverlay.classList.remove(
+        "open"
+    );
+
+
+    document.body.style.overflow = "";
+
+
+    state.editingId = null;
+
+
+    elements.contentForm.reset();
+
+    elements.formFields.innerHTML = "";
+
+}
+
+
+/* =========================
+   AJOUT / MODIFICATION
+========================= */
+
+async function saveContent(event) {
+
+    event.preventDefault();
+
+
+    if (state.saving) {
+        return;
+    }
+
+
+    state.saving = true;
+
+
+    elements.submitButton.disabled = true;
+
+    elements.submitButton.textContent =
+        "Enregistrement...";
+
+
+    const wasEditing =
+        Boolean(state.editingId);
+
+
+    try {
+
+        let payload = {};
+
+
+        if (state.tab === "annonces") {
+
+            const title =
+                document
+                    .getElementById("fieldTitle")
+                    .value
+                    .trim();
+
+
+            const category =
+                document
+                    .getElementById("fieldCategory")
+                    .value
+                    .trim();
+
+
+            const content =
+                document
+                    .getElementById("fieldContent")
+                    .value
+                    .trim();
+
+
+            if (!title || !category || !content) {
+
+                throw new Error(
+                    "Remplis tous les champs obligatoires."
+                );
+
+            }
+
+
+            payload = {
+
+                titre: title,
+
+                categorie: category,
+
+                contenu: content
+
+            };
+
+        }
+
+
+        else if (state.tab === "realisations") {
+
+            const title =
+                document
+                    .getElementById("fieldTitle")
+                    .value
+                    .trim();
+
+
+            const description =
+                document
+                    .getElementById("fieldDescription")
+                    .value
+                    .trim();
+
+
+            const link =
+                document
+                    .getElementById("fieldLink")
+                    .value
+                    .trim();
+
+
+            if (!title) {
+
+                throw new Error(
+                    "Le titre est obligatoire."
+                );
+
+            }
+
+
+            payload = {
+
+                titre: title,
+
+                description:
+                    description || null,
+
+                lien:
+                    link || null
+
+            };
+
+        }
+
+
+        else {
+
+            const name =
+                document
+                    .getElementById("fieldName")
+                    .value
+                    .trim();
+
+
+            const description =
+                document
+                    .getElementById("fieldDescription")
+                    .value
+                    .trim();
+
+
+            const link =
+                document
+                    .getElementById("fieldLink")
+                    .value
+                    .trim();
+
+
+            if (!name) {
+
+                throw new Error(
+                    "Le nom du partenaire est obligatoire."
+                );
+
+            }
+
+
+            payload = {
+
+                nom: name,
+
+                description:
+                    description || null,
+
+                lien:
+                    link || null
+
+            };
+
+        }
+
+
+        let result;
+
+
+        if (wasEditing) {
+
+            result =
+                await supabaseClient
+                    .from(state.tab)
+                    .update(payload)
+                    .eq(
+                        "id",
+                        state.editingId
+                    );
+
+        }
+
+        else {
+
+            result =
+                await supabaseClient
+                    .from(state.tab)
+                    .insert(payload);
+
+        }
+
+
+        if (result.error) {
+
+            console.error(
+                "Erreur Supabase :",
+                result.error
+            );
+
+
+            throw new Error(
+
+                result.error.message ||
+
+                result.error.details ||
+
+                result.error.hint ||
+
+                "Supabase a refusé l'opération."
+
+            );
+
+        }
+
+
+        closeModal();
+
+
+        await loadData();
+
+
+        showToast(
+
+            wasEditing
+                ? "Modification effectuée."
+                : "Élément ajouté.",
+
+            "success"
+
         );
+
+
     }
 
-    function closeModal() {
+    catch (error) {
 
-        elements.modalOverlay.classList.remove("open");
+        console.error(
+            "Erreur enregistrement :",
+            error
+        );
 
-        document.body.style.overflow = "";
 
-        state.editingId = null;
+        showToast(
 
-        elements.contentForm.reset();
-        elements.formFields.innerHTML = "";
+            error.message ||
+
+            "Impossible d'enregistrer.",
+
+            "error"
+
+        );
+
     }
 
-    /* =========================
-       ENREGISTREMENT
-    ========================= */
+    finally {
 
-    async function saveContent(event) {
+        state.saving = false;
+
+
+        elements.submitButton.disabled =
+            false;
+
+
+        elements.submitButton.textContent =
+            "Enregistrer";
+
+    }
+
+}
+
+
+/* =========================
+   SUPPRESSION
+========================= */
+
+async function deleteContent(id) {
+
+    if (
+        state.deleting ||
+        state.saving
+    ) {
+        return;
+    }
+
+
+    const item =
+        getCurrentItems().find(function (entry) {
+
+            return String(entry.id) ===
+                String(id);
+
+        });
+
+
+    if (!item) {
+
+        showToast(
+            "Élément introuvable.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const name =
+        state.tab === "partenaires"
+            ? item.nom
+            : item.titre;
+
+
+    if (
+        !window.confirm(
+            'Supprimer "' +
+            name +
+            '" ?\n\nCette action est définitive.'
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    state.deleting = true;
+
+
+    try {
+
+        const result =
+            await supabaseClient
+                .from(state.tab)
+                .delete()
+                .eq("id", id);
+
+
+        if (result.error) {
+            throw result.error;
+        }
+
+
+        await loadData();
+
+
+        showToast(
+            "Élément supprimé.",
+            "success"
+        );
+
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+
+        showToast(
+
+            error.message ||
+
+            "Impossible de supprimer cet élément.",
+
+            "error"
+
+        );
+
+    }
+
+    finally {
+
+        state.deleting = false;
+
+    }
+
+}
+
+
+/* =========================
+   ÉVÉNEMENTS
+========================= */
+
+
+/* ONGLETS */
+
+document
+    .querySelectorAll(".tab")
+    .forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    state.loadingData ||
+                    state.saving
+                ) {
+                    return;
+                }
+
+
+                document
+                    .querySelectorAll(".tab")
+                    .forEach(function (tab) {
+
+                        tab.classList.remove(
+                            "active"
+                        );
+
+                    });
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                state.tab =
+                    button.dataset.tab;
+
+
+                elements.searchInput.value =
+                    "";
+
+
+                renderTable();
+
+            }
+        );
+
+    });
+
+
+/* RECHERCHE */
+
+elements.searchInput.addEventListener(
+    "input",
+    function () {
+
+        renderTable();
+
+    }
+);
+
+
+/* BOUTON AJOUTER */
+
+elements.addButton.addEventListener(
+    "click",
+    function (event) {
 
         event.preventDefault();
 
-        if (state.loading) {
+        console.log(
+            "Bouton Ajouter cliqué"
+        );
+
+
+        if (
+            state.saving ||
+            state.deleting
+        ) {
+
+            showToast(
+                "Une opération est déjà en cours.",
+                "error"
+            );
+
             return;
+
         }
 
-        state.loading = true;
 
-        elements.submitButton.disabled = true;
-        elements.submitButton.textContent = "Enregistrement...";
+        openModal(null);
+
+    }
+);
+
+
+/* FERMETURE */
+
+elements.closeModalButton.addEventListener(
+    "click",
+    closeModal
+);
+
+
+elements.cancelButton.addEventListener(
+    "click",
+    closeModal
+);
+
+
+elements.modalOverlay.addEventListener(
+    "click",
+    function (event) {
+
+        if (
+            event.target ===
+            elements.modalOverlay
+        ) {
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+/* FORMULAIRE */
+
+elements.contentForm.addEventListener(
+    "submit",
+    saveContent
+);
+
+
+/* MODIFIER / SUPPRIMER */
+
+elements.tableContainer.addEventListener(
+    "click",
+    function (event) {
+
+        const editButton =
+            event.target.closest(
+                ".edit-action"
+            );
+
+
+        const deleteButton =
+            event.target.closest(
+                ".delete-action"
+            );
+
+
+        if (editButton) {
+
+            const id =
+                editButton.dataset.id;
+
+
+            if (id) {
+
+                openModal(id);
+
+            }
+
+            return;
+
+        }
+
+
+        if (deleteButton) {
+
+            const id =
+                deleteButton.dataset.id;
+
+
+            if (id) {
+
+                deleteContent(id);
+
+            }
+
+        }
+
+    }
+);
+
+
+/* LOGOUT */
+
+elements.logoutButton.addEventListener(
+    "click",
+    async function () {
 
         try {
 
-            let payload = {};
+            await supabaseClient.auth.signOut();
 
-            if (state.tab === "annonces") {
+        }
 
-                const title =
-                    document
-                        .getElementById("fieldTitle")
-                        .value
-                        .trim();
-
-                const category =
-                    document
-                        .getElementById("fieldCategory")
-                        .value
-                        .trim();
-
-                const content =
-                    document
-                        .getElementById("fieldContent")
-                        .value
-                        .trim();
-
-                if (!title || !category || !content) {
-                    throw new Error(
-                        "Remplis tous les champs obligatoires."
-                    );
-                }
-
-                payload = {
-                    titre: title,
-                    categorie: category,
-                    contenu: content
-                };
-
-            } else if (state.tab === "realisations") {
-
-                const title =
-                    document
-                        .getElementById("fieldTitle")
-                        .value
-                        .trim();
-
-                const description =
-                    document
-                        .getElementById("fieldDescription")
-                        .value
-                        .trim();
-
-                const link =
-                    document
-                        .getElementById("fieldLink")
-                        .value
-                        .trim();
-
-                if (!title) {
-                    throw new Error(
-                        "Le titre est obligatoire."
-                    );
-                }
-
-                payload = {
-                    titre: title,
-                    description: description || null,
-                    lien: link || null
-                };
-
-            } else {
-
-                const name =
-                    document
-                        .getElementById("fieldName")
-                        .value
-                        .trim();
-
-                const description =
-                    document
-                        .getElementById("fieldDescription")
-                        .value
-                        .trim();
-
-                const link =
-                    document
-                        .getElementById("fieldLink")
-                        .value
-                        .trim();
-
-                if (!name) {
-                    throw new Error(
-                        "Le nom du partenaire est obligatoire."
-                    );
-                }
-
-                payload = {
-                    nom: name,
-                    description: description || null,
-                    lien: link || null
-                };
-            }
-
-            let result;
-
-            if (state.editingId) {
-
-                result =
-                    await supabaseClient
-                        .from(state.tab)
-                        .update(payload)
-                        .eq("id", state.editingId);
-
-            } else {
-
-                result =
-                    await supabaseClient
-                        .from(state.tab)
-                        .insert(payload);
-            }
-
-            if (result.error) {
-                throw result.error;
-            }
-
-            closeModal();
-
-            await loadData();
-
-            showToast(
-                state.editingId
-                    ? "Modification effectuée."
-                    : "Élément ajouté.",
-                "success"
-            );
-
-        } catch (error) {
+        catch (error) {
 
             console.error(error);
 
-            showToast(
-                error.message ||
-                "Une erreur est survenue.",
-                "error"
-            );
-
-        } finally {
-
-            state.loading = false;
-
-            elements.submitButton.disabled = false;
-            elements.submitButton.textContent =
-                "Enregistrer";
         }
+
+
+        window.location.href =
+            "../pages/connexion.html";
+
     }
+);
 
-    /* =========================
-       SUPPRESSION
-    ========================= */
 
-    async function deleteContent(id) {
+/* MENU MOBILE */
 
-        if (state.loading) {
-            return;
-        }
+elements.mobileMenu.addEventListener(
+    "click",
+    function () {
 
-        const item =
-            getCurrentItems().find(function (entry) {
-                return String(entry.id) === String(id);
-            });
+        elements.sidebar.classList.toggle(
+            "open"
+        );
 
-        if (!item) {
-            showToast(
-                "Élément introuvable.",
-                "error"
-            );
-            return;
-        }
-
-        let name =
-            state.tab === "partenaires"
-                ? item.nom
-                : item.titre;
-
-        const confirmed =
-            window.confirm(
-                'Supprimer "' +
-                name +
-                '" ?\n\n' +
-                "Cette action est définitive."
-            );
-
-        if (!confirmed) {
-            return;
-        }
-
-        state.loading = true;
-
-        try {
-
-            const result =
-                await supabaseClient
-                    .from(state.tab)
-                    .delete()
-                    .eq("id", id);
-
-            if (result.error) {
-                throw result.error;
-            }
-
-            await loadData();
-
-            showToast(
-                "Élément supprimé.",
-                "success"
-            );
-
-        } catch (error) {
-
-            console.error(error);
-
-            showToast(
-                error.message ||
-                "Impossible de supprimer cet élément.",
-                "error"
-            );
-
-        } finally {
-
-            state.loading = false;
-        }
     }
+);
 
-    /* =========================
-       ÉVÉNEMENTS
-    ========================= */
 
-    document.querySelectorAll(".tab").forEach(
-        function (tabButton) {
+/* ESCAPE */
 
-            tabButton.addEventListener(
-                "click",
-                function () {
+document.addEventListener(
+    "keydown",
+    function (event) {
 
-                    if (state.loading) {
-                        return;
-                    }
+        if (
+            event.key === "Escape" &&
+            elements.modalOverlay.classList.contains(
+                "open"
+            )
+        ) {
 
-                    document
-                        .querySelectorAll(".tab")
-                        .forEach(function (button) {
-                            button.classList.remove("active");
-                        });
-
-                    tabButton.classList.add("active");
-
-                    state.tab =
-                        tabButton.dataset.tab;
-
-                    elements.searchInput.value = "";
-
-                    renderTable();
-                }
-            );
-        }
-    );
-
-    elements.searchInput.addEventListener(
-        "input",
-        function () {
-            renderTable();
-        }
-    );
-
-    elements.addButton.addEventListener(
-        "click",
-        function () {
-
-            if (state.loading) {
-                return;
-            }
-
-            openModal(null);
-        }
-    );
-
-    elements.closeModalButton.addEventListener(
-        "click",
-        function () {
             closeModal();
+
         }
-    );
 
-    elements.cancelButton.addEventListener(
-        "click",
-        function () {
-            closeModal();
-        }
-    );
+    }
+);
 
-    elements.modalOverlay.addEventListener(
-        "click",
-        function (event) {
 
-            if (event.target === elements.modalOverlay) {
-                closeModal();
+/* FERMETURE MENU */
+
+elements.sidebar
+    .querySelectorAll("a")
+    .forEach(function (link) {
+
+        link.addEventListener(
+            "click",
+            function () {
+
+                elements.sidebar.classList.remove(
+                    "open"
+                );
+
             }
-        }
-    );
+        );
 
-    elements.contentForm.addEventListener(
-        "submit",
-        saveContent
-    );
+    });
 
-    /*
-        Délégation d'événement :
-        les boutons Modifier/Supprimer sont recréés
-        à chaque render, donc on écoute leur parent.
-    */
 
-    elements.tableContainer.addEventListener(
-        "click",
-        function (event) {
+/* =========================
+   DÉMARRAGE
+========================= */
 
-            const editButton =
-                event.target.closest(".edit-action");
-
-            const deleteButton =
-                event.target.closest(".delete-action");
-
-            if (editButton) {
-
-                const id =
-                    editButton.getAttribute("data-id");
-
-                if (id) {
-                    openModal(id);
-                }
-
-                return;
-            }
-
-            if (deleteButton) {
-
-                const id =
-                    deleteButton.getAttribute("data-id");
-
-                if (id) {
-                    deleteContent(id);
-                }
-            }
-        }
-    );
-
-    elements.logoutButton.addEventListener(
-        "click",
-        async function () {
-
-            try {
-                await supabaseClient.auth.signOut();
-            } catch (error) {
-                console.error(error);
-            }
-
-            window.location.href =
-                "../pages/connexion.html";
-        }
-    );
-
-    elements.mobileMenu.addEventListener(
-        "click",
-        function () {
-
-            elements.sidebar.classList.toggle("open");
-        }
-    );
-
-    document.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (event.key === "Escape") {
-                closeModal();
-            }
-        }
-    );
-
-    /* Ferme le menu mobile après navigation */
-
-    elements.sidebar
-        .querySelectorAll("a")
-        .forEach(function (link) {
-
-            link.addEventListener(
-                "click",
-                function () {
-
-                    elements.sidebar.classList.remove(
-                        "open"
-                    );
-                }
-            );
-        });
-
-    /* =========================
-       DÉMARRAGE
-    ========================= */
+(async function init() {
 
     const authenticated =
         await checkAuth();
 
+
     if (authenticated) {
+
         await loadData();
+
     }
+
+})();
 
 </script>
 
