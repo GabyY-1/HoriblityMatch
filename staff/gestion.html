@@ -1,60 +1,37 @@
 <!DOCTYPE html>
 <html lang="fr">
-
-<head>
-
-    <meta charset="UTF-8">
-<!DOCTYPE html>
-<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Gestion — HoriblitiMatch</title>
 
-    <link rel="stylesheet" href="../css/style.css">
-
     <style>
-        :root {
-            --hm-bg: #090b10;
-            --hm-panel: #11141b;
-            --hm-panel-2: #161a23;
-            --hm-panel-3: #1b202b;
-            --hm-border: #292f3d;
-            --hm-text: #f4f5f8;
-            --hm-muted: #9299aa;
-            --hm-purple: #7867f2;
-            --hm-purple-dark: #5d4dd0;
-            --hm-blue: #4e9cff;
-            --hm-green: #45d483;
-            --hm-orange: #ffad4d;
-            --hm-red: #ff5d6c;
-            --hm-radius: 16px;
-        }
-
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0b0e14;
+            --sidebar: #0e121a;
+            --surface: #121722;
+            --surface-2: #171d29;
+            --border: #252d3c;
+            --text: #f2f4f8;
+            --muted: #8992a4;
+            --accent: #7c5cff;
+            --accent-2: #5f8cff;
+            --danger: #ef5b6b;
+            --success: #47d18c;
+            --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
         }
 
         body {
-            background:
-                radial-gradient(
-                    circle at 10% 0%,
-                    rgba(120, 103, 242, .10),
-                    transparent 30%
-                ),
-                radial-gradient(
-                    circle at 90% 10%,
-                    rgba(78, 156, 255, .07),
-                    transparent 25%
-                ),
-                var(--hm-bg);
-            color: var(--hm-text);
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
         }
 
         button,
@@ -68,517 +45,633 @@
             cursor: pointer;
         }
 
-        .hm-page {
-            width: min(1450px, calc(100% - 36px));
-            margin: 0 auto;
-            padding: 28px 0 70px;
+        a {
+            color: inherit;
+            text-decoration: none;
         }
 
-        .hm-topbar {
+        .app {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            background: var(--sidebar);
+            border-right: 1px solid var(--border);
+            padding: 24px 16px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 50;
+        }
+
+        .brand {
+            padding: 6px 10px 28px;
+        }
+
+        .brand strong {
+            display: block;
+            font-size: 21px;
+            letter-spacing: -0.5px;
+        }
+
+        .brand span {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .nav-title {
+            color: #626b7c;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 18px 10px 9px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .nav a {
+            padding: 12px 12px;
+            border-radius: 9px;
+            color: #9da5b5;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        .nav a:hover {
+            background: #151b27;
+            color: white;
+        }
+
+        .nav a.active {
+            background: rgba(124, 92, 255, 0.14);
+            color: white;
+            border: 1px solid rgba(124, 92, 255, 0.2);
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            left: 16px;
+            right: 16px;
+            bottom: 18px;
+        }
+
+        .site-link {
+            display: block;
+            padding: 11px 12px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            color: #aeb6c6;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid rgba(239, 91, 107, 0.2);
+            background: rgba(239, 91, 107, 0.07);
+            color: #f28b96;
+            border-radius: 9px;
+        }
+
+        /* MAIN */
+
+        .main {
+            width: calc(100% - 250px);
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 74px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
-            margin-bottom: 28px;
-            padding: 18px 20px;
-            background: rgba(17, 20, 27, .92);
-            border: 1px solid var(--hm-border);
-            border-radius: var(--hm-radius);
-            backdrop-filter: blur(16px);
+            padding: 0 30px;
+            background: rgba(11, 14, 20, 0.88);
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            backdrop-filter: blur(12px);
         }
 
-        .hm-brand {
-            display: flex;
-            align-items: center;
-            gap: 13px;
+        .topbar-left h1 {
+            font-size: 20px;
         }
 
-        .hm-logo {
-            width: 44px;
-            height: 44px;
-            border-radius: 13px;
-            display: grid;
-            place-items: center;
-            background: linear-gradient(
-                135deg,
-                var(--hm-purple),
-                #5a8cff
-            );
-            color: white;
-            font-weight: 900;
-            box-shadow: 0 8px 30px rgba(120, 103, 242, .25);
-        }
-
-        .hm-brand strong {
-            display: block;
-            font-size: 16px;
-        }
-
-        .hm-brand span {
-            display: block;
-            margin-top: 2px;
-            color: var(--hm-muted);
+        .topbar-left p {
+            color: var(--muted);
             font-size: 12px;
+            margin-top: 4px;
         }
 
-        .hm-top-actions {
+        .user-box {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .hm-btn {
-            border: 1px solid var(--hm-border);
-            background: var(--hm-panel-2);
-            color: var(--hm-text);
-            padding: 10px 14px;
-            border-radius: 11px;
-            transition: .2s ease;
+        .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            font-size: 13px;
+            font-weight: bold;
         }
 
-        .hm-btn:hover {
-            border-color: #454c5e;
-            transform: translateY(-1px);
+        .user-info strong {
+            display: block;
+            font-size: 13px;
         }
 
-        .hm-btn.primary {
-            border-color: transparent;
-            background: linear-gradient(
-                135deg,
-                var(--hm-purple),
-                #5e7df1
-            );
+        .user-info span {
+            display: block;
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 2px;
         }
 
-        .hm-btn.danger {
-            color: #ffb0b7;
-            border-color: rgba(255, 93, 108, .25);
-            background: rgba(255, 93, 108, .08);
+        .content {
+            padding: 30px;
+            max-width: 1500px;
+            margin: auto;
         }
 
-        .hm-btn.small {
-            padding: 7px 10px;
-            font-size: 12px;
-        }
+        /* TABS */
 
-        .hm-title {
-            margin-bottom: 22px;
-        }
-
-        .hm-title h1 {
-            margin: 0;
-            font-size: clamp(25px, 3vw, 36px);
-        }
-
-        .hm-title p {
-            margin: 8px 0 0;
-            color: var(--hm-muted);
-            max-width: 700px;
-        }
-
-        .hm-tabs {
+        .tabs {
             display: flex;
             gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
         }
 
-        .hm-tab {
-            white-space: nowrap;
-            padding: 10px 15px;
-            border-radius: 10px;
-            border: 1px solid var(--hm-border);
-            background: var(--hm-panel);
-            color: var(--hm-muted);
+        .tab {
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: #9da5b5;
+            padding: 11px 17px;
+            border-radius: 9px;
+            transition: 0.2s ease;
         }
 
-        .hm-tab.active {
+        .tab:hover {
             color: white;
-            border-color: rgba(120, 103, 242, .45);
-            background: rgba(120, 103, 242, .14);
+            background: var(--surface-2);
         }
 
-        .hm-section {
-            display: none;
+        .tab.active {
+            background: rgba(124, 92, 255, 0.14);
+            border-color: rgba(124, 92, 255, 0.35);
+            color: white;
         }
 
-        .hm-section.active {
-            display: block;
+        .tab-count {
+            display: inline-flex;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 5px;
+            align-items: center;
+            justify-content: center;
+            margin-left: 6px;
+            border-radius: 20px;
+            background: #20283a;
+            font-size: 10px;
         }
 
-        .hm-layout {
-            display: grid;
-            grid-template-columns: minmax(320px, 390px) 1fr;
-            gap: 18px;
-            align-items: start;
+        /* TOOLBAR */
+
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
         }
 
-        .hm-card {
-            background: linear-gradient(
-                145deg,
-                rgba(22, 26, 35, .98),
-                rgba(15, 18, 25, .98)
-            );
-            border: 1px solid var(--hm-border);
-            border-radius: var(--hm-radius);
-            padding: 20px;
-            box-shadow: 0 15px 45px rgba(0, 0, 0, .16);
-        }
-
-        .hm-card h2 {
-            margin: 0 0 5px;
-            font-size: 18px;
-        }
-
-        .hm-card-description {
-            margin: 0 0 20px;
-            color: var(--hm-muted);
-            font-size: 13px;
-            line-height: 1.5;
-        }
-
-        .hm-form {
+        .toolbar {
+            padding: 18px;
+            border-bottom: 1px solid var(--border);
             display: flex;
-            flex-direction: column;
-            gap: 14px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
-        .hm-field {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
+        .search {
+            position: relative;
+            flex: 1;
+            min-width: 220px;
         }
 
-        .hm-field label {
-            color: #cfd3dd;
-            font-size: 13px;
+        .search input {
+            width: 100%;
+            background: #0d1119;
+            border: 1px solid var(--border);
+            color: white;
+            padding: 12px 14px 12px 38px;
+            border-radius: 9px;
+            outline: none;
+        }
+
+        .search input:focus {
+            border-color: rgba(124, 92, 255, 0.55);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #697285;
+            pointer-events: none;
+        }
+
+        .primary-btn {
+            border: 0;
+            border-radius: 9px;
+            padding: 12px 17px;
+            color: white;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.08);
+        }
+
+        /* TABLE */
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 760px;
+        }
+
+        th,
+        td {
+            padding: 15px 18px;
+            text-align: left;
+            border-bottom: 1px solid #202735;
+        }
+
+        th {
+            color: #70798a;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             font-weight: 600;
         }
 
-        .hm-field input,
-        .hm-field textarea,
-        .hm-field select {
-            width: 100%;
-            border: 1px solid var(--hm-border);
-            background: #0d1016;
-            color: var(--hm-text);
-            border-radius: 10px;
-            padding: 11px 12px;
-            outline: none;
-            transition: .2s ease;
-        }
-
-        .hm-field textarea {
-            min-height: 130px;
-            resize: vertical;
-        }
-
-        .hm-field input:focus,
-        .hm-field textarea:focus,
-        .hm-field select:focus {
-            border-color: rgba(120, 103, 242, .7);
-            box-shadow: 0 0 0 3px rgba(120, 103, 242, .10);
-        }
-
-        .hm-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .hm-check {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            color: #c8ccd6;
+        td {
             font-size: 13px;
+            color: #dfe3ea;
         }
 
-        .hm-check input {
-            width: 17px;
-            height: 17px;
-            accent-color: var(--hm-purple);
+        tbody tr {
+            transition: 0.15s ease;
         }
 
-        .hm-preview {
-            display: none;
-            margin-top: 8px;
-            overflow: hidden;
-            border-radius: 10px;
-            border: 1px solid var(--hm-border);
-            background: #090b10;
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.018);
         }
 
-        .hm-preview.show {
+        tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .title-cell {
+            max-width: 360px;
+        }
+
+        .title-cell strong {
             display: block;
-        }
-
-        .hm-preview img {
-            display: block;
-            width: 100%;
-            height: 170px;
-            object-fit: cover;
-        }
-
-        .hm-list-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .hm-search {
-            width: min(280px, 100%);
-            border: 1px solid var(--hm-border);
-            background: #0d1016;
             color: white;
-            padding: 10px 12px;
-            border-radius: 10px;
-            outline: none;
+            font-size: 14px;
+            margin-bottom: 4px;
         }
 
-        .hm-items {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .hm-item {
-            display: grid;
-            grid-template-columns: 80px 1fr auto;
-            gap: 14px;
-            align-items: center;
-            padding: 12px;
-            background: rgba(13, 16, 22, .75);
-            border: 1px solid var(--hm-border);
-            border-radius: 13px;
-        }
-
-        .hm-item-image {
-            width: 80px;
-            height: 65px;
-            border-radius: 9px;
-            overflow: hidden;
-            background:
-                linear-gradient(
-                    135deg,
-                    #171b25,
-                    #10131a
-                );
-            border: 1px solid #272d39;
-            display: grid;
-            place-items: center;
-            color: #626a7c;
-            font-size: 11px;
-            text-align: center;
-        }
-
-        .hm-item-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .hm-item-info {
-            min-width: 0;
-        }
-
-        .hm-item-title {
-            font-weight: 700;
-            color: #f5f6f8;
-            margin-bottom: 5px;
+        .title-cell span {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
         }
 
-        .hm-item-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .hm-badge {
+        .badge {
             display: inline-flex;
             align-items: center;
-            border-radius: 999px;
-            padding: 4px 8px;
-            font-size: 10px;
-            font-weight: 700;
-            border: 1px solid var(--hm-border);
-            background: #151922;
-            color: #aeb5c4;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #1d2534;
+            color: #abb4c6;
+            font-size: 11px;
         }
 
-        .hm-badge.purple {
-            color: #c3baff;
-            background: rgba(120, 103, 242, .11);
-            border-color: rgba(120, 103, 242, .25);
+        .date {
+            color: #788193;
+            font-size: 12px;
         }
 
-        .hm-badge.green {
-            color: #9ff0bd;
-            background: rgba(69, 212, 131, .09);
-            border-color: rgba(69, 212, 131, .22);
-        }
-
-        .hm-badge.orange {
-            color: #ffd19a;
-            background: rgba(255, 173, 77, .08);
-            border-color: rgba(255, 173, 77, .2);
-        }
-
-        .hm-badge.red {
-            color: #ffadb5;
-            background: rgba(255, 93, 108, .08);
-            border-color: rgba(255, 93, 108, .2);
-        }
-
-        .hm-item-actions {
+        .actions {
             display: flex;
             gap: 7px;
         }
 
-        .hm-empty {
-            padding: 35px 20px;
+        .action-btn {
+            border: 1px solid var(--border);
+            background: #151b26;
+            color: #b7bfce;
+            border-radius: 7px;
+            padding: 7px 10px;
+            font-size: 11px;
+        }
+
+        .action-btn:hover {
+            color: white;
+            background: #1b2230;
+        }
+
+        .action-btn.delete {
+            color: #e77d88;
+            border-color: rgba(239, 91, 107, 0.15);
+        }
+
+        .action-btn.delete:hover {
+            background: rgba(239, 91, 107, 0.1);
+        }
+
+        .empty {
+            padding: 65px 20px;
             text-align: center;
-            color: var(--hm-muted);
-            border: 1px dashed var(--hm-border);
-            border-radius: 12px;
+            color: var(--muted);
         }
 
-        .hm-message {
-            display: none;
-            margin-bottom: 16px;
-            padding: 12px 14px;
-            border-radius: 11px;
-            border: 1px solid var(--hm-border);
-            background: var(--hm-panel-2);
-            color: #dce0e8;
-        }
-
-        .hm-message.show {
+        .empty strong {
             display: block;
+            color: #dce1ea;
+            margin-bottom: 7px;
         }
 
-        .hm-message.success {
-            border-color: rgba(69, 212, 131, .3);
-            background: rgba(69, 212, 131, .08);
-            color: #a9f3c5;
+        .loading {
+            padding: 50px;
+            text-align: center;
+            color: var(--muted);
         }
 
-        .hm-message.error {
-            border-color: rgba(255, 93, 108, .3);
-            background: rgba(255, 93, 108, .08);
-            color: #ffb1b8;
-        }
+        /* MODAL */
 
-        .hm-modal {
+        .modal-overlay {
             position: fixed;
             inset: 0;
+            background: rgba(0, 0, 0, 0.72);
             display: none;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: rgba(0, 0, 0, .72);
-            backdrop-filter: blur(7px);
-            z-index: 9999;
+            z-index: 100;
+            backdrop-filter: blur(5px);
         }
 
-        .hm-modal.show {
+        .modal-overlay.show {
             display: flex;
         }
 
-        .hm-modal-box {
-            width: min(650px, 100%);
+        .modal {
+            width: min(600px, 100%);
             max-height: 90vh;
             overflow-y: auto;
-            background: #12151d;
-            border: 1px solid var(--hm-border);
-            border-radius: 18px;
-            padding: 22px;
-            box-shadow: 0 30px 100px rgba(0, 0, 0, .5);
+            background: #111722;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
         }
 
-        .hm-modal-head {
+        .modal-head {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 18px;
+            justify-content: space-between;
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .hm-modal-head h2 {
-            margin: 0;
-            font-size: 19px;
+        .modal-head h2 {
+            font-size: 18px;
         }
 
-        .hm-close {
-            border: 0;
-            background: transparent;
-            color: #9da4b3;
-            font-size: 25px;
+        .close {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #161c27;
+            color: #aab2c1;
+            font-size: 17px;
         }
 
-        .hm-hidden {
-            display: none !important;
+        .modal-body {
+            padding: 20px;
         }
 
-        @media (max-width: 950px) {
-            .hm-layout {
-                grid-template-columns: 1fr;
+        .field {
+            margin-bottom: 17px;
+        }
+
+        .field:last-child {
+            margin-bottom: 0;
+        }
+
+        .field label {
+            display: block;
+            color: #aeb6c6;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .field input,
+        .field textarea,
+        .field select {
+            width: 100%;
+            background: #0c1017;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            padding: 11px 12px;
+        }
+
+        .field input:focus,
+        .field textarea:focus,
+        .field select:focus {
+            border-color: rgba(124, 92, 255, 0.55);
+        }
+
+        .field textarea {
+            min-height: 145px;
+            resize: vertical;
+            line-height: 1.55;
+        }
+
+        .field small {
+            display: block;
+            color: #626c7d;
+            margin-top: 6px;
+            font-size: 10px;
+        }
+
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 9px;
+        }
+
+        .secondary-btn {
+            border: 1px solid var(--border);
+            background: #171d28;
+            color: #aeb6c5;
+            border-radius: 8px;
+            padding: 10px 15px;
+        }
+
+        .secondary-btn:hover {
+            color: white;
+        }
+
+        /* TOAST */
+
+        .toast {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            max-width: 360px;
+            padding: 13px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: #151b25;
+            color: white;
+            box-shadow: var(--shadow);
+            transform: translateY(25px);
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.25s ease;
+            z-index: 200;
+            font-size: 13px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-color: rgba(71, 209, 140, 0.25);
+        }
+
+        .toast.error {
+            border-color: rgba(239, 91, 107, 0.3);
+            color: #ff9aa5;
+        }
+
+        /* MOBILE */
+
+        .mobile-menu {
+            display: none;
+            width: 38px;
+            height: 38px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: white;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: 0.25s ease;
             }
-        }
 
-        @media (max-width: 650px) {
-            .hm-page {
-                width: min(100% - 20px, 1450px);
-                padding-top: 10px;
+            .sidebar.open {
+                transform: translateX(0);
             }
 
-            .hm-topbar {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-            .hm-top-actions {
+            .main {
                 width: 100%;
+                margin-left: 0;
             }
 
-            .hm-top-actions .hm-btn {
-                flex: 1;
+            .mobile-menu {
+                display: block;
             }
 
-            .hm-row {
-                grid-template-columns: 1fr;
+            .topbar {
+                padding: 0 18px;
             }
 
-            .hm-list-head {
+            .content {
+                padding: 20px 15px;
+            }
+
+            .user-info {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .topbar-left h1 {
+                font-size: 17px;
+            }
+
+            .topbar-left p {
+                display: none;
+            }
+
+            .toolbar {
                 align-items: stretch;
-                flex-direction: column;
             }
 
-            .hm-search {
+            .search {
+                min-width: 100%;
+            }
+
+            .primary-btn {
                 width: 100%;
             }
 
-            .hm-item {
-                grid-template-columns: 65px 1fr;
+            .tabs {
+                display: grid;
+                grid-template-columns: 1fr;
             }
 
-            .hm-item-image {
-                width: 65px;
-                height: 58px;
-            }
-
-            .hm-item-actions {
-                grid-column: 1 / -1;
-            }
-
-            .hm-item-actions .hm-btn {
-                flex: 1;
+            .tab {
+                width: 100%;
+                text-align: left;
             }
         }
     </style>
@@ -586,3165 +679,995 @@
 
 <body>
 
-<div class="hm-page">
+<div class="app">
 
-    <header class="hm-topbar">
+    <aside class="sidebar" id="sidebar">
 
-        <div class="hm-brand">
-            <div class="hm-logo">HM</div>
-
-            <div>
-                <strong>HoriblitiMatch</strong>
-                <span>Gestion du contenu</span>
-            </div>
+        <div class="brand">
+            <strong>HoriblitiMatch</strong>
+            <span>Administration</span>
         </div>
 
-        <div class="hm-top-actions">
-            <a class="hm-btn" href="index.html">
-                ← Dashboard
+        <div class="nav-title">Principal</div>
+
+        <nav class="nav">
+            <a href="index.html">Tableau de bord</a>
+            <a href="gestion.html" class="active">Gestion</a>
+            <a href="medias.html">Médias</a>
+        </nav>
+
+        <div class="nav-title">Administration</div>
+
+        <nav class="nav">
+            <a href="equipe.html">Équipe</a>
+            <a href="parametres.html">Paramètres</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="../index.html" target="_blank" class="site-link">
+                ↗ Voir le site
             </a>
 
-            <button class="hm-btn danger" id="logoutBtn">
-                Déconnexion
+            <button class="logout-btn" id="logoutBtn">
+                Se déconnecter
             </button>
         </div>
 
-    </header>
+    </aside>
 
-    <div id="globalMessage" class="hm-message"></div>
+    <main class="main">
 
-    <div class="hm-title">
-        <h1>Gestion du contenu</h1>
-        <p>
-            Gérez les annonces, partenaires et réalisations affichés
-            sur le site HoriblitiMatch.
-        </p>
-    </div>
+        <header class="topbar">
 
-    <nav class="hm-tabs">
+            <div class="topbar-left">
+                <h1>Gestion du contenu</h1>
+                <p>Gérez les annonces, réalisations et partenaires.</p>
+            </div>
 
-        <button class="hm-tab active" data-section="annonces">
-            Annonces
-        </button>
+            <div class="user-box">
+                <div class="avatar" id="avatar">H</div>
 
-        <button class="hm-tab" data-section="partenaires">
-            Partenaires
-        </button>
+                <div class="user-info">
+                    <strong id="userName">Staff</strong>
+                    <span id="userRole">Staff</span>
+                </div>
 
-        <button class="hm-tab" data-section="realisations">
-            Réalisations
-        </button>
+                <button class="mobile-menu" id="mobileMenu">☰</button>
+            </div>
 
-    </nav>
+        </header>
 
+        <section class="content">
 
-    <!-- =====================================================
-         ANNONCES
-    ====================================================== -->
+            <div class="tabs">
 
-    <section class="hm-section active" id="section-annonces">
+                <button class="tab active" data-tab="annonces">
+                    Annonces
+                    <span class="tab-count" id="countAnnonces">0</span>
+                </button>
 
-        <div class="hm-layout">
+                <button class="tab" data-tab="realisations">
+                    Réalisations
+                    <span class="tab-count" id="countRealisations">0</span>
+                </button>
 
-            <div class="hm-card">
-
-                <h2 id="annonceFormTitle">
-                    Nouvelle annonce
-                </h2>
-
-                <p class="hm-card-description">
-                    Publiez une annonce ou préparez-la en brouillon.
-                </p>
-
-                <form id="annonceForm" class="hm-form">
-
-                    <input type="hidden" id="annonceId">
-
-                    <div class="hm-field">
-                        <label for="annonceTitre">
-                            Titre
-                        </label>
-
-                        <input
-                            id="annonceTitre"
-                            type="text"
-                            required
-                            placeholder="Ex : Nouveau projet disponible"
-                        >
-                    </div>
-
-                    <div class="hm-row">
-
-                        <div class="hm-field">
-                            <label for="annonceCategorie">
-                                Catégorie
-                            </label>
-
-                            <select id="annonceCategorie">
-                                <option>Information</option>
-                                <option>Nouveauté</option>
-                                <option>Projet</option>
-                                <option>Recrutement</option>
-                                <option>Événement</option>
-                                <option>Important</option>
-                            </select>
-                        </div>
-
-                        <div class="hm-field">
-                            <label for="annonceStatut">
-                                Statut
-                            </label>
-
-                            <select id="annonceStatut">
-                                <option value="publie">Publié</option>
-                                <option value="brouillon">Brouillon</option>
-                                <option value="archive">Archivé</option>
-                            </select>
-                        </div>
-
-                    </div>
-
-                    <div class="hm-field">
-                        <label for="annonceContenu">
-                            Contenu
-                        </label>
-
-                        <textarea
-                            id="annonceContenu"
-                            required
-                            placeholder="Contenu de l'annonce..."
-                        ></textarea>
-                    </div>
-
-                    <div class="hm-field">
-
-                        <label for="annonceImage">
-                            Image
-                        </label>
-
-                        <input
-                            id="annonceImage"
-                            type="url"
-                            placeholder="https://..."
-                        >
-
-                        <div id="annonceImagePreview" class="hm-preview">
-                            <img alt="Aperçu">
-                        </div>
-
-                    </div>
-
-                    <div class="hm-row">
-
-                        <div class="hm-field">
-                            <label for="annonceOrdre">
-                                Ordre
-                            </label>
-
-                            <input
-                                id="annonceOrdre"
-                                type="number"
-                                value="0"
-                            >
-                        </div>
-
-                        <div class="hm-field">
-
-                            <label>
-                                Options
-                            </label>
-
-                            <label class="hm-check">
-                                <input
-                                    id="annonceFeatured"
-                                    type="checkbox"
-                                >
-
-                                Mettre en avant
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                    <div style="display:flex;gap:8px;">
-
-                        <button
-                            class="hm-btn primary"
-                            type="submit"
-                            id="annonceSubmit"
-                            style="flex:1;"
-                        >
-                            Publier l'annonce
-                        </button>
-
-                        <button
-                            class="hm-btn hm-hidden"
-                            type="button"
-                            id="annonceCancel"
-                        >
-                            Annuler
-                        </button>
-
-                    </div>
-
-                </form>
+                <button class="tab" data-tab="partenaires">
+                    Partenaires
+                    <span class="tab-count" id="countPartenaires">0</span>
+                </button>
 
             </div>
 
+            <div class="panel">
 
-            <div class="hm-card">
+                <div class="toolbar">
 
-                <div class="hm-list-head">
-
-                    <div>
-                        <h2>Vos annonces</h2>
+                    <div class="search">
+                        <span class="search-icon">⌕</span>
+                        <input
+                            type="search"
+                            id="searchInput"
+                            placeholder="Rechercher..."
+                            autocomplete="off"
+                        >
                     </div>
 
-                    <input
-                        class="hm-search"
-                        id="annonceSearch"
-                        type="search"
-                        placeholder="Rechercher..."
-                    >
+                    <button class="primary-btn" id="addBtn">
+                        + Ajouter
+                    </button>
 
                 </div>
 
-                <div id="annoncesList" class="hm-items"></div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         PARTENAIRES
-    ====================================================== -->
-
-    <section class="hm-section" id="section-partenaires">
-
-        <div class="hm-layout">
-
-            <div class="hm-card">
-
-                <h2 id="partenaireFormTitle">
-                    Nouveau partenaire
-                </h2>
-
-                <p class="hm-card-description">
-                    Ajoutez les entreprises, créateurs ou structures
-                    partenaires d'HoriblitiMatch.
-                </p>
-
-                <form id="partenaireForm" class="hm-form">
-
-                    <input type="hidden" id="partenaireId">
-
-                    <div class="hm-field">
-
-                        <label for="partenaireNom">
-                            Nom
-                        </label>
-
-                        <input
-                            id="partenaireNom"
-                            type="text"
-                            required
-                            placeholder="Nom du partenaire"
-                        >
-
+                <div id="contentArea">
+                    <div class="loading">
+                        Chargement des données...
                     </div>
-
-                    <div class="hm-field">
-
-                        <label for="partenaireDescription">
-                            Description
-                        </label>
-
-                        <textarea
-                            id="partenaireDescription"
-                            placeholder="Description..."
-                        ></textarea>
-
-                    </div>
-
-                    <div class="hm-field">
-
-                        <label for="partenaireLien">
-                            Lien
-                        </label>
-
-                        <input
-                            id="partenaireLien"
-                            type="url"
-                            placeholder="https://..."
-                        >
-
-                    </div>
-
-                    <div class="hm-field">
-
-                        <label for="partenaireImage">
-                            Logo / image
-                        </label>
-
-                        <input
-                            id="partenaireImage"
-                            type="url"
-                            placeholder="https://..."
-                        >
-
-                        <div
-                            id="partenaireImagePreview"
-                            class="hm-preview"
-                        >
-                            <img alt="Aperçu">
-                        </div>
-
-                    </div>
-
-                    <div class="hm-row">
-
-                        <div class="hm-field">
-
-                            <label for="partenaireOrdre">
-                                Ordre
-                            </label>
-
-                            <input
-                                id="partenaireOrdre"
-                                type="number"
-                                value="0"
-                            >
-
-                        </div>
-
-                        <div class="hm-field">
-
-                            <label>
-                                Options
-                            </label>
-
-                            <label class="hm-check">
-
-                                <input
-                                    id="partenaireFeatured"
-                                    type="checkbox"
-                                >
-
-                                Mettre en avant
-
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                    <div style="display:flex;gap:8px;">
-
-                        <button
-                            class="hm-btn primary"
-                            type="submit"
-                            style="flex:1;"
-                            id="partenaireSubmit"
-                        >
-                            Ajouter
-                        </button>
-
-                        <button
-                            class="hm-btn hm-hidden"
-                            type="button"
-                            id="partenaireCancel"
-                        >
-                            Annuler
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-
-            <div class="hm-card">
-
-                <div class="hm-list-head">
-
-                    <h2>Partenaires</h2>
-
-                    <input
-                        class="hm-search"
-                        id="partenaireSearch"
-                        type="search"
-                        placeholder="Rechercher..."
-                    >
-
                 </div>
 
-                <div
-                    id="partenairesList"
-                    class="hm-items"
-                ></div>
-
             </div>
 
-        </div>
+        </section>
 
-    </section>
-
-
-    <!-- =====================================================
-         REALISATIONS
-    ====================================================== -->
-
-    <section class="hm-section" id="section-realisations">
-
-        <div class="hm-layout">
-
-            <div class="hm-card">
-
-                <h2 id="realisationFormTitle">
-                    Nouvelle réalisation
-                </h2>
-
-                <p class="hm-card-description">
-                    Ajoutez les projets et créations réalisés
-                    par HoriblitiMatch.
-                </p>
-
-                <form
-                    id="realisationForm"
-                    class="hm-form"
-                >
-
-                    <input
-                        type="hidden"
-                        id="realisationId"
-                    >
-
-                    <div class="hm-field">
-
-                        <label for="realisationTitre">
-                            Titre
-                        </label>
-
-                        <input
-                            id="realisationTitre"
-                            type="text"
-                            required
-                            placeholder="Nom du projet"
-                        >
-
-                    </div>
-
-                    <div class="hm-row">
-
-                        <div class="hm-field">
-
-                            <label for="realisationCategorie">
-                                Catégorie
-                            </label>
-
-                            <select id="realisationCategorie">
-                                <option>Site web</option>
-                                <option>Application</option>
-                                <option>Jeu</option>
-                                <option>Identité visuelle</option>
-                                <option>Projet interne</option>
-                                <option>Autre</option>
-                            </select>
-
-                        </div>
-
-                        <div class="hm-field">
-
-                            <label for="realisationStatut">
-                                Statut
-                            </label>
-
-                            <select id="realisationStatut">
-                                <option value="publie">Publié</option>
-                                <option value="brouillon">Brouillon</option>
-                                <option value="archive">Archivé</option>
-                            </select>
-
-                        </div>
-
-                    </div>
-
-                    <div class="hm-field">
-
-                        <label for="realisationDescription">
-                            Description
-                        </label>
-
-                        <textarea
-                            id="realisationDescription"
-                            placeholder="Description du projet..."
-                        ></textarea>
-
-                    </div>
-
-                    <div class="hm-field">
-
-                        <label for="realisationLien">
-                            Lien du projet
-                        </label>
-
-                        <input
-                            id="realisationLien"
-                            type="url"
-                            placeholder="https://..."
-                        >
-
-                    </div>
-
-                    <div class="hm-field">
-
-                        <label for="realisationImage">
-                            Image principale
-                        </label>
-
-                        <input
-                            id="realisationImage"
-                            type="url"
-                            placeholder="https://..."
-                        >
-
-                        <div
-                            id="realisationImagePreview"
-                            class="hm-preview"
-                        >
-                            <img alt="Aperçu">
-                        </div>
-
-                    </div>
-
-                    <div class="hm-row">
-
-                        <div class="hm-field">
-
-                            <label for="realisationOrdre">
-                                Ordre
-                            </label>
-
-                            <input
-                                id="realisationOrdre"
-                                type="number"
-                                value="0"
-                            >
-
-                        </div>
-
-                        <div class="hm-field">
-
-                            <label>
-                                Options
-                            </label>
-
-                            <label class="hm-check">
-
-                                <input
-                                    id="realisationFeatured"
-                                    type="checkbox"
-                                >
-
-                                Mettre en avant
-
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                    <div style="display:flex;gap:8px;">
-
-                        <button
-                            class="hm-btn primary"
-                            type="submit"
-                            style="flex:1;"
-                            id="realisationSubmit"
-                        >
-                            Ajouter
-                        </button>
-
-                        <button
-                            class="hm-btn hm-hidden"
-                            type="button"
-                            id="realisationCancel"
-                        >
-                            Annuler
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-
-            <div class="hm-card">
-
-                <div class="hm-list-head">
-
-                    <h2>Réalisations</h2>
-
-                    <input
-                        class="hm-search"
-                        id="realisationSearch"
-                        type="search"
-                        placeholder="Rechercher..."
-                    >
-
-                </div>
-
-                <div
-                    id="realisationsList"
-                    class="hm-items"
-                ></div>
-
-            </div>
-
-        </div>
-
-    </section>
+    </main>
 
 </div>
 
+<!-- MODAL -->
 
-<!-- =========================================================
-     MODAL CONFIRMATION
-========================================================== -->
+<div class="modal-overlay" id="modalOverlay">
 
-<div class="hm-modal" id="confirmModal">
+    <div class="modal">
 
-    <div class="hm-modal-box">
-
-        <div class="hm-modal-head">
-
-            <h2>Confirmation</h2>
-
-            <button
-                class="hm-close"
-                id="confirmClose"
-            >
-                ×
-            </button>
-
+        <div class="modal-head">
+            <h2 id="modalTitle">Ajouter</h2>
+            <button class="close" id="closeModal">×</button>
         </div>
 
-        <p id="confirmText">
-            Voulez-vous vraiment supprimer cet élément ?
-        </p>
+        <form id="contentForm">
 
-        <div style="display:flex;gap:8px;margin-top:20px;">
+            <div class="modal-body" id="formBody"></div>
 
-            <button
-                class="hm-btn"
-                id="confirmCancel"
-                style="flex:1;"
-            >
-                Annuler
-            </button>
+            <div class="modal-footer">
 
-            <button
-                class="hm-btn danger"
-                id="confirmOk"
-                style="flex:1;"
-            >
-                Supprimer
-            </button>
+                <button type="button" class="secondary-btn" id="cancelBtn">
+                    Annuler
+                </button>
 
-        </div>
+                <button type="submit" class="primary-btn" id="saveBtn">
+                    Enregistrer
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
 
 </div>
 
+<div class="toast" id="toast"></div>
 
-<!-- =========================================================
-     SUPABASE
-========================================================== -->
+<script type="module">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../js/supabase.js"></script>
+    import { supabaseClient } from "../js/supabase.js";
 
-<script>
-"use strict";
-
-let currentUser = null;
-let currentStaff = null;
-
-let annonces = [];
-let partenaires = [];
-let realisations = [];
-
-let deleteCallback = null;
-
-
-/* =========================================================
-   UTILITAIRES
-========================================================= */
-
-function escapeHTML(value) {
-    if (value === null || value === undefined) {
-        return "";
-    }
-
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-
-function showMessage(message, type = "") {
-
-    const box = document.getElementById("globalMessage");
-
-    box.textContent = message;
-
-    box.className = "hm-message show";
-
-    if (type) {
-        box.classList.add(type);
-    }
-
-    clearTimeout(window.hmMessageTimer);
-
-    window.hmMessageTimer = setTimeout(() => {
-        box.className = "hm-message";
-    }, 4500);
-}
-
-
-function formatDate(date) {
-
-    if (!date) {
-        return "";
-    }
-
-    return new Date(date).toLocaleDateString("fr-FR", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric"
-    });
-}
-
-
-function statusBadge(status) {
-
-    if (status === "publie") {
-        return `
-            <span class="hm-badge green">
-                Publié
-            </span>
-        `;
-    }
-
-    if (status === "brouillon") {
-        return `
-            <span class="hm-badge orange">
-                Brouillon
-            </span>
-        `;
-    }
-
-    return `
-        <span class="hm-badge red">
-            Archivé
-        </span>
-    `;
-}
-
-
-function featuredBadge(featured) {
-
-    if (!featured) {
-        return "";
-    }
-
-    return `
-        <span class="hm-badge purple">
-            ★ Mis en avant
-        </span>
-    `;
-}
-
-
-/* =========================================================
-   AUTH
-========================================================= */
-
-async function checkAuth() {
-
-    const {
+    const state = {
+        currentTab: "annonces",
+        editingId: null,
         data: {
-            session
-        },
-        error
-    } = await supabaseClient.auth.getSession();
+            annonces: [],
+            realisations: [],
+            partenaires: []
+        }
+    };
 
-    if (error || !session) {
-        window.location.href = "../pages/connexion.html";
-        return false;
+    const contentArea = document.getElementById("contentArea");
+    const searchInput = document.getElementById("searchInput");
+    const modalOverlay = document.getElementById("modalOverlay");
+    const modalTitle = document.getElementById("modalTitle");
+    const formBody = document.getElementById("formBody");
+    const contentForm = document.getElementById("contentForm");
+    const toast = document.getElementById("toast");
+
+    let toastTimer = null;
+
+    function showToast(message, type) {
+
+        clearTimeout(toastTimer);
+
+        toast.textContent = message;
+        toast.className = "toast show " + (type || "");
+
+        toastTimer = setTimeout(function () {
+            toast.className = "toast";
+        }, 3200);
     }
 
-    currentUser = session.user;
+    function escapeHtml(value) {
 
-    const {
-        data: staff,
-        error: staffError
-    } = await supabaseClient
-        .from("staff")
-        .select("id,email,nom,role")
-        .eq("id", currentUser.id)
-        .maybeSingle();
-
-    if (staffError || !staff) {
-
-        await supabaseClient.auth.signOut();
-
-        window.location.href = "../pages/connexion.html";
-
-        return false;
-    }
-
-    currentStaff = staff;
-
-    return true;
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-document.querySelectorAll(".hm-tab").forEach(tab => {
-
-    tab.addEventListener("click", () => {
-
-        document
-            .querySelectorAll(".hm-tab")
-            .forEach(item => item.classList.remove("active"));
-
-        document
-            .querySelectorAll(".hm-section")
-            .forEach(section => section.classList.remove("active"));
-
-        tab.classList.add("active");
-
-        const section = document.getElementById(
-            "section-" + tab.dataset.section
-        );
-
-        if (section) {
-            section.classList.add("active");
+        if (value === null || value === undefined) {
+            return "";
         }
 
-    });
-
-});
-
-
-/* =========================================================
-   IMAGE PREVIEWS
-========================================================= */
-
-function setupPreview(inputId, previewId) {
-
-    const input = document.getElementById(inputId);
-    const preview = document.getElementById(previewId);
-
-    if (!input || !preview) {
-        return;
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
     }
 
-    const image = preview.querySelector("img");
+    function formatDate(value) {
 
-    input.addEventListener("input", () => {
-
-        const url = input.value.trim();
-
-        if (!url) {
-
-            preview.classList.remove("show");
-
-            image.removeAttribute("src");
-
-            return;
+        if (!value) {
+            return "—";
         }
 
-        image.src = url;
+        const date = new Date(value);
 
-        image.onload = () => {
-            preview.classList.add("show");
-        };
+        if (Number.isNaN(date.getTime())) {
+            return "—";
+        }
 
-        image.onerror = () => {
-            preview.classList.remove("show");
-        };
-
-    });
-}
-
-
-setupPreview(
-    "annonceImage",
-    "annonceImagePreview"
-);
-
-setupPreview(
-    "partenaireImage",
-    "partenaireImagePreview"
-);
-
-setupPreview(
-    "realisationImage",
-    "realisationImagePreview"
-);
-
-
-/* =========================================================
-   ANNONCES
-========================================================= */
-
-async function loadAnnonces() {
-
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from("annonces")
-        .select("*")
-        .order("ordre", {
-            ascending: true
-        })
-        .order("created_at", {
-            ascending: false
+        return date.toLocaleDateString("fr-FR", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
         });
-
-    if (error) {
-
-        showMessage(
-            "Impossible de charger les annonces : " + error.message,
-            "error"
-        );
-
-        return;
     }
 
-    annonces = data || [];
+    function getInitial(name, email) {
 
-    renderAnnonces();
-}
+        const value = name || email || "H";
 
-
-function renderAnnonces() {
-
-    const container =
-        document.getElementById("annoncesList");
-
-    const search =
-        document
-            .getElementById("annonceSearch")
-            .value
+        return value
             .trim()
-            .toLowerCase();
+            .charAt(0)
+            .toUpperCase();
+    }
 
-    const filtered = annonces.filter(item => {
+    async function checkAuth() {
 
-        if (!search) {
-            return true;
+        const result = await supabaseClient.auth.getSession();
+
+        const session = result.data ? result.data.session : null;
+
+        if (result.error || !session) {
+            window.location.href = "../pages/connexion.html";
+            return null;
         }
 
-        return (
-            item.titre?.toLowerCase().includes(search) ||
-            item.contenu?.toLowerCase().includes(search) ||
-            item.categorie?.toLowerCase().includes(search)
-        );
+        const staffResult = await supabaseClient
+            .from("staff")
+            .select("id,email,nom,role")
+            .eq("id", session.user.id)
+            .maybeSingle();
 
-    });
+        if (staffResult.error || !staffResult.data) {
+            await supabaseClient.auth.signOut();
+            window.location.href = "../pages/connexion.html";
+            return null;
+        }
 
-    if (!filtered.length) {
+        const staff = staffResult.data;
 
-        container.innerHTML = `
-            <div class="hm-empty">
-                Aucune annonce trouvée.
-            </div>
-        `;
+        document.getElementById("userName").textContent =
+            staff.nom || staff.email || "Staff";
 
-        return;
+        document.getElementById("userRole").textContent =
+            staff.role === "admin" ? "Administrateur" : "Staff";
+
+        document.getElementById("avatar").textContent =
+            getInitial(staff.nom, staff.email);
+
+        return staff;
     }
 
-    container.innerHTML = filtered.map(item => {
+    async function loadAll() {
 
-        const image = item.image_url
-            ? `
-                <img
-                    src="${escapeHTML(item.image_url)}"
-                    alt=""
-                    loading="lazy"
-                >
-            `
-            : "ANNONCE";
+        contentArea.innerHTML =
+            '<div class="loading">Chargement des données...</div>';
 
-        return `
-            <article class="hm-item">
-
-                <div class="hm-item-image">
-                    ${image}
-                </div>
-
-                <div class="hm-item-info">
-
-                    <div class="hm-item-title">
-                        ${escapeHTML(item.titre)}
-                    </div>
-
-                    <div class="hm-item-meta">
-
-                        <span class="hm-badge">
-                            ${escapeHTML(item.categorie)}
-                        </span>
-
-                        ${statusBadge(item.statut)}
-
-                        ${featuredBadge(item.mis_en_avant)}
-
-                        <span class="hm-badge">
-                            Ordre : ${item.ordre ?? 0}
-                        </span>
-
-                        <span class="hm-badge">
-                            ${formatDate(item.created_at)}
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <div class="hm-item-actions">
-
-                    <button
-                        class="hm-btn small"
-                        onclick="editAnnonce('${item.id}')"
-                    >
-                        Modifier
-                    </button>
-
-                    <button
-                        class="hm-btn small danger"
-                        onclick="askDelete(
-                            'annonce',
-                            '${item.id}',
-                            '${escapeHTML(item.titre)}'
-                        )"
-                    >
-                        Supprimer
-                    </button>
-
-                </div>
-
-            </article>
-        `;
-
-    }).join("");
-}
-
-
-document
-    .getElementById("annonceSearch")
-    .addEventListener("input", renderAnnonces);
-
-
-document
-    .getElementById("annonceForm")
-    .addEventListener("submit", async event => {
-
-        event.preventDefault();
-
-        const id =
-            document.getElementById("annonceId").value;
-
-        const payload = {
-
-            titre:
-                document
-                    .getElementById("annonceTitre")
-                    .value
-                    .trim(),
-
-            categorie:
-                document
-                    .getElementById("annonceCategorie")
-                    .value,
-
-            contenu:
-                document
-                    .getElementById("annonceContenu")
-                    .value
-                    .trim(),
-
-            image_url:
-                document
-                    .getElementById("annonceImage")
-                    .value
-                    .trim() || null,
-
-            statut:
-                document
-                    .getElementById("annonceStatut")
-                    .value,
-
-            mis_en_avant:
-                document
-                    .getElementById("annonceFeatured")
-                    .checked,
-
-            ordre:
-                Number(
-                    document
-                        .getElementById("annonceOrdre")
-                        .value
-                ) || 0
-
-        };
-
-
-        let result;
-
-        if (id) {
-
-            result = await supabaseClient
+        const results = await Promise.all([
+            supabaseClient
                 .from("annonces")
-                .update(payload)
-                .eq("id", id);
+                .select("id,titre,categorie,contenu,created_at,updated_at")
+                .order("created_at", { ascending: false }),
 
-        } else {
+            supabaseClient
+                .from("realisations")
+                .select("id,titre,description,lien,created_at,updated_at")
+                .order("created_at", { ascending: false }),
 
-            result = await supabaseClient
-                .from("annonces")
-                .insert(payload);
+            supabaseClient
+                .from("partenaires")
+                .select("id,nom,description,lien,created_at,updated_at")
+                .order("created_at", { ascending: false })
+        ]);
 
+        if (results[0].error) {
+            console.error(results[0].error);
+            showToast("Impossible de charger les annonces.", "error");
         }
 
+        if (results[1].error) {
+            console.error(results[1].error);
+            showToast("Impossible de charger les réalisations.", "error");
+        }
 
-        if (result.error) {
+        if (results[2].error) {
+            console.error(results[2].error);
+            showToast("Impossible de charger les partenaires.", "error");
+        }
 
-            showMessage(
-                result.error.message,
-                "error"
-            );
+        state.data.annonces = results[0].data || [];
+        state.data.realisations = results[1].data || [];
+        state.data.partenaires = results[2].data || [];
+
+        updateCounts();
+        render();
+    }
+
+    function updateCounts() {
+
+        document.getElementById("countAnnonces").textContent =
+            state.data.annonces.length;
+
+        document.getElementById("countRealisations").textContent =
+            state.data.realisations.length;
+
+        document.getElementById("countPartenaires").textContent =
+            state.data.partenaires.length;
+    }
+
+    function getFilteredData() {
+
+        const query = searchInput.value.trim().toLowerCase();
+
+        const items = state.data[state.currentTab] || [];
+
+        if (!query) {
+            return items;
+        }
+
+        return items.filter(function (item) {
+
+            let text = "";
+
+            if (state.currentTab === "annonces") {
+                text =
+                    (item.titre || "") + " " +
+                    (item.categorie || "") + " " +
+                    (item.contenu || "");
+            }
+
+            if (state.currentTab === "realisations") {
+                text =
+                    (item.titre || "") + " " +
+                    (item.description || "") + " " +
+                    (item.lien || "");
+            }
+
+            if (state.currentTab === "partenaires") {
+                text =
+                    (item.nom || "") + " " +
+                    (item.description || "") + " " +
+                    (item.lien || "");
+            }
+
+            return text.toLowerCase().includes(query);
+        });
+    }
+
+    function render() {
+
+        const items = getFilteredData();
+
+        if (!items.length) {
+
+            contentArea.innerHTML =
+                '<div class="empty">' +
+                    '<strong>Aucun élément trouvé</strong>' +
+                    '<span>Il n’y a aucun contenu correspondant à votre recherche.</span>' +
+                '</div>';
 
             return;
         }
 
+        let html =
+            '<div class="table-wrap">' +
+                '<table>' +
+                    '<thead>' +
+                        '<tr>';
 
-        showMessage(
-            id
-                ? "Annonce modifiée."
-                : "Annonce créée.",
-            "success"
-        );
+        if (state.currentTab === "annonces") {
 
-        resetAnnonceForm();
+            html +=
+                '<th>Titre</th>' +
+                '<th>Catégorie</th>' +
+                '<th>Création</th>' +
+                '<th>Modification</th>' +
+                '<th>Actions</th>';
 
-        await loadAnnonces();
+        } else if (state.currentTab === "realisations") {
 
-    });
+            html +=
+                '<th>Réalisation</th>' +
+                '<th>Lien</th>' +
+                '<th>Création</th>' +
+                '<th>Modification</th>' +
+                '<th>Actions</th>';
 
+        } else {
 
-function editAnnonce(id) {
+            html +=
+                '<th>Partenaire</th>' +
+                '<th>Lien</th>' +
+                '<th>Création</th>' +
+                '<th>Modification</th>' +
+                '<th>Actions</th>';
+        }
 
-    const item =
-        annonces.find(
-            annonce => annonce.id === id
-        );
+        html +=
+                        '</tr>' +
+                    '</thead>' +
+                    '<tbody>';
 
-    if (!item) {
-        return;
-    }
+        items.forEach(function (item) {
 
-    document.getElementById("annonceId").value =
-        item.id;
+            if (state.currentTab === "annonces") {
 
-    document.getElementById("annonceTitre").value =
-        item.titre || "";
+                const contenu = item.contenu || "";
 
-    document.getElementById("annonceCategorie").value =
-        item.categorie || "Information";
+                html +=
+                    '<tr>' +
+                        '<td class="title-cell">' +
+                            '<strong>' + escapeHtml(item.titre) + '</strong>' +
+                            '<span>' + escapeHtml(contenu) + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span class="badge">' +
+                                escapeHtml(item.categorie) +
+                            '</span>' +
+                        '</td>' +
+                        '<td class="date">' +
+                            formatDate(item.created_at) +
+                        '</td>' +
+                        '<td class="date">' +
+                            formatDate(item.updated_at) +
+                        '</td>' +
+                        '<td>' +
+                            actionButtons(item.id) +
+                        '</td>' +
+                    '</tr>';
 
-    document.getElementById("annonceContenu").value =
-        item.contenu || "";
+            } else if (state.currentTab === "realisations") {
 
-    document.getElementById("annonceImage").value =
-        item.image_url || "";
+                html +=
+                    '<tr>' +
+                        '<td class="title-cell">' +
+                            '<strong>' + escapeHtml(item.titre) + '</strong>' +
+                            '<span>' + escapeHtml(item.description || "") + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            renderLink(item.lien) +
+                        '</td>' +
+                        '<td class="date">' +
+                            formatDate(item.created_at) +
+                        '</td>' +
+                        '<td class="date">' +
+                            formatDate(item.updated_at) +
+                        '</td>' +
+                        '<td>' +
+                            actionButtons(item.id) +
+                        '</td>' +
+                    '</tr>';
 
-    document.getElementById("annonceStatut").value =
-        item.statut || "publie";
+            } else {
 
-    document.getElementById("annonceFeatured").checked =
-        !!item.mis_en_avant;
+                html +=
+                    '<tr>' +
+                        '<td class="title-cell">' +
+                            '<strong>' + escapeHtml(item.nom) + '</strong>' +
+                            '<span>' + escapeHtml(item.description || "") + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            renderLink(item.lien) +
+                        '</td>' +
+                        '<td class="date">' +
+                            formatDate(item.created_at) +
+                        '</td>' +
+                        '<td class="date">' +
+                            formatDate(item.updated_at) +
+                        '</td>' +
+                        '<td>' +
+                            actionButtons(item.id) +
+                        '</td>' +
+                    '</tr>';
+            }
 
-    document.getElementById("annonceOrdre").value =
-        item.ordre ?? 0;
-
-    document.getElementById("annonceFormTitle").textContent =
-        "Modifier l'annonce";
-
-    document.getElementById("annonceSubmit").textContent =
-        "Enregistrer";
-
-    document
-        .getElementById("annonceCancel")
-        .classList.remove("hm-hidden");
-
-    updatePreview(
-        "annonceImage",
-        "annonceImagePreview"
-    );
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-}
-
-
-function resetAnnonceForm() {
-
-    document.getElementById("annonceForm").reset();
-
-    document.getElementById("annonceId").value = "";
-
-    document.getElementById("annonceFormTitle").textContent =
-        "Nouvelle annonce";
-
-    document.getElementById("annonceSubmit").textContent =
-        "Publier l'annonce";
-
-    document
-        .getElementById("annonceCancel")
-        .classList.add("hm-hidden");
-
-    document
-        .getElementById("annonceImagePreview")
-        .classList.remove("show");
-}
-
-
-document
-    .getElementById("annonceCancel")
-    .addEventListener("click", resetAnnonceForm);
-
-
-/* =========================================================
-   PARTENAIRES
-========================================================= */
-
-async function loadPartenaires() {
-
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from("partenaires")
-        .select("*")
-        .order("ordre", {
-            ascending: true
-        })
-        .order("created_at", {
-            ascending: false
         });
 
-    if (error) {
+        html +=
+                    '</tbody>' +
+                '</table>' +
+            '</div>';
 
-        showMessage(
-            "Impossible de charger les partenaires : " +
-            error.message,
-            "error"
-        );
-
-        return;
+        contentArea.innerHTML = html;
     }
 
-    partenaires = data || [];
+    function renderLink(link) {
 
-    renderPartenaires();
-}
+        if (!link) {
+            return '<span class="date">Aucun lien</span>';
+        }
 
+        let safeLink = String(link);
 
-function renderPartenaires() {
-
-    const container =
-        document.getElementById("partenairesList");
-
-    const search =
-        document
-            .getElementById("partenaireSearch")
-            .value
-            .trim()
-            .toLowerCase();
-
-    const filtered = partenaires.filter(item => {
-
-        if (!search) {
-            return true;
+        if (
+            !safeLink.startsWith("http://") &&
+            !safeLink.startsWith("https://")
+        ) {
+            return '<span class="date">' + escapeHtml(link) + '</span>';
         }
 
         return (
-            item.nom?.toLowerCase().includes(search) ||
-            item.description?.toLowerCase().includes(search)
+            '<a href="' +
+            escapeHtml(safeLink) +
+            '" target="_blank" rel="noopener noreferrer" ' +
+            'style="color:#9f8cff;font-size:12px;">' +
+            'Ouvrir ↗' +
+            '</a>'
         );
-
-    });
-
-
-    if (!filtered.length) {
-
-        container.innerHTML = `
-            <div class="hm-empty">
-                Aucun partenaire trouvé.
-            </div>
-        `;
-
-        return;
     }
 
-
-    container.innerHTML = filtered.map(item => {
-
-        const image = item.image_url
-            ? `
-                <img
-                    src="${escapeHTML(item.image_url)}"
-                    alt=""
-                    loading="lazy"
-                >
-            `
-            : "LOGO";
-
-        return `
-            <article class="hm-item">
-
-                <div class="hm-item-image">
-                    ${image}
-                </div>
-
-                <div class="hm-item-info">
-
-                    <div class="hm-item-title">
-                        ${escapeHTML(item.nom)}
-                    </div>
-
-                    <div class="hm-item-meta">
-
-                        ${featuredBadge(item.mis_en_avant)}
-
-                        <span class="hm-badge">
-                            Ordre : ${item.ordre ?? 0}
-                        </span>
-
-                        ${
-                            item.lien
-                                ? `
-                                    <span class="hm-badge green">
-                                        Lien
-                                    </span>
-                                `
-                                : ""
-                        }
-
-                    </div>
-
-                </div>
-
-                <div class="hm-item-actions">
-
-                    <button
-                        class="hm-btn small"
-                        onclick="editPartenaire('${item.id}')"
-                    >
-                        Modifier
-                    </button>
-
-                    <button
-                        class="hm-btn small danger"
-                        onclick="askDelete(
-                            'partenaire',
-                            '${item.id}',
-                            '${escapeHTML(item.nom)}'
-                        )"
-                    >
-                        Supprimer
-                    </button>
-
-                </div>
-
-            </article>
-        `;
-
-    }).join("");
-}
-
-
-document
-    .getElementById("partenaireSearch")
-    .addEventListener("input", renderPartenaires);
-
-
-document
-    .getElementById("partenaireForm")
-    .addEventListener("submit", async event => {
-
-        event.preventDefault();
-
-        const id =
-            document
-                .getElementById("partenaireId")
-                .value;
-
-
-        const payload = {
-
-            nom:
-                document
-                    .getElementById("partenaireNom")
-                    .value
-                    .trim(),
-
-            description:
-                document
-                    .getElementById("partenaireDescription")
-                    .value
-                    .trim() || null,
-
-            lien:
-                document
-                    .getElementById("partenaireLien")
-                    .value
-                    .trim() || null,
-
-            image_url:
-                document
-                    .getElementById("partenaireImage")
-                    .value
-                    .trim() || null,
-
-            mis_en_avant:
-                document
-                    .getElementById("partenaireFeatured")
-                    .checked,
-
-            ordre:
-                Number(
-                    document
-                        .getElementById("partenaireOrdre")
-                        .value
-                ) || 0
-
-        };
-
-
-        let result;
-
-
-        if (id) {
-
-            result = await supabaseClient
-                .from("partenaires")
-                .update(payload)
-                .eq("id", id);
-
-        } else {
-
-            result = await supabaseClient
-                .from("partenaires")
-                .insert(payload);
-
-        }
-
-
-        if (result.error) {
-
-            showMessage(
-                result.error.message,
-                "error"
-            );
-
-            return;
-        }
-
-
-        showMessage(
-            id
-                ? "Partenaire modifié."
-                : "Partenaire ajouté.",
-            "success"
-        );
-
-        resetPartenaireForm();
-
-        await loadPartenaires();
-
-    });
-
-
-function editPartenaire(id) {
-
-    const item =
-        partenaires.find(
-            partenaire => partenaire.id === id
-        );
-
-    if (!item) {
-        return;
-    }
-
-
-    document.getElementById("partenaireId").value =
-        item.id;
-
-    document.getElementById("partenaireNom").value =
-        item.nom || "";
-
-    document.getElementById("partenaireDescription").value =
-        item.description || "";
-
-    document.getElementById("partenaireLien").value =
-        item.lien || "";
-
-    document.getElementById("partenaireImage").value =
-        item.image_url || "";
-
-    document.getElementById("partenaireFeatured").checked =
-        !!item.mis_en_avant;
-
-    document.getElementById("partenaireOrdre").value =
-        item.ordre ?? 0;
-
-
-    document.getElementById("partenaireFormTitle").textContent =
-        "Modifier le partenaire";
-
-    document.getElementById("partenaireSubmit").textContent =
-        "Enregistrer";
-
-    document
-        .getElementById("partenaireCancel")
-        .classList.remove("hm-hidden");
-
-
-    updatePreview(
-        "partenaireImage",
-        "partenaireImagePreview"
-    );
-
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-}
-
-
-function resetPartenaireForm() {
-
-    document
-        .getElementById("partenaireForm")
-        .reset();
-
-    document
-        .getElementById("partenaireId")
-        .value = "";
-
-    document
-        .getElementById("partenaireFormTitle")
-        .textContent = "Nouveau partenaire";
-
-    document
-        .getElementById("partenaireSubmit")
-        .textContent = "Ajouter";
-
-    document
-        .getElementById("partenaireCancel")
-        .classList.add("hm-hidden");
-
-    document
-        .getElementById("partenaireImagePreview")
-        .classList.remove("show");
-}
-
-
-document
-    .getElementById("partenaireCancel")
-    .addEventListener(
-        "click",
-        resetPartenaireForm
-    );
-
-
-/* =========================================================
-   REALISATIONS
-========================================================= */
-
-async function loadRealisations() {
-
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from("realisations")
-        .select("*")
-        .order("ordre", {
-            ascending: true
-        })
-        .order("created_at", {
-            ascending: false
-        });
-
-
-    if (error) {
-
-        showMessage(
-            "Impossible de charger les réalisations : " +
-            error.message,
-            "error"
-        );
-
-        return;
-    }
-
-
-    realisations = data || [];
-
-    renderRealisations();
-}
-
-
-function renderRealisations() {
-
-    const container =
-        document.getElementById("realisationsList");
-
-    const search =
-        document
-            .getElementById("realisationSearch")
-            .value
-            .trim()
-            .toLowerCase();
-
-
-    const filtered = realisations.filter(item => {
-
-        if (!search) {
-            return true;
-        }
+    function actionButtons(id) {
 
         return (
-            item.titre?.toLowerCase().includes(search) ||
-            item.description?.toLowerCase().includes(search) ||
-            item.categorie?.toLowerCase().includes(search)
+            '<div class="actions">' +
+                '<button class="action-btn edit-btn" data-id="' +
+                    escapeHtml(id) +
+                '">' +
+                    'Modifier' +
+                '</button>' +
+
+                '<button class="action-btn delete delete-btn" data-id="' +
+                    escapeHtml(id) +
+                '">' +
+                    'Supprimer' +
+                '</button>' +
+            '</div>'
         );
-
-    });
-
-
-    if (!filtered.length) {
-
-        container.innerHTML = `
-            <div class="hm-empty">
-                Aucune réalisation trouvée.
-            </div>
-        `;
-
-        return;
     }
 
+    function openModal(id) {
 
-    container.innerHTML = filtered.map(item => {
+        state.editingId = id || null;
 
-        const image = item.image_url
-            ? `
-                <img
-                    src="${escapeHTML(item.image_url)}"
-                    alt=""
-                    loading="lazy"
-                >
-            `
-            : "PROJET";
-
-
-        return `
-            <article class="hm-item">
-
-                <div class="hm-item-image">
-                    ${image}
-                </div>
-
-                <div class="hm-item-info">
-
-                    <div class="hm-item-title">
-                        ${escapeHTML(item.titre)}
-                    </div>
-
-                    <div class="hm-item-meta">
-
-                        <span class="hm-badge">
-                            ${escapeHTML(item.categorie)}
-                        </span>
-
-                        ${statusBadge(item.statut)}
-
-                        ${featuredBadge(item.mis_en_avant)}
-
-                        <span class="hm-badge">
-                            Ordre : ${item.ordre ?? 0}
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <div class="hm-item-actions">
-
-                    <button
-                        class="hm-btn small"
-                        onclick="editRealisation('${item.id}')"
-                    >
-                        Modifier
-                    </button>
-
-                    <button
-                        class="hm-btn small danger"
-                        onclick="askDelete(
-                            'realisation',
-                            '${item.id}',
-                            '${escapeHTML(item.titre)}'
-                        )"
-                    >
-                        Supprimer
-                    </button>
-
-                </div>
-
-            </article>
-        `;
-
-    }).join("");
-}
-
-
-document
-    .getElementById("realisationSearch")
-    .addEventListener(
-        "input",
-        renderRealisations
-    );
-
-
-document
-    .getElementById("realisationForm")
-    .addEventListener("submit", async event => {
-
-        event.preventDefault();
-
-
-        const id =
-            document
-                .getElementById("realisationId")
-                .value;
-
-
-        const payload = {
-
-            titre:
-                document
-                    .getElementById("realisationTitre")
-                    .value
-                    .trim(),
-
-            categorie:
-                document
-                    .getElementById("realisationCategorie")
-                    .value,
-
-            description:
-                document
-                    .getElementById("realisationDescription")
-                    .value
-                    .trim() || null,
-
-            lien:
-                document
-                    .getElementById("realisationLien")
-                    .value
-                    .trim() || null,
-
-            image_url:
-                document
-                    .getElementById("realisationImage")
-                    .value
-                    .trim() || null,
-
-            statut:
-                document
-                    .getElementById("realisationStatut")
-                    .value,
-
-            mis_en_avant:
-                document
-                    .getElementById("realisationFeatured")
-                    .checked,
-
-            ordre:
-                Number(
-                    document
-                        .getElementById("realisationOrdre")
-                        .value
-                ) || 0
-
-        };
-
-
-        let result;
-
+        let item = null;
 
         if (id) {
 
-            result = await supabaseClient
-                .from("realisations")
-                .update(payload)
-                .eq("id", id);
+            item = state.data[state.currentTab].find(function (entry) {
+                return entry.id === id;
+            });
+        }
+
+        const editing = Boolean(item);
+
+        modalTitle.textContent =
+            editing
+                ? "Modifier " + getTabSingular()
+                : "Ajouter " + getTabSingular();
+
+        if (state.currentTab === "annonces") {
+
+            formBody.innerHTML =
+                '<div class="field">' +
+                    '<label for="fieldTitre">Titre</label>' +
+                    '<input id="fieldTitre" type="text" maxlength="200" required value="' +
+                        escapeHtml(item ? item.titre : "") +
+                    '">' +
+                '</div>' +
+
+                '<div class="field">' +
+                    '<label for="fieldCategorie">Catégorie</label>' +
+                    '<select id="fieldCategorie" required>' +
+                        categoryOption("Information", item ? item.categorie : "") +
+                        categoryOption("Actualité", item ? item.categorie : "") +
+                        categoryOption("Nouveauté", item ? item.categorie : "") +
+                        categoryOption("Projet", item ? item.categorie : "") +
+                        categoryOption("Autre", item ? item.categorie : "") +
+                    '</select>' +
+                '</div>' +
+
+                '<div class="field">' +
+                    '<label for="fieldContenu">Contenu</label>' +
+                    '<textarea id="fieldContenu" required>' +
+                        escapeHtml(item ? item.contenu : "") +
+                    '</textarea>' +
+                '</div>';
+
+        } else if (state.currentTab === "realisations") {
+
+            formBody.innerHTML =
+                '<div class="field">' +
+                    '<label for="fieldTitre">Titre</label>' +
+                    '<input id="fieldTitre" type="text" maxlength="200" required value="' +
+                        escapeHtml(item ? item.titre : "") +
+                    '">' +
+                '</div>' +
+
+                '<div class="field">' +
+                    '<label for="fieldDescription">Description</label>' +
+                    '<textarea id="fieldDescription">' +
+                        escapeHtml(item ? item.description : "") +
+                    '</textarea>' +
+                '</div>' +
+
+                '<div class="field">' +
+                    '<label for="fieldLien">Lien du projet</label>' +
+                    '<input id="fieldLien" type="url" placeholder="https://..." value="' +
+                        escapeHtml(item ? item.lien : "") +
+                    '">' +
+                    '<small>Optionnel. Laissez vide si le projet n’a pas de lien public.</small>' +
+                '</div>';
 
         } else {
 
-            result = await supabaseClient
-                .from("realisations")
-                .insert(payload);
+            formBody.innerHTML =
+                '<div class="field">' +
+                    '<label for="fieldNom">Nom du partenaire</label>' +
+                    '<input id="fieldNom" type="text" maxlength="200" required value="' +
+                        escapeHtml(item ? item.nom : "") +
+                    '">' +
+                '</div>' +
 
+                '<div class="field">' +
+                    '<label for="fieldDescription">Description</label>' +
+                    '<textarea id="fieldDescription">' +
+                        escapeHtml(item ? item.description : "") +
+                    '</textarea>' +
+                '</div>' +
+
+                '<div class="field">' +
+                    '<label for="fieldLien">Lien</label>' +
+                    '<input id="fieldLien" type="url" placeholder="https://..." value="' +
+                        escapeHtml(item ? item.lien : "") +
+                    '">' +
+                    '<small>Optionnel.</small>' +
+                '</div>';
         }
 
+        modalOverlay.classList.add("show");
 
-        if (result.error) {
+        const firstInput = formBody.querySelector("input");
 
-            showMessage(
-                result.error.message,
-                "error"
-            );
+        if (firstInput) {
+            setTimeout(function () {
+                firstInput.focus();
+            }, 50);
+        }
+    }
 
-            return;
+    function categoryOption(value, selected) {
+
+        const isSelected =
+            selected === value ? " selected" : "";
+
+        return (
+            '<option value="' +
+            escapeHtml(value) +
+            '"' +
+            isSelected +
+            '>' +
+            escapeHtml(value) +
+            '</option>'
+        );
+    }
+
+    function getTabSingular() {
+
+        if (state.currentTab === "annonces") {
+            return "une annonce";
         }
 
+        if (state.currentTab === "realisations") {
+            return "une réalisation";
+        }
 
-        showMessage(
-            id
-                ? "Réalisation modifiée."
-                : "Réalisation ajoutée.",
-            "success"
-        );
-
-
-        resetRealisationForm();
-
-        await loadRealisations();
-
-    });
-
-
-function editRealisation(id) {
-
-    const item =
-        realisations.find(
-            realisation => realisation.id === id
-        );
-
-
-    if (!item) {
-        return;
+        return "un partenaire";
     }
 
+    function closeModal() {
 
-    document.getElementById("realisationId").value =
-        item.id;
-
-    document.getElementById("realisationTitre").value =
-        item.titre || "";
-
-    document.getElementById("realisationCategorie").value =
-        item.categorie || "Projet";
-
-    document.getElementById("realisationDescription").value =
-        item.description || "";
-
-    document.getElementById("realisationLien").value =
-        item.lien || "";
-
-    document.getElementById("realisationImage").value =
-        item.image_url || "";
-
-    document.getElementById("realisationStatut").value =
-        item.statut || "publie";
-
-    document.getElementById("realisationFeatured").checked =
-        !!item.mis_en_avant;
-
-    document.getElementById("realisationOrdre").value =
-        item.ordre ?? 0;
-
-
-    document.getElementById("realisationFormTitle").textContent =
-        "Modifier la réalisation";
-
-    document.getElementById("realisationSubmit").textContent =
-        "Enregistrer";
-
-    document
-        .getElementById("realisationCancel")
-        .classList.remove("hm-hidden");
-
-
-    updatePreview(
-        "realisationImage",
-        "realisationImagePreview"
-    );
-
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-}
-
-
-function resetRealisationForm() {
-
-    document
-        .getElementById("realisationForm")
-        .reset();
-
-    document
-        .getElementById("realisationId")
-        .value = "";
-
-    document
-        .getElementById("realisationFormTitle")
-        .textContent = "Nouvelle réalisation";
-
-    document
-        .getElementById("realisationSubmit")
-        .textContent = "Ajouter";
-
-    document
-        .getElementById("realisationCancel")
-        .classList.add("hm-hidden");
-
-    document
-        .getElementById("realisationImagePreview")
-        .classList.remove("show");
-}
-
-
-document
-    .getElementById("realisationCancel")
-    .addEventListener(
-        "click",
-        resetRealisationForm
-    );
-
-
-/* =========================================================
-   PREVIEW APRÈS ÉDITION
-========================================================= */
-
-function updatePreview(inputId, previewId) {
-
-    const input =
-        document.getElementById(inputId);
-
-    const preview =
-        document.getElementById(previewId);
-
-    const image =
-        preview.querySelector("img");
-
-    const url =
-        input.value.trim();
-
-
-    if (!url) {
-
-        preview.classList.remove("show");
-
-        return;
+        modalOverlay.classList.remove("show");
+        state.editingId = null;
+        contentForm.reset();
     }
 
+    async function saveContent(event) {
 
-    image.src = url;
+        event.preventDefault();
 
-    image.onload = () => {
-        preview.classList.add("show");
-    };
+        const saveBtn = document.getElementById("saveBtn");
 
-    image.onerror = () => {
-        preview.classList.remove("show");
-    };
-}
+        saveBtn.disabled = true;
+        saveBtn.textContent = "Enregistrement...";
 
+        try {
 
-/* =========================================================
-   SUPPRESSION
-========================================================= */
+            let payload = {};
+            let table = state.currentTab;
 
-function askDelete(type, id, name) {
+            if (state.currentTab === "annonces") {
 
-    deleteCallback = {
-        type,
-        id
-    };
+                const titre =
+                    document.getElementById("fieldTitre").value.trim();
 
+                const categorie =
+                    document.getElementById("fieldCategorie").value.trim();
 
-    document.getElementById("confirmText").textContent =
-        `Voulez-vous vraiment supprimer « ${name} » ?`;
+                const contenu =
+                    document.getElementById("fieldContenu").value.trim();
 
+                if (!titre || !categorie || !contenu) {
+                    throw new Error("Veuillez remplir tous les champs obligatoires.");
+                }
 
-    document
-        .getElementById("confirmModal")
-        .classList.add("show");
-}
+                payload = {
+                    titre: titre,
+                    categorie: categorie,
+                    contenu: contenu
+                };
 
+            } else if (state.currentTab === "realisations") {
 
-function closeConfirm() {
+                const titre =
+                    document.getElementById("fieldTitre").value.trim();
 
-    deleteCallback = null;
+                const description =
+                    document.getElementById("fieldDescription").value.trim();
 
-    document
-        .getElementById("confirmModal")
-        .classList.remove("show");
-}
+                const lien =
+                    document.getElementById("fieldLien").value.trim();
 
+                if (!titre) {
+                    throw new Error("Le titre est obligatoire.");
+                }
 
-document
-    .getElementById("confirmClose")
-    .addEventListener(
-        "click",
-        closeConfirm
-    );
+                payload = {
+                    titre: titre,
+                    description: description || null,
+                    lien: lien || null
+                };
 
+            } else {
 
-document
-    .getElementById("confirmCancel")
-    .addEventListener(
-        "click",
-        closeConfirm
-    );
+                const nom =
+                    document.getElementById("fieldNom").value.trim();
 
+                const description =
+                    document.getElementById("fieldDescription").value.trim();
 
-document
-    .getElementById("confirmOk")
-    .addEventListener(
-        "click",
-        async () => {
+                const lien =
+                    document.getElementById("fieldLien").value.trim();
 
-            if (!deleteCallback) {
-                return;
+                if (!nom) {
+                    throw new Error("Le nom du partenaire est obligatoire.");
+                }
+
+                payload = {
+                    nom: nom,
+                    description: description || null,
+                    lien: lien || null
+                };
             }
 
+            let result;
 
-            const {
-                type,
-                id
-            } = deleteCallback;
+            if (state.editingId) {
 
+                result = await supabaseClient
+                    .from(table)
+                    .update(payload)
+                    .eq("id", state.editingId);
 
-            let table;
+            } else {
 
-
-            if (type === "annonce") {
-                table = "annonces";
+                result = await supabaseClient
+                    .from(table)
+                    .insert(payload);
             }
 
-            if (type === "partenaire") {
-                table = "partenaires";
+            if (result.error) {
+                throw result.error;
             }
 
-            if (type === "realisation") {
-                table = "realisations";
-            }
+            closeModal();
 
+            await loadAll();
 
-            if (!table) {
-                closeConfirm();
-                return;
-            }
-
-
-            const {
-                error
-            } = await supabaseClient
-                .from(table)
-                .delete()
-                .eq("id", id);
-
-
-            if (error) {
-
-                showMessage(
-                    "Suppression impossible : " +
-                    error.message,
-                    "error"
-                );
-
-                closeConfirm();
-
-                return;
-            }
-
-
-            showMessage(
-                "Élément supprimé.",
+            showToast(
+                state.editingId
+                    ? "Contenu modifié avec succès."
+                    : "Contenu ajouté avec succès.",
                 "success"
             );
 
+        } catch (error) {
 
-            closeConfirm();
+            console.error(error);
 
+            showToast(
+                error.message || "Une erreur est survenue.",
+                "error"
+            );
 
-            if (type === "annonce") {
-                await loadAnnonces();
-            }
+        } finally {
 
-            if (type === "partenaire") {
-                await loadPartenaires();
-            }
-
-            if (type === "realisation") {
-                await loadRealisations();
-            }
-
+            saveBtn.disabled = false;
+            saveBtn.textContent = "Enregistrer";
         }
+    }
+
+    async function deleteContent(id) {
+
+        const item =
+            state.data[state.currentTab].find(function (entry) {
+                return entry.id === id;
+            });
+
+        if (!item) {
+            return;
+        }
+
+        let name =
+            state.currentTab === "partenaires"
+                ? item.nom
+                : item.titre;
+
+        const confirmed = window.confirm(
+            'Voulez-vous vraiment supprimer "' +
+            name +
+            '" ?\n\nCette action est définitive.'
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        const result = await supabaseClient
+            .from(state.currentTab)
+            .delete()
+            .eq("id", id);
+
+        if (result.error) {
+
+            console.error(result.error);
+
+            showToast(
+                "Impossible de supprimer cet élément.",
+                "error"
+            );
+
+            return;
+        }
+
+        await loadAll();
+
+        showToast(
+            "Élément supprimé avec succès.",
+            "success"
+        );
+    }
+
+    /* TABS */
+
+    document.querySelectorAll(".tab").forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            document.querySelectorAll(".tab").forEach(function (tab) {
+                tab.classList.remove("active");
+            });
+
+            button.classList.add("active");
+
+            state.currentTab =
+                button.getAttribute("data-tab");
+
+            searchInput.value = "";
+
+            render();
+        });
+    });
+
+    /* SEARCH */
+
+    searchInput.addEventListener("input", function () {
+        render();
+    });
+
+    /* ADD */
+
+    document.getElementById("addBtn").addEventListener("click", function () {
+        openModal(null);
+    });
+
+    /* CLOSE */
+
+    document.getElementById("closeModal").addEventListener(
+        "click",
+        closeModal
     );
 
-
-/* =========================================================
-   DÉCONNEXION
-========================================================= */
-
-document
-    .getElementById("logoutBtn")
-    .addEventListener(
+    document.getElementById("cancelBtn").addEventListener(
         "click",
-        async () => {
+        closeModal
+    );
+
+    modalOverlay.addEventListener("click", function (event) {
+
+        if (event.target === modalOverlay) {
+            closeModal();
+        }
+    });
+
+    /* FORM */
+
+    contentForm.addEventListener("submit", saveContent);
+
+    /* EDIT / DELETE */
+
+    contentArea.addEventListener("click", function (event) {
+
+        const editButton =
+            event.target.closest(".edit-btn");
+
+        const deleteButton =
+            event.target.closest(".delete-btn");
+
+        if (editButton) {
+
+            const id =
+                editButton.getAttribute("data-id");
+
+            openModal(id);
+
+            return;
+        }
+
+        if (deleteButton) {
+
+            const id =
+                deleteButton.getAttribute("data-id");
+
+            deleteContent(id);
+        }
+    });
+
+    /* LOGOUT */
+
+    document.getElementById("logoutBtn").addEventListener(
+        "click",
+        async function () {
 
             await supabaseClient.auth.signOut();
 
             window.location.href =
                 "../pages/connexion.html";
-
         }
     );
 
+    /* MOBILE MENU */
 
-/* =========================================================
-   INITIALISATION
-========================================================= */
-
-(async function init() {
-
-    const authenticated =
-        await checkAuth();
-
-    if (!authenticated) {
-        return;
-    }
-
-
-    await Promise.all([
-        loadAnnonces(),
-        loadPartenaires(),
-        loadRealisations()
-    ]);
-
-})();
-</script>
-
-</body>
-</html>
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Gestion — HoriblitiMatch</title>
-
-    <link
-        rel="stylesheet"
-        href="../css/style.css"
-    >
-
-</head>
-
-
-<body class="staff-page">
-
-
-<header class="panel-header">
-
-    <a href="../index.html" class="logo">
-
-        <span class="logo-icon">
-            H
-        </span>
-
-        <span class="logo-text">
-            Horibliti<span>Match</span>
-        </span>
-
-    </a>
-
-
-    <div class="panel-actions">
-
-        <a href="index.html">
-            ← Panel
-        </a>
-
-        <button id="logout">
-            Déconnexion
-        </button>
-
-    </div>
-
-</header>
-
-
-<main class="management-page">
-
-
-<section class="management-header">
-
-    <span class="eyebrow">
-        ADMINISTRATION
-    </span>
-
-    <h1>
-        Gestion du contenu
-    </h1>
-
-    <p>
-        Ajoutez, modifiez et supprimez les contenus
-        visibles sur HoriblitiMatch.
-    </p>
-
-</section>
-
-
-<!-- =========================
-     ANNONCES
-========================= -->
-
-<section class="management-section">
-
-    <div class="section-heading">
-
-        <div>
-
-            <span class="eyebrow">
-                CONTENU
-            </span>
-
-            <h2>
-                Annonces
-            </h2>
-
-        </div>
-
-    </div>
-
-
-    <form
-        id="announcementForm"
-        class="management-form"
-    >
-
-        <div class="form-group">
-
-            <label for="announcementTitle">
-                Titre
-            </label>
-
-            <input
-                id="announcementTitle"
-                type="text"
-                placeholder="Titre"
-                required
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="announcementContent">
-                Contenu
-            </label>
-
-            <textarea
-                id="announcementContent"
-                placeholder="Contenu"
-                required
-            ></textarea>
-
-        </div>
-
-
-        <button
-            class="button button-primary"
-            type="submit"
-        >
-            Publier l'annonce
-        </button>
-
-    </form>
-
-
-    <div
-        id="announcementList"
-        class="management-list"
-    ></div>
-
-</section>
-
-
-<!-- =========================
-     PARTENAIRES
-========================= -->
-
-<section class="management-section">
-
-    <div class="section-heading">
-
-        <div>
-
-            <span class="eyebrow">
-                COLLABORATIONS
-            </span>
-
-            <h2>
-                Partenaires
-            </h2>
-
-        </div>
-
-    </div>
-
-
-    <form
-        id="partnerForm"
-        class="management-form"
-    >
-
-        <div class="form-group">
-
-            <label for="partnerName">
-                Nom
-            </label>
-
-            <input
-                id="partnerName"
-                type="text"
-                placeholder="Nom du partenaire"
-                required
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="partnerDescription">
-                Description
-            </label>
-
-            <textarea
-                id="partnerDescription"
-                placeholder="Description"
-            ></textarea>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="partnerLink">
-                Lien
-            </label>
-
-            <input
-                id="partnerLink"
-                type="url"
-                placeholder="https://..."
-            >
-
-        </div>
-
-
-        <button
-            class="button button-primary"
-            type="submit"
-        >
-            Ajouter le partenaire
-        </button>
-
-    </form>
-
-
-    <div
-        id="partnerList"
-        class="management-list"
-    ></div>
-
-</section>
-
-
-<!-- =========================
-     REALISATIONS
-========================= -->
-
-<section class="management-section">
-
-    <div class="section-heading">
-
-        <div>
-
-            <span class="eyebrow">
-                PORTFOLIO
-            </span>
-
-            <h2>
-                Réalisations
-            </h2>
-
-        </div>
-
-    </div>
-
-
-    <form
-        id="projectForm"
-        class="management-form"
-    >
-
-        <div class="form-group">
-
-            <label for="projectTitle">
-                Titre
-            </label>
-
-            <input
-                id="projectTitle"
-                type="text"
-                placeholder="Nom du projet"
-                required
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="projectDescription">
-                Description
-            </label>
-
-            <textarea
-                id="projectDescription"
-                placeholder="Description du projet"
-            ></textarea>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="projectLink">
-                Lien
-            </label>
-
-            <input
-                id="projectLink"
-                type="url"
-                placeholder="https://..."
-            >
-
-        </div>
-
-
-        <button
-            class="button button-primary"
-            type="submit"
-        >
-            Ajouter la réalisation
-        </button>
-
-    </form>
-
-
-    <div
-        id="projectList"
-        class="management-list"
-    ></div>
-
-</section>
-
-
-</main>
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script src="../js/supabase.js"></script>
-
-<script src="../js/script.js"></script>
-
-
-<script>
-
-document.addEventListener("DOMContentLoaded", async () => {
-
-
-    /* =========================
-       AUTH
-    ========================= */
-
-    const {
-        data: {
-            session
-        }
-    } = await supabaseClient.auth.getSession();
-
-
-    if (!session) {
-
-        window.location.href =
-            "../pages/connexion.html";
-
-        return;
-
-    }
-
-
-    const {
-        data: staff
-    } = await supabaseClient
-        .from("staff")
-        .select("id")
-        .eq("id", session.user.id)
-        .maybeSingle();
-
-
-    if (!staff) {
-
-        await supabaseClient.auth.signOut();
-
-        window.location.href =
-            "../pages/connexion.html";
-
-        return;
-
-    }
-
-
-    /* =========================
-       HELPERS
-    ========================= */
-
-    function escapeHTML(value) {
-
-        return String(value ?? "")
-            .replace(/[&<>"']/g, character => {
-
-                const entities = {
-                    "&": "&amp;",
-                    "<": "&lt;",
-                    ">": "&gt;",
-                    '"': "&quot;",
-                    "'": "&#039;"
-                };
-
-                return entities[character];
-
-            });
-
-    }
-
-
-    /* =========================
-       ANNONCES
-    ========================= */
-
-    const announcementForm =
-        document.getElementById(
-            "announcementForm"
-        );
-
-
-    const announcementList =
-        document.getElementById(
-            "announcementList"
-        );
-
-
-    async function loadAnnouncements() {
-
-        const {
-            data,
-            error
-        } = await supabaseClient
-            .from("annonces")
-            .select("*")
-            .order("created_at", {
-                ascending: false
-            });
-
-
-        if (error) {
-
-            announcementList.innerHTML =
-                `<div class="empty-box">
-                    Erreur de chargement.
-                </div>`;
-
-            return;
-
-        }
-
-
-        if (!data.length) {
-
-            announcementList.innerHTML =
-                `<div class="empty-box">
-                    Aucune annonce.
-                </div>`;
-
-            return;
-
-        }
-
-
-        announcementList.innerHTML =
-            data.map(item => `
-
-                <div class="management-item">
-
-                    <div>
-
-                        <strong>
-                            ${escapeHTML(item.titre)}
-                        </strong>
-
-                        <p>
-                            ${escapeHTML(item.contenu)}
-                        </p>
-
-                    </div>
-
-                    <button
-                        class="delete-button"
-                        data-table="annonces"
-                        data-id="${item.id}"
-                    >
-                        Supprimer
-                    </button>
-
-                </div>
-
-            `).join("");
-
-    }
-
-
-    announcementForm.addEventListener(
-        "submit",
-        async event => {
-
-            event.preventDefault();
-
-
-            const titre =
-                document
-                    .getElementById(
-                        "announcementTitle"
-                    )
-                    .value
-                    .trim();
-
-
-            const contenu =
-                document
-                    .getElementById(
-                        "announcementContent"
-                    )
-                    .value
-                    .trim();
-
-
-            const {
-                error
-            } = await supabaseClient
-                .from("annonces")
-                .insert({
-                    titre,
-                    categorie: "Information",
-                    contenu
-                });
-
-
-            if (error) {
-
-                alert(
-                    "Erreur lors de la publication."
-                );
-
-                console.error(error);
-
-                return;
-
-            }
-
-
-            announcementForm.reset();
-
-            loadAnnouncements();
-
-        }
-    );
-
-
-    /* =========================
-       PARTENAIRES
-    ========================= */
-
-    const partnerForm =
-        document.getElementById(
-            "partnerForm"
-        );
-
-
-    const partnerList =
-        document.getElementById(
-            "partnerList"
-        );
-
-
-    async function loadPartners() {
-
-        const {
-            data,
-            error
-        } = await supabaseClient
-            .from("partenaires")
-            .select("*")
-            .order("created_at", {
-                ascending: false
-            });
-
-
-        if (error) {
-
-            partnerList.innerHTML =
-                `<div class="empty-box">
-                    Erreur de chargement.
-                </div>`;
-
-            return;
-
-        }
-
-
-        if (!data.length) {
-
-            partnerList.innerHTML =
-                `<div class="empty-box">
-                    Aucun partenaire.
-                </div>`;
-
-            return;
-
-        }
-
-
-        partnerList.innerHTML =
-            data.map(item => `
-
-                <div class="management-item">
-
-                    <div>
-
-                        <strong>
-                            ${escapeHTML(item.nom)}
-                        </strong>
-
-                        <p>
-                            ${escapeHTML(
-                                item.description || ""
-                            )}
-                        </p>
-
-                    </div>
-
-                    <button
-                        class="delete-button"
-                        data-table="partenaires"
-                        data-id="${item.id}"
-                    >
-                        Supprimer
-                    </button>
-
-                </div>
-
-            `).join("");
-
-    }
-
-
-    partnerForm.addEventListener(
-        "submit",
-        async event => {
-
-            event.preventDefault();
-
-
-            const nom =
-                document
-                    .getElementById(
-                        "partnerName"
-                    )
-                    .value
-                    .trim();
-
-
-            const description =
-                document
-                    .getElementById(
-                        "partnerDescription"
-                    )
-                    .value
-                    .trim();
-
-
-            const lien =
-                document
-                    .getElementById(
-                        "partnerLink"
-                    )
-                    .value
-                    .trim();
-
-
-            const {
-                error
-            } = await supabaseClient
-                .from("partenaires")
-                .insert({
-                    nom,
-                    description,
-                    lien
-                });
-
-
-            if (error) {
-
-                alert(
-                    "Erreur lors de l'ajout du partenaire."
-                );
-
-                console.error(error);
-
-                return;
-
-            }
-
-
-            partnerForm.reset();
-
-            loadPartners();
-
-        }
-    );
-
-
-    /* =========================
-       REALISATIONS
-    ========================= */
-
-    const projectForm =
-        document.getElementById(
-            "projectForm"
-        );
-
-
-    const projectList =
-        document.getElementById(
-            "projectList"
-        );
-
-
-    async function loadProjects() {
-
-        const {
-            data,
-            error
-        } = await supabaseClient
-            .from("realisations")
-            .select("*")
-            .order("created_at", {
-                ascending: false
-            });
-
-
-        if (error) {
-
-            projectList.innerHTML =
-                `<div class="empty-box">
-                    Erreur de chargement.
-                </div>`;
-
-            return;
-
-        }
-
-
-        if (!data.length) {
-
-            projectList.innerHTML =
-                `<div class="empty-box">
-                    Aucune réalisation.
-                </div>`;
-
-            return;
-
-        }
-
-
-        projectList.innerHTML =
-            data.map(item => `
-
-                <div class="management-item">
-
-                    <div>
-
-                        <strong>
-                            ${escapeHTML(item.titre)}
-                        </strong>
-
-                        <p>
-                            ${escapeHTML(
-                                item.description || ""
-                            )}
-                        </p>
-
-                    </div>
-
-                    <button
-                        class="delete-button"
-                        data-table="realisations"
-                        data-id="${item.id}"
-                    >
-                        Supprimer
-                    </button>
-
-                </div>
-
-            `).join("");
-
-    }
-
-
-    projectForm.addEventListener(
-        "submit",
-        async event => {
-
-            event.preventDefault();
-
-
-            const titre =
-                document
-                    .getElementById(
-                        "projectTitle"
-                    )
-                    .value
-                    .trim();
-
-
-            const description =
-                document
-                    .getElementById(
-                        "projectDescription"
-                    )
-                    .value
-                    .trim();
-
-
-            const lien =
-                document
-                    .getElementById(
-                        "projectLink"
-                    )
-                    .value
-                    .trim();
-
-
-            const {
-                error
-            } = await supabaseClient
-                .from("realisations")
-                .insert({
-                    titre,
-                    description,
-                    lien
-                });
-
-
-            if (error) {
-
-                alert(
-                    "Erreur lors de l'ajout du projet."
-                );
-
-                console.error(error);
-
-                return;
-
-            }
-
-
-            projectForm.reset();
-
-            loadProjects();
-
-        }
-    );
-
-
-    /* =========================
-       SUPPRESSION GENERALE
-    ========================= */
-
-    document.addEventListener(
+    document.getElementById("mobileMenu").addEventListener(
         "click",
-        async event => {
+        function () {
 
-            const button =
-                event.target.closest(
-                    ".delete-button"
-                );
-
-
-            if (!button) {
-                return;
-            }
-
-
-            const confirmed =
-                confirm(
-                    "Voulez-vous vraiment supprimer cet élément ?"
-                );
-
-
-            if (!confirmed) {
-                return;
-            }
-
-
-            const {
-                error
-            } = await supabaseClient
-                .from(button.dataset.table)
-                .delete()
-                .eq(
-                    "id",
-                    button.dataset.id
-                );
-
-
-            if (error) {
-
-                alert(
-                    "Impossible de supprimer cet élément."
-                );
-
-                console.error(error);
-
-                return;
-
-            }
-
-
-            if (
-                button.dataset.table ===
-                "annonces"
-            ) {
-                loadAnnouncements();
-            }
-
-
-            if (
-                button.dataset.table ===
-                "partenaires"
-            ) {
-                loadPartners();
-            }
-
-
-            if (
-                button.dataset.table ===
-                "realisations"
-            ) {
-                loadProjects();
-            }
-
+            document
+                .getElementById("sidebar")
+                .classList.toggle("open");
         }
     );
 
+    /* ESC */
 
-    /* =========================
-       LOGOUT
-    ========================= */
+    document.addEventListener("keydown", function (event) {
 
-    document
-        .getElementById("logout")
-        .addEventListener(
-            "click",
-            async () => {
+        if (event.key === "Escape") {
+            closeModal();
+        }
+    });
 
-                await supabaseClient.auth.signOut();
+    /* START */
 
-                window.location.href =
-                    "../pages/connexion.html";
+    const staff = await checkAuth();
 
-            }
-        );
-
-
-    /* =========================
-       INITIALISATION
-    ========================= */
-
-    await loadAnnouncements();
-
-    await loadPartners();
-
-    await loadProjects();
-
-});
+    if (staff) {
+        await loadAll();
+    }
 
 </script>
 
