@@ -9,21 +9,20 @@
 
     <style>
         :root {
-            --bg: #0b0d12;
-            --surface: #11141b;
-            --surface-2: #171b24;
-            --surface-3: #1d2230;
-            --border: #272d3a;
+            --bg: #0b0e14;
+            --surface: #11151d;
+            --surface-2: #171c26;
+            --surface-3: #1d2430;
+            --border: #293140;
 
-            --text: #f3f5f8;
-            --muted: #8d96a8;
+            --text: #f4f6fa;
+            --muted: #8993a6;
 
             --primary: #7567ff;
-            --primary-2: #8d82ff;
-
+            --primary-light: #968cff;
             --blue: #4d9cff;
-            --green: #48d597;
-            --orange: #ffae57;
+            --green: #42d99a;
+            --orange: #ffb45c;
             --red: #ff626d;
 
             --radius: 16px;
@@ -38,8 +37,16 @@
         body {
             min-height: 100vh;
             background:
-                radial-gradient(circle at 80% 0%, rgba(117, 103, 255, 0.08), transparent 30%),
-                radial-gradient(circle at 0% 100%, rgba(77, 156, 255, 0.05), transparent 28%),
+                radial-gradient(
+                    circle at 80% 0%,
+                    rgba(117, 103, 255, 0.08),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 0% 100%,
+                    rgba(77, 156, 255, 0.05),
+                    transparent 28%
+                ),
                 var(--bg);
             color: var(--text);
             font-family: Inter, Arial, Helvetica, sans-serif;
@@ -50,34 +57,31 @@
             text-decoration: none;
         }
 
-        button,
-        input {
-            font: inherit;
-        }
-
         button {
+            font: inherit;
             cursor: pointer;
         }
 
         /* =========================
-           HEADER
+           TOPBAR
         ========================= */
 
         .topbar {
             height: 72px;
-            border-bottom: 1px solid var(--border);
-            background: rgba(11, 13, 18, 0.92);
-            backdrop-filter: blur(16px);
+            padding: 0 30px;
 
             display: flex;
             align-items: center;
             justify-content: space-between;
 
-            padding: 0 30px;
-
             position: sticky;
             top: 0;
-            z-index: 50;
+            z-index: 100;
+
+            background: rgba(11, 14, 20, 0.94);
+            backdrop-filter: blur(18px);
+
+            border-bottom: 1px solid var(--border);
         }
 
         .brand {
@@ -87,45 +91,46 @@
         }
 
         .brand-logo {
-            width: 38px;
-            height: 38px;
-            border-radius: 11px;
+            width: 39px;
+            height: 39px;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            background: linear-gradient(
-                135deg,
-                var(--primary),
-                var(--blue)
-            );
+            border-radius: 11px;
 
-            font-size: 15px;
-            font-weight: 900;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--blue)
+                );
+
             color: white;
+            font-size: 13px;
+            font-weight: 900;
 
-            box-shadow: 0 8px 25px rgba(117, 103, 255, 0.22);
+            box-shadow:
+                0 8px 30px rgba(117, 103, 255, 0.2);
         }
 
-        .brand-text strong {
+        .brand strong {
             display: block;
             font-size: 15px;
-            letter-spacing: -0.2px;
         }
 
-        .brand-text span {
+        .brand span {
             display: block;
             margin-top: 2px;
 
             color: var(--muted);
-            font-size: 11px;
+            font-size: 10px;
         }
 
         .top-actions {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            gap: 9px;
         }
 
         .top-btn {
@@ -137,17 +142,17 @@
             padding: 9px 13px;
             border-radius: 10px;
 
-            transition: 0.2s ease;
+            transition: 0.2s;
         }
 
         .top-btn:hover {
-            color: var(--text);
-            border-color: #394154;
+            color: white;
             background: var(--surface-2);
+            border-color: #3b4557;
         }
 
         .logout-btn {
-            color: #ff8990;
+            color: #ff858d;
         }
 
         /* =========================
@@ -163,19 +168,20 @@
             width: 235px;
             flex-shrink: 0;
 
-            border-right: 1px solid var(--border);
-            background: rgba(13, 16, 22, 0.8);
-
             padding: 22px 14px;
+
+            border-right: 1px solid var(--border);
+            background: rgba(13, 16, 22, 0.82);
         }
 
         .sidebar-title {
             padding: 0 11px;
-            margin-bottom: 9px;
+            margin: 0 0 9px;
 
-            color: #687286;
+            color: #697488;
             font-size: 10px;
             font-weight: 800;
+
             letter-spacing: 1.2px;
             text-transform: uppercase;
         }
@@ -184,7 +190,8 @@
             display: flex;
             flex-direction: column;
             gap: 4px;
-            margin-bottom: 26px;
+
+            margin-bottom: 27px;
         }
 
         .nav a {
@@ -193,16 +200,17 @@
             gap: 11px;
 
             padding: 11px 12px;
-            border-radius: 10px;
 
             color: var(--muted);
+            border-radius: 10px;
+
             font-size: 13px;
 
-            transition: 0.2s ease;
+            transition: 0.2s;
         }
 
         .nav a:hover {
-            color: var(--text);
+            color: white;
             background: var(--surface);
         }
 
@@ -215,19 +223,18 @@
         .nav-icon {
             width: 20px;
             text-align: center;
-            opacity: 0.9;
         }
 
         .main {
             flex: 1;
             min-width: 0;
+            max-width: 1550px;
 
             padding: 34px;
-            max-width: 1500px;
         }
 
         /* =========================
-           PAGE HEADER
+           HEADER
         ========================= */
 
         .page-header {
@@ -236,7 +243,7 @@
             justify-content: space-between;
             gap: 20px;
 
-            margin-bottom: 28px;
+            margin-bottom: 27px;
         }
 
         .page-header h1 {
@@ -245,8 +252,9 @@
         }
 
         .page-header p {
-            color: var(--muted);
             margin-top: 7px;
+
+            color: var(--muted);
             font-size: 14px;
         }
 
@@ -263,22 +271,23 @@
         }
 
         .avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 10px;
+            width: 36px;
+            height: 36px;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            background: linear-gradient(
-                135deg,
-                var(--primary),
-                var(--blue)
-            );
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--blue)
+                );
 
             font-weight: 800;
-            font-size: 13px;
         }
 
         .staff-info strong {
@@ -288,9 +297,10 @@
 
         .staff-info span {
             display: block;
+            margin-top: 2px;
+
             color: var(--muted);
             font-size: 10px;
-            margin-top: 2px;
         }
 
         /* =========================
@@ -299,31 +309,32 @@
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 14px;
-            margin-bottom: 28px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 13px;
+
+            margin-bottom: 18px;
         }
 
-        .stat-card {
-            position: relative;
-            overflow: hidden;
+        .stat {
+            padding: 19px;
 
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
 
-            padding: 20px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .stat-card::after {
+        .stat::after {
             content: "";
 
             position: absolute;
             width: 100px;
             height: 100px;
 
-            right: -35px;
-            bottom: -45px;
+            right: -45px;
+            bottom: -50px;
 
             border-radius: 50%;
 
@@ -332,18 +343,73 @@
 
         .stat-top {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
         }
 
         .stat-label {
             color: var(--muted);
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .stat-icon {
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background: var(--surface-3);
+            color: var(--primary-light);
+        }
+
+        .stat-value {
+            margin-top: 14px;
+
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .stat-sub {
+            margin-top: 5px;
+
+            color: #687386;
+            font-size: 9px;
+        }
+
+        /* =========================
+           SECONDARY STATS
+        ========================= */
+
+        .secondary-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 13px;
+
+            margin-bottom: 25px;
+        }
+
+        .mini-stat {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            padding: 15px;
+
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+        }
+
+        .mini-icon {
+            width: 36px;
+            height: 36px;
+
+            flex-shrink: 0;
 
             display: flex;
             align-items: center;
@@ -352,58 +418,68 @@
             border-radius: 10px;
 
             background: var(--surface-3);
-            color: var(--primary-2);
-            font-size: 15px;
+            color: var(--blue);
         }
 
-        .stat-value {
-            margin-top: 15px;
+        .mini-stat strong {
+            display: block;
+            font-size: 13px;
+        }
 
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: -1px;
+        .mini-stat span {
+            display: block;
+            margin-top: 3px;
+
+            color: var(--muted);
+            font-size: 10px;
         }
 
         /* =========================
-           CONTENT GRID
+           GRID
         ========================= */
 
         .content-grid {
             display: grid;
-            grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+            grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.7fr);
             gap: 18px;
         }
 
         .panel {
+            overflow: hidden;
+
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            overflow: hidden;
+        }
+
+        .panel + .panel {
+            margin-top: 18px;
         }
 
         .panel-header {
-            padding: 18px 20px;
-
-            border-bottom: 1px solid var(--border);
+            padding: 17px 20px;
 
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 15px;
+
+            border-bottom: 1px solid var(--border);
         }
 
         .panel-header h2 {
             font-size: 14px;
         }
 
-        .panel-header span {
+        .panel-header p {
+            margin-top: 4px;
+
             color: var(--muted);
-            font-size: 11px;
+            font-size: 10px;
         }
 
         .panel-link {
-            color: var(--primary-2);
-            font-size: 11px;
+            color: var(--primary-light);
+            font-size: 10px;
         }
 
         .panel-link:hover {
@@ -411,10 +487,10 @@
         }
 
         /* =========================
-           QUICK ACTIONS
+           ACTIONS
         ========================= */
 
-        .quick-actions {
+        .actions {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
@@ -422,29 +498,30 @@
             padding: 18px;
         }
 
-        .quick-action {
+        .action {
             display: flex;
             align-items: center;
             gap: 12px;
 
             padding: 14px;
 
-            border: 1px solid var(--border);
             background: var(--surface-2);
+            border: 1px solid var(--border);
             border-radius: 12px;
 
-            transition: 0.2s ease;
+            transition: 0.2s;
         }
 
-        .quick-action:hover {
+        .action:hover {
             transform: translateY(-2px);
-            border-color: #394154;
             background: var(--surface-3);
+            border-color: #3c4658;
         }
 
-        .quick-icon {
+        .action-icon {
             width: 38px;
             height: 38px;
+
             flex-shrink: 0;
 
             display: flex;
@@ -454,23 +531,20 @@
             border-radius: 10px;
 
             background: rgba(117, 103, 255, 0.12);
-            color: var(--primary-2);
-
-            font-size: 16px;
+            color: var(--primary-light);
         }
 
-        .quick-action strong {
+        .action strong {
             display: block;
             font-size: 12px;
         }
 
-        .quick-action span {
+        .action span {
             display: block;
             margin-top: 4px;
 
             color: var(--muted);
-            font-size: 10px;
-            line-height: 1.4;
+            font-size: 9px;
         }
 
         /* =========================
@@ -478,15 +552,16 @@
         ========================= */
 
         .announcement-list {
-            padding: 4px 20px 10px;
+            padding: 3px 20px 10px;
         }
 
         .announcement {
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border);
-
             display: flex;
-            gap: 13px;
+            gap: 12px;
+
+            padding: 15px 0;
+
+            border-bottom: 1px solid var(--border);
         }
 
         .announcement:last-child {
@@ -498,12 +573,13 @@
             height: 8px;
 
             flex-shrink: 0;
-
             margin-top: 5px;
 
             border-radius: 50%;
             background: var(--primary);
-            box-shadow: 0 0 12px rgba(117, 103, 255, 0.4);
+
+            box-shadow:
+                0 0 12px rgba(117, 103, 255, 0.4);
         }
 
         .announcement-content {
@@ -515,18 +591,17 @@
 
             font-size: 12px;
 
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
         }
 
         .announcement-content p {
-            color: var(--muted);
+            margin-top: 4px;
 
+            color: var(--muted);
             font-size: 10px;
             line-height: 1.5;
-
-            margin-top: 4px;
 
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -534,10 +609,11 @@
             overflow: hidden;
         }
 
-        .announcement-date {
-            color: #687286;
-            font-size: 9px;
+        .announcement-meta {
             margin-top: 6px;
+
+            color: #697488;
+            font-size: 9px;
         }
 
         /* =========================
@@ -545,122 +621,160 @@
         ========================= */
 
         .media-grid {
-            padding: 16px 20px 20px;
-
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 9px;
+            gap: 8px;
+
+            padding: 16px 20px 20px;
         }
 
-        .media-card {
-            aspect-ratio: 1 / 1;
+        .media {
+            aspect-ratio: 1;
 
             overflow: hidden;
 
-            border-radius: 10px;
-            border: 1px solid var(--border);
-
             background: var(--surface-2);
-
-            position: relative;
+            border: 1px solid var(--border);
+            border-radius: 10px;
         }
 
-        .media-card img {
+        .media img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+
             display: block;
+            object-fit: cover;
+
+            transition: 0.25s;
         }
 
-        .media-empty {
-            grid-column: 1 / -1;
-
-            padding: 25px 10px;
-
-            color: var(--muted);
-            text-align: center;
-            font-size: 11px;
+        .media:hover img {
+            transform: scale(1.05);
         }
 
         /* =========================
-           ACTIVITY
+           CONTENT DISTRIBUTION
         ========================= */
 
-        .activity {
-            padding: 5px 20px 18px;
+        .distribution {
+            padding: 20px;
         }
 
-        .activity-item {
-            display: flex;
-            gap: 12px;
+        .distribution-item {
+            margin-bottom: 16px;
+        }
 
-            padding: 14px 0;
+        .distribution-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .distribution-head {
+            display: flex;
+            justify-content: space-between;
+
+            margin-bottom: 7px;
+
+            font-size: 10px;
+        }
+
+        .distribution-head span {
+            color: var(--muted);
+        }
+
+        .bar {
+            height: 7px;
+
+            overflow: hidden;
+
+            background: var(--surface-3);
+            border-radius: 10px;
+        }
+
+        .bar-fill {
+            height: 100%;
+
+            width: 0;
+
+            border-radius: inherit;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--primary),
+                    var(--blue)
+                );
+
+            transition: width 0.6s ease;
+        }
+
+        /* =========================
+           SYSTEM
+        ========================= */
+
+        .system {
+            padding: 5px 20px 17px;
+        }
+
+        .system-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 13px 0;
 
             border-bottom: 1px solid var(--border);
         }
 
-        .activity-item:last-child {
+        .system-row:last-child {
             border-bottom: 0;
         }
 
-        .activity-icon {
-            width: 30px;
-            height: 30px;
-
-            flex-shrink: 0;
-
+        .system-left {
             display: flex;
             align-items: center;
-            justify-content: center;
-
-            border-radius: 9px;
-
-            background: var(--surface-3);
-            color: var(--green);
-
-            font-size: 12px;
+            gap: 10px;
         }
 
-        .activity-text {
-            min-width: 0;
+        .system-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+            background: var(--green);
         }
 
-        .activity-text strong {
-            display: block;
-            font-size: 11px;
-        }
-
-        .activity-text span {
-            display: block;
-            margin-top: 4px;
-
-            color: var(--muted);
+        .system-left span {
             font-size: 10px;
         }
 
+        .system-status {
+            color: var(--muted);
+            font-size: 9px;
+        }
+
         /* =========================
-           LOADING / EMPTY
+           EMPTY / LOADING
         ========================= */
 
-        .loading {
+        .loading,
+        .empty,
+        .error {
+            padding: 25px 15px;
+
             color: var(--muted);
-            font-size: 11px;
-            padding: 20px;
             text-align: center;
+            font-size: 10px;
         }
 
         .error {
             color: #ff7d86;
-            font-size: 11px;
-            padding: 20px;
-            text-align: center;
         }
 
         /* =========================
            RESPONSIVE
         ========================= */
 
-        @media (max-width: 1100px) {
+        @media (max-width: 1150px) {
             .stats {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -670,18 +784,10 @@
             }
         }
 
-        @media (max-width: 800px) {
-            .topbar {
-                padding: 0 17px;
-            }
-
-            .top-btn.dashboard-label {
-                display: none;
-            }
-
+        @media (max-width: 850px) {
             .sidebar {
                 width: 68px;
-                padding: 18px 9px;
+                padding: 18px 8px;
             }
 
             .sidebar-title,
@@ -691,43 +797,42 @@
 
             .nav a {
                 justify-content: center;
-                padding: 12px 8px;
             }
 
             .main {
-                padding: 24px 17px;
+                padding: 25px 18px;
             }
 
-            .page-header {
-                align-items: flex-start;
-                flex-direction: column;
+            .secondary-stats {
+                grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 560px) {
+        @media (max-width: 600px) {
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .brand-text,
+            .dashboard-label {
+                display: none;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
             .stats {
                 grid-template-columns: 1fr 1fr;
-                gap: 9px;
             }
 
-            .stat-card {
-                padding: 15px;
-            }
-
-            .stat-value {
-                font-size: 23px;
-            }
-
-            .quick-actions {
+            .actions {
                 grid-template-columns: 1fr;
             }
 
             .media-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
-
-            .brand-text {
-                display: none;
             }
         }
     </style>
@@ -761,8 +866,6 @@
 
 <div class="layout">
 
-    <!-- SIDEBAR -->
-
     <aside class="sidebar">
 
         <div class="sidebar-title">
@@ -788,7 +891,6 @@
 
         </nav>
 
-
         <div class="sidebar-title">
             Administration
         </div>
@@ -810,8 +912,6 @@
     </aside>
 
 
-    <!-- MAIN -->
-
     <main class="main">
 
         <section class="page-header">
@@ -820,7 +920,7 @@
                 <h1>Bonjour 👋</h1>
 
                 <p>
-                    Bienvenue dans le centre d'administration de HoriblitiMatch.
+                    Voici l'activité actuelle de HoriblitiMatch.
                 </p>
             </div>
 
@@ -840,61 +940,109 @@
         </section>
 
 
-        <!-- STATS -->
+        <!-- VRAIES STATISTIQUES -->
 
         <section class="stats">
 
-            <article class="stat-card">
+            <article class="stat">
 
                 <div class="stat-top">
-                    <span class="stat-label">Annonces</span>
-                    <div class="stat-icon">!</div>
+                    <span class="stat-label">
+                        Annonces
+                    </span>
+
+                    <div class="stat-icon">
+                        !
+                    </div>
                 </div>
 
-                <div class="stat-value" id="annoncesCount">
+                <div
+                    class="stat-value"
+                    id="totalAnnonces"
+                >
                     —
+                </div>
+
+                <div class="stat-sub">
+                    Publications au total
                 </div>
 
             </article>
 
 
-            <article class="stat-card">
+            <article class="stat">
 
                 <div class="stat-top">
-                    <span class="stat-label">Réalisations</span>
-                    <div class="stat-icon">◆</div>
+                    <span class="stat-label">
+                        Réalisations
+                    </span>
+
+                    <div class="stat-icon">
+                        ◆
+                    </div>
                 </div>
 
-                <div class="stat-value" id="realisationsCount">
+                <div
+                    class="stat-value"
+                    id="totalRealisations"
+                >
                     —
+                </div>
+
+                <div class="stat-sub">
+                    Projets enregistrés
                 </div>
 
             </article>
 
 
-            <article class="stat-card">
+            <article class="stat">
 
                 <div class="stat-top">
-                    <span class="stat-label">Partenaires</span>
-                    <div class="stat-icon">♢</div>
+                    <span class="stat-label">
+                        Partenaires
+                    </span>
+
+                    <div class="stat-icon">
+                        ♢
+                    </div>
                 </div>
 
-                <div class="stat-value" id="partenairesCount">
+                <div
+                    class="stat-value"
+                    id="totalPartenaires"
+                >
                     —
+                </div>
+
+                <div class="stat-sub">
+                    Partenaires enregistrés
                 </div>
 
             </article>
 
 
-            <article class="stat-card">
+            <article class="stat">
 
                 <div class="stat-top">
-                    <span class="stat-label">Médias</span>
-                    <div class="stat-icon">▧</div>
+                    <span class="stat-label">
+                        Médias
+                    </span>
+
+                    <div class="stat-icon">
+                        ▧
+                    </div>
                 </div>
 
-                <div class="stat-value" id="mediasCount">
+                <div
+                    class="stat-value"
+                    id="totalMedias"
+                >
                     —
+                </div>
+
+                <div class="stat-sub">
+                    Fichiers dans la bibliothèque
                 </div>
 
             </article>
@@ -902,33 +1050,96 @@
         </section>
 
 
-        <!-- CONTENT -->
+        <!-- STATS SECONDAIRES -->
+
+        <section class="secondary-stats">
+
+            <div class="mini-stat">
+
+                <div class="mini-icon">
+                    📅
+                </div>
+
+                <div>
+                    <strong id="monthAnnonces">—</strong>
+                    <span>
+                        annonces ce mois-ci
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="mini-stat">
+
+                <div class="mini-icon">
+                    👥
+                </div>
+
+                <div>
+                    <strong id="totalStaff">—</strong>
+                    <span>
+                        membre(s) du staff
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="mini-stat">
+
+                <div class="mini-icon">
+                    💾
+                </div>
+
+                <div>
+                    <strong id="mediaSize">—</strong>
+                    <span>
+                        stockage média détecté
+                    </span>
+                </div>
+
+            </div>
+
+        </section>
+
 
         <div class="content-grid">
 
             <div>
 
-                <!-- QUICK ACTIONS -->
+                <!-- ACTIONS -->
 
                 <section class="panel">
 
                     <div class="panel-header">
+
                         <div>
                             <h2>Actions rapides</h2>
-                            <span>Accéder rapidement aux outils</span>
+
+                            <p>
+                                Accéder rapidement aux outils
+                            </p>
                         </div>
+
                     </div>
 
-                    <div class="quick-actions">
+                    <div class="actions">
 
-                        <a href="gestion.html" class="quick-action">
+                        <a
+                            href="gestion.html"
+                            class="action"
+                        >
 
-                            <div class="quick-icon">
+                            <div class="action-icon">
                                 ✎
                             </div>
 
                             <div>
-                                <strong>Gérer le contenu</strong>
+                                <strong>
+                                    Gérer le contenu
+                                </strong>
+
                                 <span>
                                     Annonces, réalisations et partenaires
                                 </span>
@@ -937,46 +1148,64 @@
                         </a>
 
 
-                        <a href="medias.html" class="quick-action">
+                        <a
+                            href="medias.html"
+                            class="action"
+                        >
 
-                            <div class="quick-icon">
+                            <div class="action-icon">
                                 ▧
                             </div>
 
                             <div>
-                                <strong>Gérer les médias</strong>
+                                <strong>
+                                    Gérer les médias
+                                </strong>
+
                                 <span>
-                                    Ajouter et supprimer des images
+                                    Images et fichiers
                                 </span>
                             </div>
 
                         </a>
 
 
-                        <a href="equipe.html" class="quick-action">
+                        <a
+                            href="equipe.html"
+                            class="action"
+                        >
 
-                            <div class="quick-icon">
+                            <div class="action-icon">
                                 ♙
                             </div>
 
                             <div>
-                                <strong>Gérer l'équipe</strong>
+                                <strong>
+                                    Gérer l'équipe
+                                </strong>
+
                                 <span>
-                                    Membres et rôles du staff
+                                    Staff et permissions
                                 </span>
                             </div>
 
                         </a>
 
 
-                        <a href="parametres.html" class="quick-action">
+                        <a
+                            href="parametres.html"
+                            class="action"
+                        >
 
-                            <div class="quick-icon">
+                            <div class="action-icon">
                                 ⚙
                             </div>
 
                             <div>
-                                <strong>Paramètres</strong>
+                                <strong>
+                                    Paramètres
+                                </strong>
+
                                 <span>
                                     Configuration du studio
                                 </span>
@@ -991,22 +1220,33 @@
 
                 <!-- ANNONCES -->
 
-                <section class="panel" style="margin-top:18px;">
+                <section class="panel">
 
                     <div class="panel-header">
 
                         <div>
-                            <h2>Dernières annonces</h2>
-                            <span>Les publications récentes</span>
+                            <h2>
+                                Dernières annonces
+                            </h2>
+
+                            <p>
+                                Activité éditoriale récente
+                            </p>
                         </div>
 
-                        <a href="gestion.html" class="panel-link">
+                        <a
+                            href="gestion.html"
+                            class="panel-link"
+                        >
                             Gérer
                         </a>
 
                     </div>
 
-                    <div id="annoncesList" class="announcement-list">
+                    <div
+                        id="annoncesList"
+                        class="announcement-list"
+                    >
                         <div class="loading">
                             Chargement...
                         </div>
@@ -1019,27 +1259,89 @@
 
             <div>
 
-                <!-- MEDIAS -->
+                <!-- REPARTITION -->
 
                 <section class="panel">
 
                     <div class="panel-header">
 
                         <div>
-                            <h2>Derniers médias</h2>
-                            <span>Bibliothèque</span>
-                        </div>
+                            <h2>
+                                Contenu du studio
+                            </h2>
 
-                        <a href="medias.html" class="panel-link">
-                            Voir tout
-                        </a>
+                            <p>
+                                Répartition actuelle
+                            </p>
+                        </div>
 
                     </div>
 
-                    <div id="mediaGrid" class="media-grid">
+                    <div class="distribution">
 
-                        <div class="media-empty">
-                            Chargement...
+                        <div class="distribution-item">
+
+                            <div class="distribution-head">
+                                <span>
+                                    Annonces
+                                </span>
+
+                                <strong id="barAnnonces">
+                                    —
+                                </strong>
+                            </div>
+
+                            <div class="bar">
+                                <div
+                                    class="bar-fill"
+                                    id="fillAnnonces"
+                                ></div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="distribution-item">
+
+                            <div class="distribution-head">
+                                <span>
+                                    Réalisations
+                                </span>
+
+                                <strong id="barRealisations">
+                                    —
+                                </strong>
+                            </div>
+
+                            <div class="bar">
+                                <div
+                                    class="bar-fill"
+                                    id="fillRealisations"
+                                ></div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="distribution-item">
+
+                            <div class="distribution-head">
+                                <span>
+                                    Partenaires
+                                </span>
+
+                                <strong id="barPartenaires">
+                                    —
+                                </strong>
+                            </div>
+
+                            <div class="bar">
+                                <div
+                                    class="bar-fill"
+                                    id="fillPartenaires"
+                                ></div>
+                            </div>
+
                         </div>
 
                     </div>
@@ -1047,74 +1349,116 @@
                 </section>
 
 
-                <!-- ACTIVITY -->
+                <!-- MEDIAS -->
 
-                <section class="panel" style="margin-top:18px;">
+                <section class="panel">
 
                     <div class="panel-header">
 
                         <div>
-                            <h2>État du studio</h2>
-                            <span>Informations système</span>
+                            <h2>
+                                Derniers médias
+                            </h2>
+
+                            <p>
+                                Bibliothèque récente
+                            </p>
+                        </div>
+
+                        <a
+                            href="medias.html"
+                            class="panel-link"
+                        >
+                            Voir tout
+                        </a>
+
+                    </div>
+
+                    <div
+                        id="mediaGrid"
+                        class="media-grid"
+                    >
+                        <div class="loading">
+                            Chargement...
+                        </div>
+                    </div>
+
+                </section>
+
+
+                <!-- SYSTEME -->
+
+                <section class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h2>
+                                État du système
+                            </h2>
+
+                            <p>
+                                Services utilisés par le dashboard
+                            </p>
                         </div>
 
                     </div>
 
-                    <div class="activity">
+                    <div class="system">
 
-                        <div class="activity-item">
+                        <div class="system-row">
 
-                            <div class="activity-icon">
-                                ✓
-                            </div>
-
-                            <div class="activity-text">
-
-                                <strong>Authentification</strong>
-
-                                <span id="authStatus">
-                                    Vérification...
+                            <div class="system-left">
+                                <div class="system-dot"></div>
+                                <span>
+                                    Authentification
                                 </span>
-
                             </div>
+
+                            <span
+                                class="system-status"
+                                id="authStatus"
+                            >
+                                Vérification...
+                            </span>
 
                         </div>
 
 
-                        <div class="activity-item">
+                        <div class="system-row">
 
-                            <div class="activity-icon">
-                                ✓
-                            </div>
-
-                            <div class="activity-text">
-
-                                <strong>Base de données</strong>
-
-                                <span id="databaseStatus">
-                                    Vérification...
+                            <div class="system-left">
+                                <div class="system-dot"></div>
+                                <span>
+                                    Base de données
                                 </span>
-
                             </div>
+
+                            <span
+                                class="system-status"
+                                id="databaseStatus"
+                            >
+                                Vérification...
+                            </span>
 
                         </div>
 
 
-                        <div class="activity-item">
+                        <div class="system-row">
 
-                            <div class="activity-icon">
-                                ✓
-                            </div>
-
-                            <div class="activity-text">
-
-                                <strong>Stockage médias</strong>
-
-                                <span id="storageStatus">
-                                    Vérification...
+                            <div class="system-left">
+                                <div class="system-dot"></div>
+                                <span>
+                                    Stockage médias
                                 </span>
-
                             </div>
+
+                            <span
+                                class="system-status"
+                                id="storageStatus"
+                            >
+                                Vérification...
+                            </span>
 
                         </div>
 
@@ -1135,45 +1479,69 @@
 
 <script>
 
-    /* =========================================
-       HORIBLITIMATCH — STAFF DASHBOARD
-       ========================================= */
-
     let currentStaff = null;
 
 
-    /* =========================================
-       OUTILS
-       ========================================= */
+    /* =========================
+       UTILITAIRES
+    ========================= */
 
     function escapeHTML(value) {
 
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+        const div = document.createElement("div");
+
+        div.textContent = value ?? "";
+
+        return div.innerHTML;
 
     }
 
 
     function formatDate(date) {
 
-        if (!date) return "Date inconnue";
+        if (!date) {
+            return "Date inconnue";
+        }
 
-        return new Date(date).toLocaleDateString("fr-FR", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric"
-        });
+        return new Date(date).toLocaleDateString(
+            "fr-FR",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    function formatSize(bytes) {
+
+        if (!bytes || bytes <= 0) {
+            return "0 Ko";
+        }
+
+        if (bytes < 1024 * 1024) {
+            return (
+                (bytes / 1024).toFixed(1)
+                + " Ko"
+            );
+        }
+
+        return (
+            (bytes / (1024 * 1024)).toFixed(2)
+            + " Mo"
+        );
 
     }
 
 
     function getInitial(name, email) {
 
-        const value = name || email || "?";
+        const value =
+            name ||
+            email ||
+            "?";
 
         return value
             .trim()
@@ -1183,20 +1551,25 @@
     }
 
 
-    /* =========================================
-       AUTHENTIFICATION
-       ========================================= */
+    /* =========================
+       AUTH
+    ========================= */
 
     async function checkAuth() {
 
         const {
-            data: { session },
+            data: {
+                session
+            },
             error
         } = await supabaseClient.auth.getSession();
 
+
         if (error || !session) {
 
-            window.location.href = "../pages/connexion.html";
+            window.location.href =
+                "../pages/connexion.html";
+
             return false;
 
         }
@@ -1207,8 +1580,13 @@
             error: staffError
         } = await supabaseClient
             .from("staff")
-            .select("id,email,nom,role")
-            .eq("id", session.user.id)
+            .select(
+                "id,email,nom,role"
+            )
+            .eq(
+                "id",
+                session.user.id
+            )
             .maybeSingle();
 
 
@@ -1216,7 +1594,8 @@
 
             await supabaseClient.auth.signOut();
 
-            window.location.href = "../pages/connexion.html";
+            window.location.href =
+                "../pages/connexion.html";
 
             return false;
 
@@ -1225,9 +1604,35 @@
 
         currentStaff = staff;
 
-        updateStaffDisplay();
 
-        document.getElementById("authStatus").textContent =
+        document.getElementById(
+            "staffName"
+        ).textContent =
+            staff.nom ||
+            staff.email ||
+            "Staff";
+
+
+        document.getElementById(
+            "staffRole"
+        ).textContent =
+            staff.role === "admin"
+                ? "Administrateur"
+                : "Membre du staff";
+
+
+        document.getElementById(
+            "staffAvatar"
+        ).textContent =
+            getInitial(
+                staff.nom,
+                staff.email
+            );
+
+
+        document.getElementById(
+            "authStatus"
+        ).textContent =
             "Session active";
 
 
@@ -1236,206 +1641,263 @@
     }
 
 
-    function updateStaffDisplay() {
+    /* =========================
+       COMPTEUR GENERIQUE
+    ========================= */
 
-        if (!currentStaff) return;
-
-
-        const name =
-            currentStaff.nom ||
-            currentStaff.email ||
-            "Staff";
-
-
-        document.getElementById("staffName").textContent =
-            name;
-
-
-        document.getElementById("staffRole").textContent =
-            currentStaff.role === "admin"
-                ? "Administrateur"
-                : "Membre du staff";
-
-
-        document.getElementById("staffAvatar").textContent =
-            getInitial(
-                currentStaff.nom,
-                currentStaff.email
-            );
-
-    }
-
-
-    /* =========================================
-       STATISTIQUES
-    ========================================= */
-
-    async function loadStats() {
-
-        const tables = [
-            {
-                table: "annonces",
-                element: "annoncesCount"
-            },
-            {
-                table: "realisations",
-                element: "realisationsCount"
-            },
-            {
-                table: "partenaires",
-                element: "partenairesCount"
-            }
-        ];
-
-
-        await Promise.all(
-            tables.map(async item => {
-
-                const {
-                    count,
-                    error
-                } = await supabaseClient
-                    .from(item.table)
-                    .select("*", {
-                        count: "exact",
-                        head: true
-                    });
-
-
-                document.getElementById(
-                    item.element
-                ).textContent =
-                    error
-                        ? "—"
-                        : count ?? 0;
-
-            })
-        );
-
-
-        loadMediaCount();
-
-    }
-
-
-    /* =========================================
-       MÉDIAS
-    ========================================= */
-
-    async function loadMediaCount() {
+    async function getCount(table) {
 
         const {
-            data,
+            count,
             error
         } = await supabaseClient
-            .storage
-            .from("medias")
-            .list("", {
-                limit: 200,
-                sortBy: {
-                    column: "created_at",
-                    order: "desc"
+            .from(table)
+            .select(
+                "*",
+                {
+                    count: "exact",
+                    head: true
                 }
-            });
+            );
 
 
         if (error) {
+            return 0;
+        }
 
-            document.getElementById(
-                "mediasCount"
-            ).textContent = "—";
+        return count || 0;
 
-            document.getElementById(
-                "storageStatus"
-            ).textContent = "Indisponible";
+    }
+
+
+    /* =========================
+       STATISTIQUES
+    ========================= */
+
+    async function loadStats() {
+
+        const [
+            annonces,
+            realisations,
+            partenaires
+        ] = await Promise.all([
+
+            getCount("annonces"),
+
+            getCount("realisations"),
+
+            getCount("partenaires")
+
+        ]);
+
+
+        document.getElementById(
+            "totalAnnonces"
+        ).textContent = annonces;
+
+
+        document.getElementById(
+            "totalRealisations"
+        ).textContent = realisations;
+
+
+        document.getElementById(
+            "totalPartenaires"
+        ).textContent = partenaires;
+
+
+        await loadMonthStats();
+
+        await loadStaffCount();
+
+        updateDistribution(
+            annonces,
+            realisations,
+            partenaires
+        );
+
+    }
+
+
+    /* =========================
+       ANNONCES DU MOIS
+    ========================= */
+
+    async function loadMonthStats() {
+
+        const now = new Date();
+
+        const start =
+            new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                1
+            ).toISOString();
+
+
+        const {
+            count,
+            error
+        } = await supabaseClient
+            .from("annonces")
+            .select(
+                "*",
+                {
+                    count: "exact",
+                    head: true
+                }
+            )
+            .gte(
+                "created_at",
+                start
+            );
+
+
+        document.getElementById(
+            "monthAnnonces"
+        ).textContent =
+            error
+                ? "0"
+                : count || 0;
+
+    }
+
+
+    /* =========================
+       STAFF
+    ========================= */
+
+    async function loadStaffCount() {
+
+        const {
+            count,
+            error
+        } = await supabaseClient
+            .from("staff")
+            .select(
+                "*",
+                {
+                    count: "exact",
+                    head: true
+                }
+            );
+
+
+        document.getElementById(
+            "totalStaff"
+        ).textContent =
+            error
+                ? "—"
+                : count || 0;
+
+    }
+
+
+    /* =========================
+       REPARTITION
+    ========================= */
+
+    function updateDistribution(
+        annonces,
+        realisations,
+        partenaires
+    ) {
+
+        const total =
+            annonces +
+            realisations +
+            partenaires;
+
+
+        if (total === 0) {
+
+            setBar(
+                "Annonces",
+                "fillAnnonces",
+                "barAnnonces",
+                0
+            );
+
+            setBar(
+                "Réalisations",
+                "fillRealisations",
+                "barRealisations",
+                0
+            );
+
+            setBar(
+                "Partenaires",
+                "fillPartenaires",
+                "barPartenaires",
+                0
+            );
 
             return;
 
         }
 
 
-        const files = (data || []).filter(
-            file => file.id
+        setBar(
+            "Annonces",
+            "fillAnnonces",
+            "barAnnonces",
+            annonces / total * 100
         );
 
 
-        document.getElementById(
-            "mediasCount"
-        ).textContent = files.length;
+        setBar(
+            "Réalisations",
+            "fillRealisations",
+            "barRealisations",
+            realisations / total * 100
+        );
+
+
+        setBar(
+            "Partenaires",
+            "fillPartenaires",
+            "barPartenaires",
+            partenaires / total * 100
+        );
+
+    }
+
+
+    function setBar(
+        label,
+        fillId,
+        textId,
+        percentage
+    ) {
+
+        const rounded =
+            Math.round(percentage);
 
 
         document.getElementById(
-            "storageStatus"
+            textId
         ).textContent =
-            "Stockage opérationnel";
+            rounded + "%";
 
 
-        renderLatestMedia(files);
-
-    }
-
-
-    function renderLatestMedia(files) {
-
-        const container =
-            document.getElementById("mediaGrid");
-
-
-        if (!files.length) {
-
-            container.innerHTML = `
-                <div class="media-empty">
-                    Aucun média pour le moment.
-                </div>
-            `;
-
-            return;
-
-        }
-
-
-        const latest = files.slice(0, 6);
-
-
-        container.innerHTML = latest.map(file => {
-
-            const {
-                data
-            } = supabaseClient
-                .storage
-                .from("medias")
-                .getPublicUrl(file.name);
-
-
-            return `
-                <a
-                    class="media-card"
-                    href="${escapeHTML(data.publicUrl)}"
-                    target="_blank"
-                    rel="noopener"
-                    title="${escapeHTML(file.name)}"
-                >
-                    <img
-                        src="${escapeHTML(data.publicUrl)}"
-                        alt="${escapeHTML(file.name)}"
-                        loading="lazy"
-                    >
-                </a>
-            `;
-
-        }).join("");
+        document.getElementById(
+            fillId
+        ).style.width =
+            rounded + "%";
 
     }
 
 
-    /* =========================================
+    /* =========================
        ANNONCES
-    ========================================= */
+    ========================= */
 
     async function loadAnnouncements() {
 
         const container =
-            document.getElementById("annoncesList");
+            document.getElementById(
+                "annoncesList"
+            );
 
 
         const {
@@ -1443,80 +1905,243 @@
             error
         } = await supabaseClient
             .from("annonces")
-            .select("id,titre,categorie,contenu,created_at")
-            .order("created_at", {
-                ascending: false
-            })
+            .select(
+                "id,titre,categorie,contenu,created_at"
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            )
             .limit(5);
 
 
         if (error) {
 
-            container.innerHTML = `
-                <div class="error">
-                    Impossible de charger les annonces.
-                </div>
-            `;
+            container.innerHTML =
+                '<div class="error">Impossible de charger les annonces.</div>';
 
             return;
 
         }
 
 
-        if (!data || !data.length) {
+        if (!data || data.length === 0) {
 
-            container.innerHTML = `
-                <div class="loading">
-                    Aucune annonce publiée.
-                </div>
-            `;
+            container.innerHTML =
+                '<div class="empty">Aucune annonce publiée pour le moment.</div>';
 
             return;
 
         }
 
 
-        container.innerHTML = data.map(annonce => {
+        container.innerHTML =
+            data.map(function(annonce) {
 
-            return `
-                <article class="announcement">
+                return (
+                    '<article class="announcement">' +
 
-                    <div class="announcement-dot"></div>
+                        '<div class="announcement-dot"></div>' +
 
-                    <div class="announcement-content">
+                        '<div class="announcement-content">' +
 
-                        <strong>
-                            ${escapeHTML(annonce.titre)}
-                        </strong>
+                            '<strong>' +
+                                escapeHTML(
+                                    annonce.titre
+                                ) +
+                            '</strong>' +
 
-                        <p>
-                            ${escapeHTML(annonce.contenu)}
-                        </p>
+                            '<p>' +
+                                escapeHTML(
+                                    annonce.contenu
+                                ) +
+                            '</p>' +
 
-                        <div class="announcement-date">
-                            ${escapeHTML(
-                                annonce.categorie ||
-                                "Information"
-                            )}
-                            ·
-                            ${formatDate(
-                                annonce.created_at
-                            )}
-                        </div>
+                            '<div class="announcement-meta">' +
+                                escapeHTML(
+                                    annonce.categorie ||
+                                    "Information"
+                                ) +
+                                ' · ' +
+                                formatDate(
+                                    annonce.created_at
+                                ) +
+                            '</div>' +
 
-                    </div>
+                        '</div>' +
 
-                </article>
-            `;
+                    '</article>'
+                );
 
-        }).join("");
+            }).join("");
 
     }
 
 
-    /* =========================================
-       DATABASE STATUS
-    ========================================= */
+    /* =========================
+       MEDIAS
+    ========================= */
+
+    async function loadMedia() {
+
+        const container =
+            document.getElementById(
+                "mediaGrid"
+            );
+
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .storage
+            .from("medias")
+            .list(
+                "",
+                {
+                    limit: 200,
+                    sortBy: {
+                        column: "created_at",
+                        order: "desc"
+                    }
+                }
+            );
+
+
+        if (error) {
+
+            document.getElementById(
+                "totalMedias"
+            ).textContent = "—";
+
+
+            document.getElementById(
+                "storageStatus"
+            ).textContent =
+                "Erreur";
+
+
+            container.innerHTML =
+                '<div class="error">Impossible de charger les médias.</div>';
+
+            return;
+
+        }
+
+
+        const files =
+            (data || []).filter(function(file) {
+
+                return Boolean(file.id);
+
+            });
+
+
+        document.getElementById(
+            "totalMedias"
+        ).textContent =
+            files.length;
+
+
+        document.getElementById(
+            "storageStatus"
+        ).textContent =
+            "Opérationnel";
+
+
+        let totalSize = 0;
+
+
+        files.forEach(function(file) {
+
+            if (
+                file.metadata &&
+                file.metadata.size
+            ) {
+
+                totalSize +=
+                    Number(
+                        file.metadata.size
+                    );
+
+            }
+
+        });
+
+
+        document.getElementById(
+            "mediaSize"
+        ).textContent =
+            formatSize(totalSize);
+
+
+        renderMedia(files);
+
+    }
+
+
+    function renderMedia(files) {
+
+        const container =
+            document.getElementById(
+                "mediaGrid"
+            );
+
+
+        if (!files.length) {
+
+            container.innerHTML =
+                '<div class="empty">Aucun média dans la bibliothèque.</div>';
+
+            return;
+
+        }
+
+
+        const latest =
+            files.slice(0, 6);
+
+
+        container.innerHTML =
+            latest.map(function(file) {
+
+                const result =
+                    supabaseClient
+                        .storage
+                        .from("medias")
+                        .getPublicUrl(
+                            file.name
+                        );
+
+
+                const url =
+                    result.data.publicUrl;
+
+
+                return (
+                    '<a class="media" href="' +
+                    escapeHTML(url) +
+                    '" target="_blank" rel="noopener">' +
+
+                        '<img src="' +
+                        escapeHTML(url) +
+                        '" alt="' +
+                        escapeHTML(file.name) +
+                        '" loading="lazy">' +
+
+                    '</a>'
+                );
+
+            }).join("");
+
+    }
+
+
+    /* =========================
+       BASE DE DONNEES
+    ========================= */
 
     async function checkDatabase() {
 
@@ -1528,58 +2153,53 @@
             .limit(1);
 
 
-        const status =
-            document.getElementById(
-                "databaseStatus"
-            );
-
-
-        if (error) {
-
-            status.textContent =
-                "Connexion impossible";
-
-            return;
-
-        }
-
-
-        status.textContent =
-            "Base de données opérationnelle";
+        document.getElementById(
+            "databaseStatus"
+        ).textContent =
+            error
+                ? "Erreur"
+                : "Opérationnelle";
 
     }
 
 
-    /* =========================================
-       DÉCONNEXION
-    ========================================= */
+    /* =========================
+       DECONNEXION
+    ========================= */
 
     document
         .getElementById("logoutBtn")
-        .addEventListener("click", async () => {
+        .addEventListener(
+            "click",
+            async function() {
 
-            const button =
-                document.getElementById(
-                    "logoutBtn"
-                );
-
-            button.disabled = true;
-            button.textContent =
-                "Déconnexion...";
+                const button =
+                    document.getElementById(
+                        "logoutBtn"
+                    );
 
 
-            await supabaseClient.auth.signOut();
+                button.disabled = true;
+
+                button.textContent =
+                    "Déconnexion...";
 
 
-            window.location.href =
-                "../pages/connexion.html";
+                await supabaseClient
+                    .auth
+                    .signOut();
 
-        });
+
+                window.location.href =
+                    "../pages/connexion.html";
+
+            }
+        );
 
 
-    /* =========================================
+    /* =========================
        INITIALISATION
-    ========================================= */
+    ========================= */
 
     async function init() {
 
@@ -1587,12 +2207,15 @@
             await checkAuth();
 
 
-        if (!authenticated) return;
+        if (!authenticated) {
+            return;
+        }
 
 
         await Promise.all([
             loadStats(),
             loadAnnouncements(),
+            loadMedia(),
             checkDatabase()
         ]);
 
