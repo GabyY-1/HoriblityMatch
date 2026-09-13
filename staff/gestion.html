@@ -4,7 +4,2779 @@
 <head>
 
     <meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Gestion — HoriblitiMatch</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        :root {
+            --hm-bg: #090b10;
+            --hm-panel: #11141b;
+            --hm-panel-2: #161a23;
+            --hm-panel-3: #1b202b;
+            --hm-border: #292f3d;
+            --hm-text: #f4f5f8;
+            --hm-muted: #9299aa;
+            --hm-purple: #7867f2;
+            --hm-purple-dark: #5d4dd0;
+            --hm-blue: #4e9cff;
+            --hm-green: #45d483;
+            --hm-orange: #ffad4d;
+            --hm-red: #ff5d6c;
+            --hm-radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background:
+                radial-gradient(
+                    circle at 10% 0%,
+                    rgba(120, 103, 242, .10),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 10%,
+                    rgba(78, 156, 255, .07),
+                    transparent 25%
+                ),
+                var(--hm-bg);
+            color: var(--hm-text);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .hm-page {
+            width: min(1450px, calc(100% - 36px));
+            margin: 0 auto;
+            padding: 28px 0 70px;
+        }
+
+        .hm-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 28px;
+            padding: 18px 20px;
+            background: rgba(17, 20, 27, .92);
+            border: 1px solid var(--hm-border);
+            border-radius: var(--hm-radius);
+            backdrop-filter: blur(16px);
+        }
+
+        .hm-brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .hm-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(
+                135deg,
+                var(--hm-purple),
+                #5a8cff
+            );
+            color: white;
+            font-weight: 900;
+            box-shadow: 0 8px 30px rgba(120, 103, 242, .25);
+        }
+
+        .hm-brand strong {
+            display: block;
+            font-size: 16px;
+        }
+
+        .hm-brand span {
+            display: block;
+            margin-top: 2px;
+            color: var(--hm-muted);
+            font-size: 12px;
+        }
+
+        .hm-top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hm-btn {
+            border: 1px solid var(--hm-border);
+            background: var(--hm-panel-2);
+            color: var(--hm-text);
+            padding: 10px 14px;
+            border-radius: 11px;
+            transition: .2s ease;
+        }
+
+        .hm-btn:hover {
+            border-color: #454c5e;
+            transform: translateY(-1px);
+        }
+
+        .hm-btn.primary {
+            border-color: transparent;
+            background: linear-gradient(
+                135deg,
+                var(--hm-purple),
+                #5e7df1
+            );
+        }
+
+        .hm-btn.danger {
+            color: #ffb0b7;
+            border-color: rgba(255, 93, 108, .25);
+            background: rgba(255, 93, 108, .08);
+        }
+
+        .hm-btn.small {
+            padding: 7px 10px;
+            font-size: 12px;
+        }
+
+        .hm-title {
+            margin-bottom: 22px;
+        }
+
+        .hm-title h1 {
+            margin: 0;
+            font-size: clamp(25px, 3vw, 36px);
+        }
+
+        .hm-title p {
+            margin: 8px 0 0;
+            color: var(--hm-muted);
+            max-width: 700px;
+        }
+
+        .hm-tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            margin-bottom: 20px;
+        }
+
+        .hm-tab {
+            white-space: nowrap;
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--hm-border);
+            background: var(--hm-panel);
+            color: var(--hm-muted);
+        }
+
+        .hm-tab.active {
+            color: white;
+            border-color: rgba(120, 103, 242, .45);
+            background: rgba(120, 103, 242, .14);
+        }
+
+        .hm-section {
+            display: none;
+        }
+
+        .hm-section.active {
+            display: block;
+        }
+
+        .hm-layout {
+            display: grid;
+            grid-template-columns: minmax(320px, 390px) 1fr;
+            gap: 18px;
+            align-items: start;
+        }
+
+        .hm-card {
+            background: linear-gradient(
+                145deg,
+                rgba(22, 26, 35, .98),
+                rgba(15, 18, 25, .98)
+            );
+            border: 1px solid var(--hm-border);
+            border-radius: var(--hm-radius);
+            padding: 20px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, .16);
+        }
+
+        .hm-card h2 {
+            margin: 0 0 5px;
+            font-size: 18px;
+        }
+
+        .hm-card-description {
+            margin: 0 0 20px;
+            color: var(--hm-muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .hm-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .hm-field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .hm-field label {
+            color: #cfd3dd;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .hm-field input,
+        .hm-field textarea,
+        .hm-field select {
+            width: 100%;
+            border: 1px solid var(--hm-border);
+            background: #0d1016;
+            color: var(--hm-text);
+            border-radius: 10px;
+            padding: 11px 12px;
+            outline: none;
+            transition: .2s ease;
+        }
+
+        .hm-field textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .hm-field input:focus,
+        .hm-field textarea:focus,
+        .hm-field select:focus {
+            border-color: rgba(120, 103, 242, .7);
+            box-shadow: 0 0 0 3px rgba(120, 103, 242, .10);
+        }
+
+        .hm-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .hm-check {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: #c8ccd6;
+            font-size: 13px;
+        }
+
+        .hm-check input {
+            width: 17px;
+            height: 17px;
+            accent-color: var(--hm-purple);
+        }
+
+        .hm-preview {
+            display: none;
+            margin-top: 8px;
+            overflow: hidden;
+            border-radius: 10px;
+            border: 1px solid var(--hm-border);
+            background: #090b10;
+        }
+
+        .hm-preview.show {
+            display: block;
+        }
+
+        .hm-preview img {
+            display: block;
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+        }
+
+        .hm-list-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .hm-search {
+            width: min(280px, 100%);
+            border: 1px solid var(--hm-border);
+            background: #0d1016;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .hm-items {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .hm-item {
+            display: grid;
+            grid-template-columns: 80px 1fr auto;
+            gap: 14px;
+            align-items: center;
+            padding: 12px;
+            background: rgba(13, 16, 22, .75);
+            border: 1px solid var(--hm-border);
+            border-radius: 13px;
+        }
+
+        .hm-item-image {
+            width: 80px;
+            height: 65px;
+            border-radius: 9px;
+            overflow: hidden;
+            background:
+                linear-gradient(
+                    135deg,
+                    #171b25,
+                    #10131a
+                );
+            border: 1px solid #272d39;
+            display: grid;
+            place-items: center;
+            color: #626a7c;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .hm-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hm-item-info {
+            min-width: 0;
+        }
+
+        .hm-item-title {
+            font-weight: 700;
+            color: #f5f6f8;
+            margin-bottom: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .hm-item-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .hm-badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 4px 8px;
+            font-size: 10px;
+            font-weight: 700;
+            border: 1px solid var(--hm-border);
+            background: #151922;
+            color: #aeb5c4;
+        }
+
+        .hm-badge.purple {
+            color: #c3baff;
+            background: rgba(120, 103, 242, .11);
+            border-color: rgba(120, 103, 242, .25);
+        }
+
+        .hm-badge.green {
+            color: #9ff0bd;
+            background: rgba(69, 212, 131, .09);
+            border-color: rgba(69, 212, 131, .22);
+        }
+
+        .hm-badge.orange {
+            color: #ffd19a;
+            background: rgba(255, 173, 77, .08);
+            border-color: rgba(255, 173, 77, .2);
+        }
+
+        .hm-badge.red {
+            color: #ffadb5;
+            background: rgba(255, 93, 108, .08);
+            border-color: rgba(255, 93, 108, .2);
+        }
+
+        .hm-item-actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        .hm-empty {
+            padding: 35px 20px;
+            text-align: center;
+            color: var(--hm-muted);
+            border: 1px dashed var(--hm-border);
+            border-radius: 12px;
+        }
+
+        .hm-message {
+            display: none;
+            margin-bottom: 16px;
+            padding: 12px 14px;
+            border-radius: 11px;
+            border: 1px solid var(--hm-border);
+            background: var(--hm-panel-2);
+            color: #dce0e8;
+        }
+
+        .hm-message.show {
+            display: block;
+        }
+
+        .hm-message.success {
+            border-color: rgba(69, 212, 131, .3);
+            background: rgba(69, 212, 131, .08);
+            color: #a9f3c5;
+        }
+
+        .hm-message.error {
+            border-color: rgba(255, 93, 108, .3);
+            background: rgba(255, 93, 108, .08);
+            color: #ffb1b8;
+        }
+
+        .hm-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, .72);
+            backdrop-filter: blur(7px);
+            z-index: 9999;
+        }
+
+        .hm-modal.show {
+            display: flex;
+        }
+
+        .hm-modal-box {
+            width: min(650px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            background: #12151d;
+            border: 1px solid var(--hm-border);
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 30px 100px rgba(0, 0, 0, .5);
+        }
+
+        .hm-modal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .hm-modal-head h2 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .hm-close {
+            border: 0;
+            background: transparent;
+            color: #9da4b3;
+            font-size: 25px;
+        }
+
+        .hm-hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 950px) {
+            .hm-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .hm-page {
+                width: min(100% - 20px, 1450px);
+                padding-top: 10px;
+            }
+
+            .hm-topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .hm-top-actions {
+                width: 100%;
+            }
+
+            .hm-top-actions .hm-btn {
+                flex: 1;
+            }
+
+            .hm-row {
+                grid-template-columns: 1fr;
+            }
+
+            .hm-list-head {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .hm-search {
+                width: 100%;
+            }
+
+            .hm-item {
+                grid-template-columns: 65px 1fr;
+            }
+
+            .hm-item-image {
+                width: 65px;
+                height: 58px;
+            }
+
+            .hm-item-actions {
+                grid-column: 1 / -1;
+            }
+
+            .hm-item-actions .hm-btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="hm-page">
+
+    <header class="hm-topbar">
+
+        <div class="hm-brand">
+            <div class="hm-logo">HM</div>
+
+            <div>
+                <strong>HoriblitiMatch</strong>
+                <span>Gestion du contenu</span>
+            </div>
+        </div>
+
+        <div class="hm-top-actions">
+            <a class="hm-btn" href="index.html">
+                ← Dashboard
+            </a>
+
+            <button class="hm-btn danger" id="logoutBtn">
+                Déconnexion
+            </button>
+        </div>
+
+    </header>
+
+    <div id="globalMessage" class="hm-message"></div>
+
+    <div class="hm-title">
+        <h1>Gestion du contenu</h1>
+        <p>
+            Gérez les annonces, partenaires et réalisations affichés
+            sur le site HoriblitiMatch.
+        </p>
+    </div>
+
+    <nav class="hm-tabs">
+
+        <button class="hm-tab active" data-section="annonces">
+            Annonces
+        </button>
+
+        <button class="hm-tab" data-section="partenaires">
+            Partenaires
+        </button>
+
+        <button class="hm-tab" data-section="realisations">
+            Réalisations
+        </button>
+
+    </nav>
+
+
+    <!-- =====================================================
+         ANNONCES
+    ====================================================== -->
+
+    <section class="hm-section active" id="section-annonces">
+
+        <div class="hm-layout">
+
+            <div class="hm-card">
+
+                <h2 id="annonceFormTitle">
+                    Nouvelle annonce
+                </h2>
+
+                <p class="hm-card-description">
+                    Publiez une annonce ou préparez-la en brouillon.
+                </p>
+
+                <form id="annonceForm" class="hm-form">
+
+                    <input type="hidden" id="annonceId">
+
+                    <div class="hm-field">
+                        <label for="annonceTitre">
+                            Titre
+                        </label>
+
+                        <input
+                            id="annonceTitre"
+                            type="text"
+                            required
+                            placeholder="Ex : Nouveau projet disponible"
+                        >
+                    </div>
+
+                    <div class="hm-row">
+
+                        <div class="hm-field">
+                            <label for="annonceCategorie">
+                                Catégorie
+                            </label>
+
+                            <select id="annonceCategorie">
+                                <option>Information</option>
+                                <option>Nouveauté</option>
+                                <option>Projet</option>
+                                <option>Recrutement</option>
+                                <option>Événement</option>
+                                <option>Important</option>
+                            </select>
+                        </div>
+
+                        <div class="hm-field">
+                            <label for="annonceStatut">
+                                Statut
+                            </label>
+
+                            <select id="annonceStatut">
+                                <option value="publie">Publié</option>
+                                <option value="brouillon">Brouillon</option>
+                                <option value="archive">Archivé</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="hm-field">
+                        <label for="annonceContenu">
+                            Contenu
+                        </label>
+
+                        <textarea
+                            id="annonceContenu"
+                            required
+                            placeholder="Contenu de l'annonce..."
+                        ></textarea>
+                    </div>
+
+                    <div class="hm-field">
+
+                        <label for="annonceImage">
+                            Image
+                        </label>
+
+                        <input
+                            id="annonceImage"
+                            type="url"
+                            placeholder="https://..."
+                        >
+
+                        <div id="annonceImagePreview" class="hm-preview">
+                            <img alt="Aperçu">
+                        </div>
+
+                    </div>
+
+                    <div class="hm-row">
+
+                        <div class="hm-field">
+                            <label for="annonceOrdre">
+                                Ordre
+                            </label>
+
+                            <input
+                                id="annonceOrdre"
+                                type="number"
+                                value="0"
+                            >
+                        </div>
+
+                        <div class="hm-field">
+
+                            <label>
+                                Options
+                            </label>
+
+                            <label class="hm-check">
+                                <input
+                                    id="annonceFeatured"
+                                    type="checkbox"
+                                >
+
+                                Mettre en avant
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div style="display:flex;gap:8px;">
+
+                        <button
+                            class="hm-btn primary"
+                            type="submit"
+                            id="annonceSubmit"
+                            style="flex:1;"
+                        >
+                            Publier l'annonce
+                        </button>
+
+                        <button
+                            class="hm-btn hm-hidden"
+                            type="button"
+                            id="annonceCancel"
+                        >
+                            Annuler
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="hm-card">
+
+                <div class="hm-list-head">
+
+                    <div>
+                        <h2>Vos annonces</h2>
+                    </div>
+
+                    <input
+                        class="hm-search"
+                        id="annonceSearch"
+                        type="search"
+                        placeholder="Rechercher..."
+                    >
+
+                </div>
+
+                <div id="annoncesList" class="hm-items"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PARTENAIRES
+    ====================================================== -->
+
+    <section class="hm-section" id="section-partenaires">
+
+        <div class="hm-layout">
+
+            <div class="hm-card">
+
+                <h2 id="partenaireFormTitle">
+                    Nouveau partenaire
+                </h2>
+
+                <p class="hm-card-description">
+                    Ajoutez les entreprises, créateurs ou structures
+                    partenaires d'HoriblitiMatch.
+                </p>
+
+                <form id="partenaireForm" class="hm-form">
+
+                    <input type="hidden" id="partenaireId">
+
+                    <div class="hm-field">
+
+                        <label for="partenaireNom">
+                            Nom
+                        </label>
+
+                        <input
+                            id="partenaireNom"
+                            type="text"
+                            required
+                            placeholder="Nom du partenaire"
+                        >
+
+                    </div>
+
+                    <div class="hm-field">
+
+                        <label for="partenaireDescription">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="partenaireDescription"
+                            placeholder="Description..."
+                        ></textarea>
+
+                    </div>
+
+                    <div class="hm-field">
+
+                        <label for="partenaireLien">
+                            Lien
+                        </label>
+
+                        <input
+                            id="partenaireLien"
+                            type="url"
+                            placeholder="https://..."
+                        >
+
+                    </div>
+
+                    <div class="hm-field">
+
+                        <label for="partenaireImage">
+                            Logo / image
+                        </label>
+
+                        <input
+                            id="partenaireImage"
+                            type="url"
+                            placeholder="https://..."
+                        >
+
+                        <div
+                            id="partenaireImagePreview"
+                            class="hm-preview"
+                        >
+                            <img alt="Aperçu">
+                        </div>
+
+                    </div>
+
+                    <div class="hm-row">
+
+                        <div class="hm-field">
+
+                            <label for="partenaireOrdre">
+                                Ordre
+                            </label>
+
+                            <input
+                                id="partenaireOrdre"
+                                type="number"
+                                value="0"
+                            >
+
+                        </div>
+
+                        <div class="hm-field">
+
+                            <label>
+                                Options
+                            </label>
+
+                            <label class="hm-check">
+
+                                <input
+                                    id="partenaireFeatured"
+                                    type="checkbox"
+                                >
+
+                                Mettre en avant
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div style="display:flex;gap:8px;">
+
+                        <button
+                            class="hm-btn primary"
+                            type="submit"
+                            style="flex:1;"
+                            id="partenaireSubmit"
+                        >
+                            Ajouter
+                        </button>
+
+                        <button
+                            class="hm-btn hm-hidden"
+                            type="button"
+                            id="partenaireCancel"
+                        >
+                            Annuler
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="hm-card">
+
+                <div class="hm-list-head">
+
+                    <h2>Partenaires</h2>
+
+                    <input
+                        class="hm-search"
+                        id="partenaireSearch"
+                        type="search"
+                        placeholder="Rechercher..."
+                    >
+
+                </div>
+
+                <div
+                    id="partenairesList"
+                    class="hm-items"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         REALISATIONS
+    ====================================================== -->
+
+    <section class="hm-section" id="section-realisations">
+
+        <div class="hm-layout">
+
+            <div class="hm-card">
+
+                <h2 id="realisationFormTitle">
+                    Nouvelle réalisation
+                </h2>
+
+                <p class="hm-card-description">
+                    Ajoutez les projets et créations réalisés
+                    par HoriblitiMatch.
+                </p>
+
+                <form
+                    id="realisationForm"
+                    class="hm-form"
+                >
+
+                    <input
+                        type="hidden"
+                        id="realisationId"
+                    >
+
+                    <div class="hm-field">
+
+                        <label for="realisationTitre">
+                            Titre
+                        </label>
+
+                        <input
+                            id="realisationTitre"
+                            type="text"
+                            required
+                            placeholder="Nom du projet"
+                        >
+
+                    </div>
+
+                    <div class="hm-row">
+
+                        <div class="hm-field">
+
+                            <label for="realisationCategorie">
+                                Catégorie
+                            </label>
+
+                            <select id="realisationCategorie">
+                                <option>Site web</option>
+                                <option>Application</option>
+                                <option>Jeu</option>
+                                <option>Identité visuelle</option>
+                                <option>Projet interne</option>
+                                <option>Autre</option>
+                            </select>
+
+                        </div>
+
+                        <div class="hm-field">
+
+                            <label for="realisationStatut">
+                                Statut
+                            </label>
+
+                            <select id="realisationStatut">
+                                <option value="publie">Publié</option>
+                                <option value="brouillon">Brouillon</option>
+                                <option value="archive">Archivé</option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="hm-field">
+
+                        <label for="realisationDescription">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="realisationDescription"
+                            placeholder="Description du projet..."
+                        ></textarea>
+
+                    </div>
+
+                    <div class="hm-field">
+
+                        <label for="realisationLien">
+                            Lien du projet
+                        </label>
+
+                        <input
+                            id="realisationLien"
+                            type="url"
+                            placeholder="https://..."
+                        >
+
+                    </div>
+
+                    <div class="hm-field">
+
+                        <label for="realisationImage">
+                            Image principale
+                        </label>
+
+                        <input
+                            id="realisationImage"
+                            type="url"
+                            placeholder="https://..."
+                        >
+
+                        <div
+                            id="realisationImagePreview"
+                            class="hm-preview"
+                        >
+                            <img alt="Aperçu">
+                        </div>
+
+                    </div>
+
+                    <div class="hm-row">
+
+                        <div class="hm-field">
+
+                            <label for="realisationOrdre">
+                                Ordre
+                            </label>
+
+                            <input
+                                id="realisationOrdre"
+                                type="number"
+                                value="0"
+                            >
+
+                        </div>
+
+                        <div class="hm-field">
+
+                            <label>
+                                Options
+                            </label>
+
+                            <label class="hm-check">
+
+                                <input
+                                    id="realisationFeatured"
+                                    type="checkbox"
+                                >
+
+                                Mettre en avant
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div style="display:flex;gap:8px;">
+
+                        <button
+                            class="hm-btn primary"
+                            type="submit"
+                            style="flex:1;"
+                            id="realisationSubmit"
+                        >
+                            Ajouter
+                        </button>
+
+                        <button
+                            class="hm-btn hm-hidden"
+                            type="button"
+                            id="realisationCancel"
+                        >
+                            Annuler
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="hm-card">
+
+                <div class="hm-list-head">
+
+                    <h2>Réalisations</h2>
+
+                    <input
+                        class="hm-search"
+                        id="realisationSearch"
+                        type="search"
+                        placeholder="Rechercher..."
+                    >
+
+                </div>
+
+                <div
+                    id="realisationsList"
+                    class="hm-items"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =========================================================
+     MODAL CONFIRMATION
+========================================================== -->
+
+<div class="hm-modal" id="confirmModal">
+
+    <div class="hm-modal-box">
+
+        <div class="hm-modal-head">
+
+            <h2>Confirmation</h2>
+
+            <button
+                class="hm-close"
+                id="confirmClose"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <p id="confirmText">
+            Voulez-vous vraiment supprimer cet élément ?
+        </p>
+
+        <div style="display:flex;gap:8px;margin-top:20px;">
+
+            <button
+                class="hm-btn"
+                id="confirmCancel"
+                style="flex:1;"
+            >
+                Annuler
+            </button>
+
+            <button
+                class="hm-btn danger"
+                id="confirmOk"
+                style="flex:1;"
+            >
+                Supprimer
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SUPABASE
+========================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase.js"></script>
+
+<script>
+"use strict";
+
+let currentUser = null;
+let currentStaff = null;
+
+let annonces = [];
+let partenaires = [];
+let realisations = [];
+
+let deleteCallback = null;
+
+
+/* =========================================================
+   UTILITAIRES
+========================================================= */
+
+function escapeHTML(value) {
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function showMessage(message, type = "") {
+
+    const box = document.getElementById("globalMessage");
+
+    box.textContent = message;
+
+    box.className = "hm-message show";
+
+    if (type) {
+        box.classList.add(type);
+    }
+
+    clearTimeout(window.hmMessageTimer);
+
+    window.hmMessageTimer = setTimeout(() => {
+        box.className = "hm-message";
+    }, 4500);
+}
+
+
+function formatDate(date) {
+
+    if (!date) {
+        return "";
+    }
+
+    return new Date(date).toLocaleDateString("fr-FR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+    });
+}
+
+
+function statusBadge(status) {
+
+    if (status === "publie") {
+        return `
+            <span class="hm-badge green">
+                Publié
+            </span>
+        `;
+    }
+
+    if (status === "brouillon") {
+        return `
+            <span class="hm-badge orange">
+                Brouillon
+            </span>
+        `;
+    }
+
+    return `
+        <span class="hm-badge red">
+            Archivé
+        </span>
+    `;
+}
+
+
+function featuredBadge(featured) {
+
+    if (!featured) {
+        return "";
+    }
+
+    return `
+        <span class="hm-badge purple">
+            ★ Mis en avant
+        </span>
+    `;
+}
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+async function checkAuth() {
+
+    const {
+        data: {
+            session
+        },
+        error
+    } = await supabaseClient.auth.getSession();
+
+    if (error || !session) {
+        window.location.href = "../pages/connexion.html";
+        return false;
+    }
+
+    currentUser = session.user;
+
+    const {
+        data: staff,
+        error: staffError
+    } = await supabaseClient
+        .from("staff")
+        .select("id,email,nom,role")
+        .eq("id", currentUser.id)
+        .maybeSingle();
+
+    if (staffError || !staff) {
+
+        await supabaseClient.auth.signOut();
+
+        window.location.href = "../pages/connexion.html";
+
+        return false;
+    }
+
+    currentStaff = staff;
+
+    return true;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+document.querySelectorAll(".hm-tab").forEach(tab => {
+
+    tab.addEventListener("click", () => {
+
+        document
+            .querySelectorAll(".hm-tab")
+            .forEach(item => item.classList.remove("active"));
+
+        document
+            .querySelectorAll(".hm-section")
+            .forEach(section => section.classList.remove("active"));
+
+        tab.classList.add("active");
+
+        const section = document.getElementById(
+            "section-" + tab.dataset.section
+        );
+
+        if (section) {
+            section.classList.add("active");
+        }
+
+    });
+
+});
+
+
+/* =========================================================
+   IMAGE PREVIEWS
+========================================================= */
+
+function setupPreview(inputId, previewId) {
+
+    const input = document.getElementById(inputId);
+    const preview = document.getElementById(previewId);
+
+    if (!input || !preview) {
+        return;
+    }
+
+    const image = preview.querySelector("img");
+
+    input.addEventListener("input", () => {
+
+        const url = input.value.trim();
+
+        if (!url) {
+
+            preview.classList.remove("show");
+
+            image.removeAttribute("src");
+
+            return;
+        }
+
+        image.src = url;
+
+        image.onload = () => {
+            preview.classList.add("show");
+        };
+
+        image.onerror = () => {
+            preview.classList.remove("show");
+        };
+
+    });
+}
+
+
+setupPreview(
+    "annonceImage",
+    "annonceImagePreview"
+);
+
+setupPreview(
+    "partenaireImage",
+    "partenaireImagePreview"
+);
+
+setupPreview(
+    "realisationImage",
+    "realisationImagePreview"
+);
+
+
+/* =========================================================
+   ANNONCES
+========================================================= */
+
+async function loadAnnonces() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("annonces")
+        .select("*")
+        .order("ordre", {
+            ascending: true
+        })
+        .order("created_at", {
+            ascending: false
+        });
+
+    if (error) {
+
+        showMessage(
+            "Impossible de charger les annonces : " + error.message,
+            "error"
+        );
+
+        return;
+    }
+
+    annonces = data || [];
+
+    renderAnnonces();
+}
+
+
+function renderAnnonces() {
+
+    const container =
+        document.getElementById("annoncesList");
+
+    const search =
+        document
+            .getElementById("annonceSearch")
+            .value
+            .trim()
+            .toLowerCase();
+
+    const filtered = annonces.filter(item => {
+
+        if (!search) {
+            return true;
+        }
+
+        return (
+            item.titre?.toLowerCase().includes(search) ||
+            item.contenu?.toLowerCase().includes(search) ||
+            item.categorie?.toLowerCase().includes(search)
+        );
+
+    });
+
+    if (!filtered.length) {
+
+        container.innerHTML = `
+            <div class="hm-empty">
+                Aucune annonce trouvée.
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = filtered.map(item => {
+
+        const image = item.image_url
+            ? `
+                <img
+                    src="${escapeHTML(item.image_url)}"
+                    alt=""
+                    loading="lazy"
+                >
+            `
+            : "ANNONCE";
+
+        return `
+            <article class="hm-item">
+
+                <div class="hm-item-image">
+                    ${image}
+                </div>
+
+                <div class="hm-item-info">
+
+                    <div class="hm-item-title">
+                        ${escapeHTML(item.titre)}
+                    </div>
+
+                    <div class="hm-item-meta">
+
+                        <span class="hm-badge">
+                            ${escapeHTML(item.categorie)}
+                        </span>
+
+                        ${statusBadge(item.statut)}
+
+                        ${featuredBadge(item.mis_en_avant)}
+
+                        <span class="hm-badge">
+                            Ordre : ${item.ordre ?? 0}
+                        </span>
+
+                        <span class="hm-badge">
+                            ${formatDate(item.created_at)}
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="hm-item-actions">
+
+                    <button
+                        class="hm-btn small"
+                        onclick="editAnnonce('${item.id}')"
+                    >
+                        Modifier
+                    </button>
+
+                    <button
+                        class="hm-btn small danger"
+                        onclick="askDelete(
+                            'annonce',
+                            '${item.id}',
+                            '${escapeHTML(item.titre)}'
+                        )"
+                    >
+                        Supprimer
+                    </button>
+
+                </div>
+
+            </article>
+        `;
+
+    }).join("");
+}
+
+
+document
+    .getElementById("annonceSearch")
+    .addEventListener("input", renderAnnonces);
+
+
+document
+    .getElementById("annonceForm")
+    .addEventListener("submit", async event => {
+
+        event.preventDefault();
+
+        const id =
+            document.getElementById("annonceId").value;
+
+        const payload = {
+
+            titre:
+                document
+                    .getElementById("annonceTitre")
+                    .value
+                    .trim(),
+
+            categorie:
+                document
+                    .getElementById("annonceCategorie")
+                    .value,
+
+            contenu:
+                document
+                    .getElementById("annonceContenu")
+                    .value
+                    .trim(),
+
+            image_url:
+                document
+                    .getElementById("annonceImage")
+                    .value
+                    .trim() || null,
+
+            statut:
+                document
+                    .getElementById("annonceStatut")
+                    .value,
+
+            mis_en_avant:
+                document
+                    .getElementById("annonceFeatured")
+                    .checked,
+
+            ordre:
+                Number(
+                    document
+                        .getElementById("annonceOrdre")
+                        .value
+                ) || 0
+
+        };
+
+
+        let result;
+
+        if (id) {
+
+            result = await supabaseClient
+                .from("annonces")
+                .update(payload)
+                .eq("id", id);
+
+        } else {
+
+            result = await supabaseClient
+                .from("annonces")
+                .insert(payload);
+
+        }
+
+
+        if (result.error) {
+
+            showMessage(
+                result.error.message,
+                "error"
+            );
+
+            return;
+        }
+
+
+        showMessage(
+            id
+                ? "Annonce modifiée."
+                : "Annonce créée.",
+            "success"
+        );
+
+        resetAnnonceForm();
+
+        await loadAnnonces();
+
+    });
+
+
+function editAnnonce(id) {
+
+    const item =
+        annonces.find(
+            annonce => annonce.id === id
+        );
+
+    if (!item) {
+        return;
+    }
+
+    document.getElementById("annonceId").value =
+        item.id;
+
+    document.getElementById("annonceTitre").value =
+        item.titre || "";
+
+    document.getElementById("annonceCategorie").value =
+        item.categorie || "Information";
+
+    document.getElementById("annonceContenu").value =
+        item.contenu || "";
+
+    document.getElementById("annonceImage").value =
+        item.image_url || "";
+
+    document.getElementById("annonceStatut").value =
+        item.statut || "publie";
+
+    document.getElementById("annonceFeatured").checked =
+        !!item.mis_en_avant;
+
+    document.getElementById("annonceOrdre").value =
+        item.ordre ?? 0;
+
+    document.getElementById("annonceFormTitle").textContent =
+        "Modifier l'annonce";
+
+    document.getElementById("annonceSubmit").textContent =
+        "Enregistrer";
+
+    document
+        .getElementById("annonceCancel")
+        .classList.remove("hm-hidden");
+
+    updatePreview(
+        "annonceImage",
+        "annonceImagePreview"
+    );
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+function resetAnnonceForm() {
+
+    document.getElementById("annonceForm").reset();
+
+    document.getElementById("annonceId").value = "";
+
+    document.getElementById("annonceFormTitle").textContent =
+        "Nouvelle annonce";
+
+    document.getElementById("annonceSubmit").textContent =
+        "Publier l'annonce";
+
+    document
+        .getElementById("annonceCancel")
+        .classList.add("hm-hidden");
+
+    document
+        .getElementById("annonceImagePreview")
+        .classList.remove("show");
+}
+
+
+document
+    .getElementById("annonceCancel")
+    .addEventListener("click", resetAnnonceForm);
+
+
+/* =========================================================
+   PARTENAIRES
+========================================================= */
+
+async function loadPartenaires() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("partenaires")
+        .select("*")
+        .order("ordre", {
+            ascending: true
+        })
+        .order("created_at", {
+            ascending: false
+        });
+
+    if (error) {
+
+        showMessage(
+            "Impossible de charger les partenaires : " +
+            error.message,
+            "error"
+        );
+
+        return;
+    }
+
+    partenaires = data || [];
+
+    renderPartenaires();
+}
+
+
+function renderPartenaires() {
+
+    const container =
+        document.getElementById("partenairesList");
+
+    const search =
+        document
+            .getElementById("partenaireSearch")
+            .value
+            .trim()
+            .toLowerCase();
+
+    const filtered = partenaires.filter(item => {
+
+        if (!search) {
+            return true;
+        }
+
+        return (
+            item.nom?.toLowerCase().includes(search) ||
+            item.description?.toLowerCase().includes(search)
+        );
+
+    });
+
+
+    if (!filtered.length) {
+
+        container.innerHTML = `
+            <div class="hm-empty">
+                Aucun partenaire trouvé.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = filtered.map(item => {
+
+        const image = item.image_url
+            ? `
+                <img
+                    src="${escapeHTML(item.image_url)}"
+                    alt=""
+                    loading="lazy"
+                >
+            `
+            : "LOGO";
+
+        return `
+            <article class="hm-item">
+
+                <div class="hm-item-image">
+                    ${image}
+                </div>
+
+                <div class="hm-item-info">
+
+                    <div class="hm-item-title">
+                        ${escapeHTML(item.nom)}
+                    </div>
+
+                    <div class="hm-item-meta">
+
+                        ${featuredBadge(item.mis_en_avant)}
+
+                        <span class="hm-badge">
+                            Ordre : ${item.ordre ?? 0}
+                        </span>
+
+                        ${
+                            item.lien
+                                ? `
+                                    <span class="hm-badge green">
+                                        Lien
+                                    </span>
+                                `
+                                : ""
+                        }
+
+                    </div>
+
+                </div>
+
+                <div class="hm-item-actions">
+
+                    <button
+                        class="hm-btn small"
+                        onclick="editPartenaire('${item.id}')"
+                    >
+                        Modifier
+                    </button>
+
+                    <button
+                        class="hm-btn small danger"
+                        onclick="askDelete(
+                            'partenaire',
+                            '${item.id}',
+                            '${escapeHTML(item.nom)}'
+                        )"
+                    >
+                        Supprimer
+                    </button>
+
+                </div>
+
+            </article>
+        `;
+
+    }).join("");
+}
+
+
+document
+    .getElementById("partenaireSearch")
+    .addEventListener("input", renderPartenaires);
+
+
+document
+    .getElementById("partenaireForm")
+    .addEventListener("submit", async event => {
+
+        event.preventDefault();
+
+        const id =
+            document
+                .getElementById("partenaireId")
+                .value;
+
+
+        const payload = {
+
+            nom:
+                document
+                    .getElementById("partenaireNom")
+                    .value
+                    .trim(),
+
+            description:
+                document
+                    .getElementById("partenaireDescription")
+                    .value
+                    .trim() || null,
+
+            lien:
+                document
+                    .getElementById("partenaireLien")
+                    .value
+                    .trim() || null,
+
+            image_url:
+                document
+                    .getElementById("partenaireImage")
+                    .value
+                    .trim() || null,
+
+            mis_en_avant:
+                document
+                    .getElementById("partenaireFeatured")
+                    .checked,
+
+            ordre:
+                Number(
+                    document
+                        .getElementById("partenaireOrdre")
+                        .value
+                ) || 0
+
+        };
+
+
+        let result;
+
+
+        if (id) {
+
+            result = await supabaseClient
+                .from("partenaires")
+                .update(payload)
+                .eq("id", id);
+
+        } else {
+
+            result = await supabaseClient
+                .from("partenaires")
+                .insert(payload);
+
+        }
+
+
+        if (result.error) {
+
+            showMessage(
+                result.error.message,
+                "error"
+            );
+
+            return;
+        }
+
+
+        showMessage(
+            id
+                ? "Partenaire modifié."
+                : "Partenaire ajouté.",
+            "success"
+        );
+
+        resetPartenaireForm();
+
+        await loadPartenaires();
+
+    });
+
+
+function editPartenaire(id) {
+
+    const item =
+        partenaires.find(
+            partenaire => partenaire.id === id
+        );
+
+    if (!item) {
+        return;
+    }
+
+
+    document.getElementById("partenaireId").value =
+        item.id;
+
+    document.getElementById("partenaireNom").value =
+        item.nom || "";
+
+    document.getElementById("partenaireDescription").value =
+        item.description || "";
+
+    document.getElementById("partenaireLien").value =
+        item.lien || "";
+
+    document.getElementById("partenaireImage").value =
+        item.image_url || "";
+
+    document.getElementById("partenaireFeatured").checked =
+        !!item.mis_en_avant;
+
+    document.getElementById("partenaireOrdre").value =
+        item.ordre ?? 0;
+
+
+    document.getElementById("partenaireFormTitle").textContent =
+        "Modifier le partenaire";
+
+    document.getElementById("partenaireSubmit").textContent =
+        "Enregistrer";
+
+    document
+        .getElementById("partenaireCancel")
+        .classList.remove("hm-hidden");
+
+
+    updatePreview(
+        "partenaireImage",
+        "partenaireImagePreview"
+    );
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+function resetPartenaireForm() {
+
+    document
+        .getElementById("partenaireForm")
+        .reset();
+
+    document
+        .getElementById("partenaireId")
+        .value = "";
+
+    document
+        .getElementById("partenaireFormTitle")
+        .textContent = "Nouveau partenaire";
+
+    document
+        .getElementById("partenaireSubmit")
+        .textContent = "Ajouter";
+
+    document
+        .getElementById("partenaireCancel")
+        .classList.add("hm-hidden");
+
+    document
+        .getElementById("partenaireImagePreview")
+        .classList.remove("show");
+}
+
+
+document
+    .getElementById("partenaireCancel")
+    .addEventListener(
+        "click",
+        resetPartenaireForm
+    );
+
+
+/* =========================================================
+   REALISATIONS
+========================================================= */
+
+async function loadRealisations() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("realisations")
+        .select("*")
+        .order("ordre", {
+            ascending: true
+        })
+        .order("created_at", {
+            ascending: false
+        });
+
+
+    if (error) {
+
+        showMessage(
+            "Impossible de charger les réalisations : " +
+            error.message,
+            "error"
+        );
+
+        return;
+    }
+
+
+    realisations = data || [];
+
+    renderRealisations();
+}
+
+
+function renderRealisations() {
+
+    const container =
+        document.getElementById("realisationsList");
+
+    const search =
+        document
+            .getElementById("realisationSearch")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const filtered = realisations.filter(item => {
+
+        if (!search) {
+            return true;
+        }
+
+        return (
+            item.titre?.toLowerCase().includes(search) ||
+            item.description?.toLowerCase().includes(search) ||
+            item.categorie?.toLowerCase().includes(search)
+        );
+
+    });
+
+
+    if (!filtered.length) {
+
+        container.innerHTML = `
+            <div class="hm-empty">
+                Aucune réalisation trouvée.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = filtered.map(item => {
+
+        const image = item.image_url
+            ? `
+                <img
+                    src="${escapeHTML(item.image_url)}"
+                    alt=""
+                    loading="lazy"
+                >
+            `
+            : "PROJET";
+
+
+        return `
+            <article class="hm-item">
+
+                <div class="hm-item-image">
+                    ${image}
+                </div>
+
+                <div class="hm-item-info">
+
+                    <div class="hm-item-title">
+                        ${escapeHTML(item.titre)}
+                    </div>
+
+                    <div class="hm-item-meta">
+
+                        <span class="hm-badge">
+                            ${escapeHTML(item.categorie)}
+                        </span>
+
+                        ${statusBadge(item.statut)}
+
+                        ${featuredBadge(item.mis_en_avant)}
+
+                        <span class="hm-badge">
+                            Ordre : ${item.ordre ?? 0}
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="hm-item-actions">
+
+                    <button
+                        class="hm-btn small"
+                        onclick="editRealisation('${item.id}')"
+                    >
+                        Modifier
+                    </button>
+
+                    <button
+                        class="hm-btn small danger"
+                        onclick="askDelete(
+                            'realisation',
+                            '${item.id}',
+                            '${escapeHTML(item.titre)}'
+                        )"
+                    >
+                        Supprimer
+                    </button>
+
+                </div>
+
+            </article>
+        `;
+
+    }).join("");
+}
+
+
+document
+    .getElementById("realisationSearch")
+    .addEventListener(
+        "input",
+        renderRealisations
+    );
+
+
+document
+    .getElementById("realisationForm")
+    .addEventListener("submit", async event => {
+
+        event.preventDefault();
+
+
+        const id =
+            document
+                .getElementById("realisationId")
+                .value;
+
+
+        const payload = {
+
+            titre:
+                document
+                    .getElementById("realisationTitre")
+                    .value
+                    .trim(),
+
+            categorie:
+                document
+                    .getElementById("realisationCategorie")
+                    .value,
+
+            description:
+                document
+                    .getElementById("realisationDescription")
+                    .value
+                    .trim() || null,
+
+            lien:
+                document
+                    .getElementById("realisationLien")
+                    .value
+                    .trim() || null,
+
+            image_url:
+                document
+                    .getElementById("realisationImage")
+                    .value
+                    .trim() || null,
+
+            statut:
+                document
+                    .getElementById("realisationStatut")
+                    .value,
+
+            mis_en_avant:
+                document
+                    .getElementById("realisationFeatured")
+                    .checked,
+
+            ordre:
+                Number(
+                    document
+                        .getElementById("realisationOrdre")
+                        .value
+                ) || 0
+
+        };
+
+
+        let result;
+
+
+        if (id) {
+
+            result = await supabaseClient
+                .from("realisations")
+                .update(payload)
+                .eq("id", id);
+
+        } else {
+
+            result = await supabaseClient
+                .from("realisations")
+                .insert(payload);
+
+        }
+
+
+        if (result.error) {
+
+            showMessage(
+                result.error.message,
+                "error"
+            );
+
+            return;
+        }
+
+
+        showMessage(
+            id
+                ? "Réalisation modifiée."
+                : "Réalisation ajoutée.",
+            "success"
+        );
+
+
+        resetRealisationForm();
+
+        await loadRealisations();
+
+    });
+
+
+function editRealisation(id) {
+
+    const item =
+        realisations.find(
+            realisation => realisation.id === id
+        );
+
+
+    if (!item) {
+        return;
+    }
+
+
+    document.getElementById("realisationId").value =
+        item.id;
+
+    document.getElementById("realisationTitre").value =
+        item.titre || "";
+
+    document.getElementById("realisationCategorie").value =
+        item.categorie || "Projet";
+
+    document.getElementById("realisationDescription").value =
+        item.description || "";
+
+    document.getElementById("realisationLien").value =
+        item.lien || "";
+
+    document.getElementById("realisationImage").value =
+        item.image_url || "";
+
+    document.getElementById("realisationStatut").value =
+        item.statut || "publie";
+
+    document.getElementById("realisationFeatured").checked =
+        !!item.mis_en_avant;
+
+    document.getElementById("realisationOrdre").value =
+        item.ordre ?? 0;
+
+
+    document.getElementById("realisationFormTitle").textContent =
+        "Modifier la réalisation";
+
+    document.getElementById("realisationSubmit").textContent =
+        "Enregistrer";
+
+    document
+        .getElementById("realisationCancel")
+        .classList.remove("hm-hidden");
+
+
+    updatePreview(
+        "realisationImage",
+        "realisationImagePreview"
+    );
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+function resetRealisationForm() {
+
+    document
+        .getElementById("realisationForm")
+        .reset();
+
+    document
+        .getElementById("realisationId")
+        .value = "";
+
+    document
+        .getElementById("realisationFormTitle")
+        .textContent = "Nouvelle réalisation";
+
+    document
+        .getElementById("realisationSubmit")
+        .textContent = "Ajouter";
+
+    document
+        .getElementById("realisationCancel")
+        .classList.add("hm-hidden");
+
+    document
+        .getElementById("realisationImagePreview")
+        .classList.remove("show");
+}
+
+
+document
+    .getElementById("realisationCancel")
+    .addEventListener(
+        "click",
+        resetRealisationForm
+    );
+
+
+/* =========================================================
+   PREVIEW APRÈS ÉDITION
+========================================================= */
+
+function updatePreview(inputId, previewId) {
+
+    const input =
+        document.getElementById(inputId);
+
+    const preview =
+        document.getElementById(previewId);
+
+    const image =
+        preview.querySelector("img");
+
+    const url =
+        input.value.trim();
+
+
+    if (!url) {
+
+        preview.classList.remove("show");
+
+        return;
+    }
+
+
+    image.src = url;
+
+    image.onload = () => {
+        preview.classList.add("show");
+    };
+
+    image.onerror = () => {
+        preview.classList.remove("show");
+    };
+}
+
+
+/* =========================================================
+   SUPPRESSION
+========================================================= */
+
+function askDelete(type, id, name) {
+
+    deleteCallback = {
+        type,
+        id
+    };
+
+
+    document.getElementById("confirmText").textContent =
+        `Voulez-vous vraiment supprimer « ${name} » ?`;
+
+
+    document
+        .getElementById("confirmModal")
+        .classList.add("show");
+}
+
+
+function closeConfirm() {
+
+    deleteCallback = null;
+
+    document
+        .getElementById("confirmModal")
+        .classList.remove("show");
+}
+
+
+document
+    .getElementById("confirmClose")
+    .addEventListener(
+        "click",
+        closeConfirm
+    );
+
+
+document
+    .getElementById("confirmCancel")
+    .addEventListener(
+        "click",
+        closeConfirm
+    );
+
+
+document
+    .getElementById("confirmOk")
+    .addEventListener(
+        "click",
+        async () => {
+
+            if (!deleteCallback) {
+                return;
+            }
+
+
+            const {
+                type,
+                id
+            } = deleteCallback;
+
+
+            let table;
+
+
+            if (type === "annonce") {
+                table = "annonces";
+            }
+
+            if (type === "partenaire") {
+                table = "partenaires";
+            }
+
+            if (type === "realisation") {
+                table = "realisations";
+            }
+
+
+            if (!table) {
+                closeConfirm();
+                return;
+            }
+
+
+            const {
+                error
+            } = await supabaseClient
+                .from(table)
+                .delete()
+                .eq("id", id);
+
+
+            if (error) {
+
+                showMessage(
+                    "Suppression impossible : " +
+                    error.message,
+                    "error"
+                );
+
+                closeConfirm();
+
+                return;
+            }
+
+
+            showMessage(
+                "Élément supprimé.",
+                "success"
+            );
+
+
+            closeConfirm();
+
+
+            if (type === "annonce") {
+                await loadAnnonces();
+            }
+
+            if (type === "partenaire") {
+                await loadPartenaires();
+            }
+
+            if (type === "realisation") {
+                await loadRealisations();
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   DÉCONNEXION
+========================================================= */
+
+document
+    .getElementById("logoutBtn")
+    .addEventListener(
+        "click",
+        async () => {
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href =
+                "../pages/connexion.html";
+
+        }
+    );
+
+
+/* =========================================================
+   INITIALISATION
+========================================================= */
+
+(async function init() {
+
+    const authenticated =
+        await checkAuth();
+
+    if (!authenticated) {
+        return;
+    }
+
+
+    await Promise.all([
+        loadAnnonces(),
+        loadPartenaires(),
+        loadRealisations()
+    ]);
+
+})();
+</script>
+
+</body>
+</html>
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
