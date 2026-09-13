@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Connexion staff — HoriblitiMatch</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+</head>
+
+
+<body class="staff-page">
+
+
+<main class="staff-auth">
+
+    <a
+        href="../index.html"
+        class="logo staff-logo"
+    >
+
+        <span class="logo-icon">
+            H
+        </span>
+
+        <span class="logo-text">
+            Horibliti<span>Match</span>
+        </span>
+
+    </a>
+
+
+    <section class="auth-card">
+
+        <div class="eyebrow">
+            ESPACE STAFF
+        </div>
+
+        <h1>
+            Connexion
+        </h1>
+
+        <p class="auth-description">
+            Connectez-vous à l'espace interne
+            de HoriblitiMatch.
+        </p>
+
+
+        <form id="loginForm">
+
+            <label for="email">
+                Adresse e-mail
+            </label>
+
+            <input
+                id="email"
+                type="email"
+                placeholder="staff@horiblitimatch.fr"
+                required
+            >
+
+
+            <label for="password">
+                Mot de passe
+            </label>
+
+            <input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="button button-primary auth-button"
+            >
+                Se connecter
+            </button>
+
+            <p
+                class="login-error"
+                id="loginError"
+            ></p>
+
+        </form>
+
+
+        <p class="auth-note">
+
+            Cette version utilise une connexion
+            de démonstration. Une authentification
+            sécurisée sera nécessaire avant la mise
+            en production.
+
+        </p>
+
+
+        <a
+            href="../index.html"
+            class="back-link"
+        >
+            ← Retour au site
+        </a>
+
+    </section>
+
+</main>
+
+
+<script>
+
+const loginForm =
+    document.getElementById(
+        "loginForm"
+    );
+
+
+loginForm.addEventListener(
+    "submit",
+    event => {
+
+        event.preventDefault();
+
+
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim();
+
+
+        const password =
+            document
+                .getElementById("password")
+                .value;
+
+
+        const error =
+            document.getElementById(
+                "loginError"
+            );
+
+
+        /*
+            COMPTE DE DÉMONSTRATION
+
+            Email :
+            admin@horiblitimatch.fr
+
+            Mot de passe :
+            HoriblitiMatchV1
+
+            NE PAS UTILISER EN PRODUCTION.
+        */
+
+
+        if (
+            email ===
+                "admin@horiblitimatch.fr"
+            &&
+            password ===
+                "HoriblitiMatchV1"
+        ) {
+
+            sessionStorage.setItem(
+                "horiblitimatch_staff",
+                "true"
+            );
+
+            window.location.href =
+                "../staff/index.html";
+
+        } else {
+
+            error.textContent =
+                "Identifiants incorrects.";
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
